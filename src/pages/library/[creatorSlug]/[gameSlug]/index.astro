@@ -1,11 +1,12 @@
 ---
-import { Flex, Heading, Section } from "@radix-ui/themes";
+import { Button, Flex, Heading, Section } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+import { MDX, getMdxComponents } from "../../../../components/MDX";
 import Layout from "../../../../layouts/Layout.astro";
 
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
@@ -14,26 +15,43 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
+const { Content } = await props.game.render();
+
 export async function getStaticPaths() {
   const games = await getCollection("games");
-  return games.map((game) => {
-    return {
-      params: {
-        creatorSlug: game.data.creator.id,
-        gameSlug: game.id.split("/").pop(),
-      },
-      props: {
-        game: game,
-      },
-    } satisfies GetStaticPathsItem;
-  });
+  return Promise.all(
+    games.map(async function (game) {
+      const creator = await getEntry(game.data.creator);
+      return {
+        params: {
+          creatorSlug: game.data.creator.slug,
+          gameSlug: game.slug.split("/").pop(),
+        },
+        props: {
+          game: game,
+          creator: creator,
+        },
+      } satisfies GetStaticPathsItem;
+    })
+  );
 }
 ---
 
 <Layout title="Welcome to Astro.">
   <Section>
-    <Flex direction="column" gap="6">
+    <Flex direction="column" gap="5">
       <Heading size="9">{props.game.data.name}</Heading>
+      <Heading size="6" color="gray">By {props.creator.data.name}</Heading>
+      <a href=`/create-game?slug=${props.game.slug}`>
+        <Button size="4" className="!cursor-pointer"> Start a new game </Button>
+      </a>
+      <MDX>
+        <Content
+          components={{
+            ...getMdxComponents(),
+          }}
+        />
+      </MDX>
     </Flex>
   </Section>
 </Layout>

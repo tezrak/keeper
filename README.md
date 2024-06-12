@@ -1,10 +1,14 @@
 # Keeper
 
+<!-- idnex -->
+
+/
+
 <!-- library -->
 
 /library/[creatorSlug]/[gameSlug]/index.astro
 
-<!-- creator -->
+<!-- create -->
 
 /create-game?creatorSlug=[creatorSlug]&gameSlug=[gameSlug]
 

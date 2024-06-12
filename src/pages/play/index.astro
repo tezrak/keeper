@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { PlayPage } from "./_index";
+
+const games = await getCollection("games");
+
+const possibleGames = games.map((game) => {
+  return {
+    slug: game.slug,
+    name: game.data.name,
+  };
+});
+---
+
+<Layout title="">
+  <PlayPage client:load />
+</Layout>

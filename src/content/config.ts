@@ -12,6 +12,7 @@ export const collections = {
     schema: z.object({
       name: z.string(),
       creator: reference("creators"),
+      image: z.string(),
     }),
   }),
 };

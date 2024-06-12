@@ -28,18 +28,21 @@ const { title } = Astro.props;
   >
     <body>
       <!-- header -->
-      <Container px="5">
+      <Container px="9">
         <Flex justify={"between"} my="5" mx="0" align={"center"} mb="9">
           <Flex>
-            <Button
-              radius="full"
-              variant="solid"
-              size={"4"}
-              color="gray"
-              highContrast
-            >
-              <a href="/"> Home </a>
-            </Button>
+            <a href="/">
+              <Button
+                radius="full"
+                variant="solid"
+                size={"4"}
+                color="gray"
+                highContrast
+                className="!cursor-pointer"
+              >
+                Home
+              </Button>
+            </a>
           </Flex>
           <Flex gap="2">
             <Button radius="full" variant="surface" size={"4"}> ... </Button>
@@ -56,12 +59,13 @@ const { title } = Astro.props;
       </Container>
       <div class="background">
         <svg
-          width="900"
+          width="100%"
           height="200%"
+          class="opacity-40"
           viewBox="0 0 2560 1920"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style="opacity: 0.5; pointer-events: none;"
+          style="pointer-events: none;"
           ><g
             ><path
               d="M-119.809 -1055.99L859.027 -684.98C915.435 -663.6 955.626 -624.994 968.519 -579.807L1129.49 -15.6245L1860.47 -241.727C1919.02 -259.836 1985.68 -257.939 2042.09 -236.559L3020.93 134.453C3124.79 173.822 3164.97 266.777 3110.66 342.073L2850.06 703.385C2827.36 734.857 2790.34 759.666 2745.28 773.604L1467.45 1168.86L1748.58 2154.16C1758.67 2189.52 1751.28 2226.32 1727.72 2258.12L1361.75 2752.01L203.258 2312.91C146.85 2291.53 106.659 2252.92 93.7664 2207.73L-67.2076 1643.55L-798.184 1869.65C-856.73 1887.76 -923.398 1885.87 -979.806 1864.48L-2138.3 1425.38L-1787.63 925.687C-1765.05 893.507 -1727.57 868.111 -1681.77 853.942L-405.167 459.07L-686.568 -527.183C-696.491 -561.961 -689.511 -598.157 -666.811 -629.629L-406.21 -990.941C-351.902 -1066.24 -223.676 -1095.36 -119.809 -1055.99Z"
