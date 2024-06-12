@@ -1,0 +1,20 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always"
+  },
+  "yaml.schemas": {
+    "./.astro/collections/creators.schema.json": "/src/content/creators/**",
+    "./.astro/collections/games.schema.json": "/src/content/games/**"
+    // {
+    //   "fileMatch": ["/src/content/creators/**"],
+    //   "url": "./.astro/collections/creators.schema.json"
+    // },
+    // {
+    //   "fileMatch": ["/src/content/games/**"],
+    //   "url": "./.astro/collections/games.schema.json"
+    // }
+  }
+}

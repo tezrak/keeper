@@ -1,0 +1,43 @@
+---
+import { Card, Flex, Grid, Heading, Text } from "@radix-ui/themes";
+import { getCollection, getEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const games = await getCollection("games");
+
+const gamesWithCreators = await Promise.all(
+  games.map(async (game) => {
+    const creator = await getEntry(game.data.creator);
+    return {
+      ...game,
+      creator,
+    };
+  })
+);
+---
+
+<Layout title="Welcome to Astro.">
+  <Flex direction="column" gap="6">
+    <Heading size="9">Keeper</Heading>
+    <Grid columns="3" gap="3" width="auto">
+      {
+        gamesWithCreators.map((game) => {
+          return (
+            <Card asChild className="hover:bg-slate-50">
+              <a href={`/library/${game.id}`}>
+                <Flex gap="1" align="start" direction={"column"}>
+                  <Text as="div" size="6" weight="bold">
+                    {game.data.name}
+                  </Text>
+                  <Text as="div" size="5" color="gray">
+                    by {game.creator.data.name}
+                  </Text>
+                </Flex>
+              </a>
+            </Card>
+          );
+        })
+      }
+    </Grid>
+  </Flex>
+</Layout>
