@@ -1,3 +1,4 @@
+import { getLogger } from "./getLogger";
 import {
   STORAGE_KEY,
   keeperSchema,
@@ -5,11 +6,17 @@ import {
   type StorageType,
 } from "./keeperSchema";
 
+const logger = getLogger("DLStorage");
 export const DLStorage = {
   getStorage() {
     const storage = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    const data = keeperSchema.storage.parse(storage);
-    return data;
+    const parsedStorage = keeperSchema.storage.safeParse(storage);
+
+    if (!parsedStorage.success) {
+      throw logger.error("Failed to parse storage", { storage: parsedStorage });
+    }
+
+    return parsedStorage.data;
   },
   saveStorage(newStorage: StorageType) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newStorage));
@@ -18,12 +25,19 @@ export const DLStorage = {
     const uuid = crypto.randomUUID();
     const storage = this.getStorage();
 
-    const newGameState = keeperSchema.gameState.parse({
+    const parsedGameState = keeperSchema.gameState.safeParse({
       slug: props.slug,
     });
+
+    if (!parsedGameState.success) {
+      throw logger.error("Failed to parse game state", {
+        gameState: parsedGameState,
+      });
+    }
+
     storage.games[uuid] = {
       slug: props.slug,
-      gameState: newGameState,
+      gameState: parsedGameState.data,
     };
 
     this.saveStorage(storage);

@@ -1,3 +1,4 @@
+import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection, reference, z } from "astro:content";
 
 export const collections = {
@@ -13,6 +14,8 @@ export const collections = {
       name: z.string(),
       creator: reference("creators"),
       image: z.string(),
+      headingFont: z.string().optional(),
+      bodyFont: z.string().optional(),
     }),
   }),
   library: defineCollection({
@@ -22,4 +25,5 @@ export const collections = {
       game: reference("games"),
     }),
   }),
+  docs: defineCollection({ schema: docsSchema() }),
 };

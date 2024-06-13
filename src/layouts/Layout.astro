@@ -1,13 +1,32 @@
 ---
-import { Button, Container, Flex, Theme } from "@radix-ui/themes";
+import { Container, Theme, type ThemeProps } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
+import Banner from "../components/Banner.astro";
+import Header from "../components/Header.astro";
+import { getTheme } from "../domains/getTheme";
 import "./index.css";
 
 type Props = {
-  title: string;
+  title?: string;
+  headingFont?: string;
+  bodyFont?: string;
+  withBanner?: boolean;
+  theme?: ThemeProps;
 };
 
-const { title } = Astro.props;
+const props = Astro.props;
+
+const headingFont = props.headingFont || "Inter";
+const bodyFont = props.bodyFont || "Inter";
+
+// family = ,
+const fontsAsString = [headingFont, bodyFont]
+  .map((font) => `family="${font}"`)
+  .join("&");
+
+const themeProps = getTheme({
+  theme: props.theme,
+});
 ---
 
 <!doctype html>
@@ -17,49 +36,28 @@ const { title } = Astro.props;
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href={`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`}
+      rel="stylesheet"
+    />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{props.title}</title>
   </head>
-  <Theme
-    accentColor="gold"
-    radius="full"
-    appearance="dark"
-    panelBackground="translucent"
-  >
+  <Theme {...themeProps}>
     <body>
-      <!-- header -->
-      <Container px="9" mb="4rem">
-        <Flex justify={"between"} my="5" mx="0" align={"center"} mb="9">
-          <Flex>
-            <a href="/">
-              <Button
-                radius="full"
-                variant="solid"
-                size={"4"}
-                color="gray"
-                highContrast
-                className="!cursor-pointer"
-              >
-                Home
-              </Button>
-            </a>
-          </Flex>
-          <Flex gap="2">
-            <a href="/games">
-              <Button
-                radius="full"
-                variant="surface"
-                size={"4"}
-                className="!cursor-pointer"
-              >
-                My Games
-              </Button>
-            </a>
-          </Flex>
-          <Flex>
-            <Button radius="full" variant="ghost" size={"4"}> Docs </Button>
-          </Flex>
-        </Flex>
+      <Container px="9" mb="4rem" maxWidth={"1204px"}>
+        <Header />
+        {
+          props.withBanner && (
+            <Banner
+              src="https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZ3hqyrB-zkrNcl0vdiBVWd6LsWCAyPkXUZ3v6zmPaXx7CnznbBTjykUijNREMua_a7e3-cdPz5mYSQVPLZKw0lErXJTZSiUXg=w2800-h1910-rw-v1"
+              alt="Keeper"
+              justBackground
+            />
+          )
+        }
         <main>
           <slot />
         </main>
@@ -68,7 +66,7 @@ const { title } = Astro.props;
         <svg
           width="100%"
           height="200%"
-          class="opacity-40"
+          class="opacity-20"
           viewBox="0 0 2560 1920"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -195,7 +193,13 @@ const { title } = Astro.props;
       </div>
     </body>
 
-    <style is:global>
+    <style
+      is:global
+      define:vars={{
+        headingFont,
+        bodyFont,
+      }}
+    >
       body {
         position: relative;
       }
@@ -203,10 +207,28 @@ const { title } = Astro.props;
         position: absolute;
         top: 0;
         left: 0;
-        width: 90vw;
+        width: 100vw;
         height: 100vh;
         z-index: -1;
         overflow: hidden;
+      }
+      .radix-themes {
+        --default-font-family: var(--bodyFont); /* Your custom default font */
+        --heading-font-family: var(
+          --headingFont
+        ); /* Your custom font for <Heading> components */
+        --code-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Code> components */
+        --strong-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Strong> components */
+        --em-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Em> components */
+        --quote-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Quote> components */
       }
     </style>
   </Theme>

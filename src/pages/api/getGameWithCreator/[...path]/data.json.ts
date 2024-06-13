@@ -1,16 +1,23 @@
 import type { APIRoute } from "astro";
-import { getCollection, getEntry } from "astro:content";
+import { z } from "zod";
+import { DL } from "../../../../domains/DL";
 
 export const GET: APIRoute = async ({ params, request }) => {
-  const path = params.path;
+  const parsedParams = z
+    .object({
+      path: z.string(),
+    })
+    .parse(params);
 
-  const game = await getEntry("games", path!);
+  const game = await DL.getGameWithCreator({
+    slug: parsedParams.path,
+  });
 
   return new Response(JSON.stringify(game));
 };
 
 export async function getStaticPaths() {
-  const games = await getCollection("games");
+  const games = await DL.getAllGames();
 
   return games.map((game) => {
     return {

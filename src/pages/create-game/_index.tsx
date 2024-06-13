@@ -1,29 +1,35 @@
-import { Flex, Heading } from "@radix-ui/themes";
-import { type CollectionEntry } from "astro:content";
-import { useEffect, useState } from "react";
+import { Flex, Spinner } from "@radix-ui/themes";
+import { useEffect } from "react";
+import { z } from "zod";
 import { DLStorage } from "../../domains/DLStorage";
+import { getLogger } from "../../domains/getLogger";
 
+const logger = getLogger("CreateGame");
 export function CreateGame(props: {}) {
-  const [game, setGame] = useState<CollectionEntry<"games">>();
-
   useEffect(() => {
     main();
     async function main() {
       const slug = new URLSearchParams(window.location.search).get("slug");
-      const response = await fetch(`/api/getGame/${slug}/data.json`);
-      const json: CollectionEntry<"games"> = await response.json();
 
-      setGame(json);
+      const parsedParams = z
+        .object({
+          slug: z.string(),
+        })
+        .safeParse({ slug });
 
-      const uuid = DLStorage.addGame({ slug: json.slug });
+      if (!parsedParams.success) {
+        throw logger.error("Failed to parse slug", { params: parsedParams });
+      }
 
-      window.location.href = `/play/?id=${uuid}`;
+      const uuid = DLStorage.addGame({ slug: parsedParams.data.slug });
+
+      window.location.href = `/play/${slug}?id=${uuid}`;
     }
   }, []);
 
   return (
-    <Flex direction="column" gap="6">
-      <Heading size="9">Creating your {game?.data.name} game...</Heading>
+    <Flex direction="column" gap="6" justify={"center"} align={"center"}>
+      <Spinner size="3" className="h-[2rem] w-[2rem]" />
     </Flex>
   );
 }

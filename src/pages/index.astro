@@ -1,43 +1,48 @@
 ---
-import { AspectRatio, Card, Flex, Grid, Heading, Text } from "@radix-ui/themes";
+import {
+  AspectRatio,
+  Box,
+  Card,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
 import { Image } from "astro:assets";
-import { getCollection, getEntry } from "astro:content";
+import { DL } from "../domains/DL";
 import Layout from "../layouts/Layout.astro";
 
-const games = await getCollection("games");
-
-const gamesWithCreators = await Promise.all(
-  games.map(async (game) => {
-    const creator = await getEntry(game.data.creator);
-    return {
-      ...game,
-      creator,
-    };
-  })
-);
+const gamesWithCreators = await DL.getAllGamesWithCreators();
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Keeper" withBanner>
   <Flex direction="column" gap="6">
     <Heading size="9">Keeper</Heading>
-    <Grid columns="3" gap="6" width="auto">
+    <Grid
+      columns={{
+        sm: "2",
+        lg: "3",
+      }}
+      gap="6"
+      width="auto"
+    >
       {
-        [
-          ...gamesWithCreators,
-          ...gamesWithCreators,
-          ...gamesWithCreators,
-          ...gamesWithCreators,
-          ...gamesWithCreators,
-        ].map((game) => {
+        gamesWithCreators.map((item) => {
           return (
-            <Card className="hover:bg-[--accent-4]">
-              <a href={`/library/${game.slug}`}>
-                <Flex gap="2" align="start" direction={"column"}>
-                  <AspectRatio ratio={4 / 3}>
+            <Card variant="ghost">
+              <a href={`/library/${item.game.slug}`}>
+                <Flex
+                  gap="2"
+                  align="start"
+                  direction={"column"}
+                  position={"relative"}
+                >
+                  <AspectRatio ratio={6 / 4}>
                     <Image
-                      src={game.data.image}
-                      alt={game.data.name}
+                      src={item.game.data.image}
+                      alt={item.game.data.name}
                       style={{
+                        borderRadius: "var(--radius-2)",
                         objectFit: "cover",
                         width: "100%",
                         height: "100%",
@@ -45,12 +50,26 @@ const gamesWithCreators = await Promise.all(
                       inferSize
                     />
                   </AspectRatio>
-                  <Text as="div" size="6" weight="bold">
-                    {game.data.name}
-                  </Text>
-                  <Text as="div" size="5" color="gray">
-                    by {game.creator.data.name}
-                  </Text>
+
+                  <Box
+                    position={"absolute"}
+                    className="bottom-0 w-full left-0 h-[50%]"
+                    style={{
+                      borderRadius: "var(--radius-2)",
+                      background:
+                        "linear-gradient(rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .8) 50%, rgba(0, 0, 0, .8) 100%)",
+                    }}
+                  />
+                  <Box position={"absolute"} className="bottom-0 w-full left-0">
+                    <Box className="px-4 py-4">
+                      <Text as="div" size="6" weight="bold">
+                        {item.game.data.name}
+                      </Text>
+                      <Text as="div" size="5" color="gray">
+                        by {item.creator.data.name}
+                      </Text>
+                    </Box>
+                  </Box>
                 </Flex>
               </a>
             </Card>

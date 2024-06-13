@@ -1,12 +1,16 @@
 import { Flex, Heading, Skeleton, TextField } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
-import { DLStorage } from "../../domains/DLStorage";
-import { getLogger } from "../../domains/getLogger";
-import type { GameStateType } from "../../domains/keeperSchema";
+import { DLStorage } from "../../../../domains/DLStorage";
+import { getLogger } from "../../../../domains/getLogger";
+import type { GameStateType } from "../../../../domains/keeperSchema";
 
 const logger = getLogger("PlayPage");
-export function PlayPage(props: {}) {
+
+export function PlayPage(props: {
+  game: CollectionEntry<"games">;
+  creator: CollectionEntry<"creators">;
+}) {
   const [id, setId] = useState<string>();
 
   useEffect(() => {
@@ -21,13 +25,16 @@ export function PlayPage(props: {}) {
 
   return (
     <>
-      <Game id={id}></Game>
+      <Game id={id} game={props.game} creator={props.creator}></Game>
     </>
   );
 }
 
-function Game(props: { id: string | undefined }) {
-  const [game, setGame] = useState<CollectionEntry<"games">>();
+function Game(props: {
+  id: string | undefined;
+  game: CollectionEntry<"games">;
+  creator: CollectionEntry<"creators">;
+}) {
   const [gameState, setGameState] = useState<GameStateType>();
 
   useEffect(() => {
@@ -40,15 +47,8 @@ function Game(props: { id: string | undefined }) {
         logger.log("Loading game state");
         const gameState = DLStorage.getStorage().games[props.id];
 
-        logger.log("Fetching game data");
-        const response = await fetch(
-          `/api/getGame/${gameState.slug}/data.json`,
-        );
-        const json: CollectionEntry<"games"> = await response.json();
-
         logger.log("Setting states");
         setGameState(gameState.gameState);
-        setGame(json);
       } catch (error) {
         logger.error("Failed to load game", { error });
       }
@@ -59,7 +59,7 @@ function Game(props: { id: string | undefined }) {
     <>
       <Skeleton loading={!gameState}>
         <Flex direction="column" gap="4">
-          <Heading size="9">Playing {game?.data.name}...</Heading>
+          <Heading size="9">Playing {props.game?.data.name}...</Heading>
 
           <TextField.Root
             size="3"

@@ -1,18 +1,8 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { CreateGame } from "./_index";
-
-const games = await getCollection("games");
-
-const possibleGames = games.map((game) => {
-  return {
-    slug: game.slug,
-    name: game.data.name,
-  };
-});
 ---
 
 <Layout title="Creating your game...">
-  <CreateGame games={possibleGames} client:load />
+  <CreateGame client:load />
 </Layout>

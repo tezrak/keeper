@@ -12,6 +12,7 @@ import {
 } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
+import { ClientDL } from "../../domains/ClientDL";
 import { DLStorage } from "../../domains/DLStorage";
 import { getLogger } from "../../domains/getLogger";
 import type { GameType } from "../../domains/keeperSchema";
@@ -44,7 +45,14 @@ export function GamesPage(props: {}) {
       panelBackground="translucent"
       hasBackground={false}
     >
-      <Grid columns="3" gap="6" width="auto">
+      <Grid
+        columns={{
+          sm: "2",
+          lg: "3",
+        }}
+        gap="6"
+        width="auto"
+      >
         {gamesList?.map((game) => (
           <GameCard
             key={game.id}
@@ -65,7 +73,10 @@ function GameCard(props: {
   name: string;
   onDelete: (id: string) => void;
 }) {
-  const [game, setGame] = useState<CollectionEntry<"games">>();
+  const [gameWithCreator, setGameWithCreator] = useState<{
+    game: CollectionEntry<"games">;
+    creator: CollectionEntry<"creators">;
+  }>();
 
   function handleDelete() {
     props.onDelete(props.id);
@@ -80,15 +91,16 @@ function GameCard(props: {
       }
       try {
         logger.log("Fetching game card");
-        const response = await fetch(`/api/getGame/${props.slug}/data.json`);
-        const json: CollectionEntry<"games"> = await response.json();
+        const result = await ClientDL.getGameWithCreator({
+          slug: props.slug,
+        });
 
         logger.log("Setting states");
 
         if (ignore) {
           return;
         }
-        setGame(json);
+        setGameWithCreator(result);
       } catch (error) {
         logger.error("Failed to load game", { error });
       }
@@ -100,15 +112,15 @@ function GameCard(props: {
   }, [props.id, props.slug]);
 
   return (
-    <Skeleton loading={!game}>
+    <Skeleton loading={!gameWithCreator}>
       <Card className="hover:bg-[--accent-4]">
-        <a href={`/play?id=${props.id}`}>
+        <a href={`/play/${props.slug}?id=${props.id}`}>
           <Flex gap="2" align="start" direction={"column"}>
             <AspectRatio ratio={4 / 3}>
-              {game && (
+              {gameWithCreator && (
                 <img
-                  src={game.data.image}
-                  alt={game.data.name}
+                  src={gameWithCreator.game.data.image}
+                  alt={gameWithCreator.game.data.name}
                   style={{
                     objectFit: "cover",
                     width: "100%",
@@ -119,7 +131,7 @@ function GameCard(props: {
             </AspectRatio>
             <Flex gap="2" justify={"between"} width={"100%"}>
               <Text as="div" size="6" weight="bold">
-                {props.name || game?.data.name}
+                {props.name || gameWithCreator?.game.data.name}
               </Text>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>

@@ -1,0 +1,62 @@
+---
+import { AspectRatio } from "@radix-ui/themes";
+import { Image } from "astro:assets";
+
+type Props = {
+  src: string;
+  alt: string;
+  justBackground?: boolean;
+  class?: string;
+};
+
+const props = Astro.props;
+---
+
+<div
+  class:list={[
+    {
+      relative: !props.justBackground,
+      absolute: props.justBackground,
+      "left-0 top-16 z-[-1] h-full w-full": props.justBackground,
+      "pointer-events-none": props.justBackground,
+      "opacity-80": props.justBackground,
+    },
+    props.class,
+  ]}
+>
+  <AspectRatio ratio={4 / 1}>
+    <Image
+      src={props.src}
+      alt={props.alt}
+      style={{
+        position: "absolute",
+        top: "0",
+        left: "0",
+        objectFit: "cover",
+        objectPosition: "center",
+        width: "100%",
+        height: "100%",
+        borderRadius: "var(--radius-2)",
+        filter: "blur(75px)",
+        zIndex: -1,
+      }}
+      inferSize
+    />
+    {
+      !props.justBackground && (
+        <Image
+          src={props.src}
+          alt={props.alt}
+          style={{
+            objectFit: "cover",
+            objectPosition: "center",
+            width: "100%",
+            height: "100%",
+            borderRadius: "var(--radius-2)",
+          }}
+          inferSize
+        />
+      )
+    }
+  </AspectRatio>
+</div>
