@@ -14,6 +14,7 @@ export function MDXLabel(p: Props) {
 
   return (
     <Text
+      data-mdx-type="label"
       size={"5"}
       weight={"bold"}
       className={clsx("text-[--accent-9]", {

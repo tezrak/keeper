@@ -7,11 +7,11 @@ const propsSchema = z.object({
 
 export type Props = z.infer<typeof propsSchema>;
 
-export function MDXColumn(p: Props) {
+export function MDXStack(p: Props) {
   const props = propsSchema.parse(p);
 
   return (
-    <Flex direction={"column"} gap="2">
+    <Flex direction={"column"} gap="2" data-mdx-type="stack" width="100%">
       {props.children}
     </Flex>
   );

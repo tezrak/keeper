@@ -10,5 +10,9 @@ export type Props = z.infer<typeof propsSchema>;
 export function MDXRow(p: Props) {
   const props = propsSchema.parse(p);
 
-  return <Flex gap="4">{props.children}</Flex>;
+  return (
+    <Flex gap="4" width={"100%"} align={"center"} data-mdx-type="row">
+      {props.children}
+    </Flex>
+  );
 }

@@ -13,7 +13,7 @@ game: fari-rpgs/stoneburner
 </Row>
 
 <Columns>
-  <Column>
+  <Stack>
     <Heading>Skills</Heading>
     <Row>
       <Label fullWidth>Strength</Label>
@@ -41,7 +41,7 @@ game: fari-rpgs/stoneburner
       <SelectField name="skills.grit.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Current</SelectField>
     </Row>
     <Heading>Items</Heading>
-    <List min={5} max={5}>
+    <List  max={5}>
         <Row>
             <CheckboxField name="items.#.checked" />
             <SelectField name="items.#.initial" options={['d4', 'd6',  'd8', 'd10', 'd12']}>Initial</SelectField>
@@ -50,12 +50,14 @@ game: fari-rpgs/stoneburner
     </List>
     <Heading>Hindrances</Heading>
     <List>
+    <Row>
         <TextField name="hindrances.#.name"/>
-        <CheckboxField name="hindrances.#.minor.checked"/>
-        <CheckboxField name="hindrances.#.major.checked"/>
+        <CheckboxField name="hindrances.#.minor.checked">Minor</CheckboxField>
+        <CheckboxField name="hindrances.#.major.checked">Major</CheckboxField>
+    </Row>
     </List>
-  </Column>
-  <Column>
+  </Stack>
+  <Stack>
     <Heading>Vision of Glory</Heading>
     <TextAreaField name="visionOfGlory" />
 
@@ -70,22 +72,26 @@ game: fari-rpgs/stoneburner
     </Row>
 
     <Heading>Abilities</Heading>
-    <List min={5} max={5}>
-    <Row>
-        <TextField name="abilities.#.name" />
-         <NumberField name="abilities.#.cost">Cost</NumberField>
-    </Row>
+    <List  max={5}>
+    <Stack>
+      <Row><TextField name="abilities.#.name" >Description</TextField></Row>
+      <Row>
+        <NumberField name="abilities.#.cost">Cost</NumberField>
+      </Row>
+    </Stack>
+
     </List>
 
     <Heading>Projects</Heading>
-    <List min={3} max={3}>
-    <Row>
-        <TextField name="projects.#.name" />
-        <SelectField name="projects.#.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
-    </Row>
+    <List  max={3}>
+      <Row>
+          <TextField name="projects.#.name" />
+          <SelectField name="projects.#.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
+      </Row>
     </List>
 
-  </Column>
+  </Stack>
 </Columns>
 
-<TextField name="advancements">Advancements</TextField>
+<Heading>Advancements</Heading>
+<TextField name="advancements" />

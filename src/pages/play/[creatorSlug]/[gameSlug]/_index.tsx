@@ -89,7 +89,9 @@ function Game(props: {
             return (
               <div key={i}>
                 <MDXWrapper>
-                  <Heading size="6">{sheet.data.name}</Heading>
+                  <Heading size="9" align={"center"} mb="9">
+                    {sheet.data.name}
+                  </Heading>
                   {MDXContent && (
                     <MDXContent
                       components={{

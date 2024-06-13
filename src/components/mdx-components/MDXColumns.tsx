@@ -11,7 +11,12 @@ export function MDXColumns(p: Props) {
   const props = propsSchema.parse(p);
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="4" width="auto">
+    <Grid
+      columns={{ initial: "1", md: "2" }}
+      gap="4"
+      width="auto"
+      data-mdx-type="columns"
+    >
       {props.children}
     </Grid>
   );

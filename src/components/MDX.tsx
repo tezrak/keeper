@@ -1,6 +1,5 @@
 import {
   Blockquote,
-  Box,
   Em,
   Flex,
   Heading,
@@ -10,13 +9,15 @@ import {
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import type React from "react";
-import { MDXColumn } from "./mdx-components/MDXColumn";
+import { MDCheckboxField } from "./mdx-components/MDXCheckboxField";
 import { MDXColumns } from "./mdx-components/MDXColumns";
 import { MDXHeading } from "./mdx-components/MDXHeading";
 import { MDXLabel } from "./mdx-components/MDXLabel";
+import { MDXList } from "./mdx-components/MDXList";
 import { MDXNumberField } from "./mdx-components/MDXNumberField";
 import { MDXRow } from "./mdx-components/MDXRow";
 import { MDXSelectField } from "./mdx-components/MDXSelectField";
+import { MDXStack } from "./mdx-components/MDXStack";
 import { MDXTextAreaField } from "./mdx-components/MDXTextAreaField";
 import { MDXTextField } from "./mdx-components/MDXTextField";
 
@@ -90,18 +91,14 @@ export function getMdxComponents() {
     },
     Row: MDXRow,
     Columns: MDXColumns,
-    Column: MDXColumn,
+    Stack: MDXStack,
     Heading: MDXHeading,
     Label: MDXLabel,
-    List: (props: {}) => {
-      return <Box>List</Box>;
-    },
+    List: MDXList,
     TextField: MDXTextField,
     TextAreaField: MDXTextAreaField,
     SelectField: MDXSelectField,
-    CheckboxField: (props: {}) => {
-      return <Box>CheckboxField</Box>;
-    },
+    CheckboxField: MDCheckboxField,
     NumberField: MDXNumberField,
   };
 }

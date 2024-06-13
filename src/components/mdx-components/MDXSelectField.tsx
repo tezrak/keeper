@@ -1,5 +1,6 @@
 import { Flex, Select, Tooltip } from "@radix-ui/themes";
 import { z } from "zod";
+import { useName } from "./MDXList";
 
 const propsSchema = z.object({
   name: z.string(),
@@ -13,17 +14,22 @@ export type Props = z.infer<typeof propsSchema>;
 export function MDXSelectField(p: Props) {
   const props = propsSchema.parse(p);
 
+  const name = useName({ name: props.name });
+
   return (
-    <Tooltip content={props.children}>
+    <Tooltip content={props.children} data-mdx-type="select-field">
       <Flex gap="1" direction={"column"} className="w-full">
         <Select.Root defaultValue={props.defaultValue}>
-          <Select.Trigger className="text-[1.25rem]"></Select.Trigger>
+          <Select.Trigger
+            className="h-[40px] text-[1.25rem]"
+            name={name}
+          ></Select.Trigger>
           <Select.Content>
             {props.options.map((option) => (
               <Select.Item
                 key={option}
                 value={option}
-                className="text-[1.25rem]"
+                className="h-[40px] text-[1.25rem]"
               >
                 {option}
               </Select.Item>
