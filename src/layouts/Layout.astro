@@ -28,7 +28,7 @@ const { title } = Astro.props;
   >
     <body>
       <!-- header -->
-      <Container px="9">
+      <Container px="9" mb="4rem">
         <Flex justify={"between"} my="5" mx="0" align={"center"} mb="9">
           <Flex>
             <a href="/">
@@ -45,9 +45,16 @@ const { title } = Astro.props;
             </a>
           </Flex>
           <Flex gap="2">
-            <Button radius="full" variant="surface" size={"4"}> ... </Button>
-            <Button radius="full" variant="surface" size={"4"}> ... </Button>
-            <Button radius="full" variant="surface" size={"4"}> ... </Button>
+            <a href="/games">
+              <Button
+                radius="full"
+                variant="surface"
+                size={"4"}
+                className="!cursor-pointer"
+              >
+                My Games
+              </Button>
+            </a>
           </Flex>
           <Flex>
             <Button radius="full" variant="ghost" size={"4"}> Docs </Button>
@@ -196,7 +203,7 @@ const { title } = Astro.props;
         position: absolute;
         top: 0;
         left: 0;
-        width: 100vw;
+        width: 90vw;
         height: 100vh;
         z-index: -1;
         overflow: hidden;

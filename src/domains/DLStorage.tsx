@@ -5,7 +5,7 @@ import {
   type StorageType,
 } from "./keeperSchema";
 
-export const keeperStorage = {
+export const DLStorage = {
   getStorage() {
     const storage = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
     const data = keeperSchema.storage.parse(storage);
@@ -32,6 +32,11 @@ export const keeperStorage = {
   updateGame(uuid: string, newGameState: GameStateType) {
     const storage = this.getStorage();
     storage.games[uuid].gameState = newGameState;
+    this.saveStorage(storage);
+  },
+  removeGame(uuid: string) {
+    const storage = this.getStorage();
+    delete storage.games[uuid];
     this.saveStorage(storage);
   },
 };

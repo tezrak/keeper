@@ -15,4 +15,11 @@ export const collections = {
       image: z.string(),
     }),
   }),
+  library: defineCollection({
+    type: "content",
+    schema: z.object({
+      name: z.string(),
+      game: reference("games"),
+    }),
+  }),
 };

@@ -2,7 +2,9 @@ import z from "zod";
 
 export const STORAGE_KEY = "keeper";
 
-const gameState = z.object({});
+const gameState = z.object({
+  name: z.string().default(""),
+});
 
 const game = z.object({
   slug: z.string(),

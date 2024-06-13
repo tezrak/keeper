@@ -1,7 +1,7 @@
 import { Flex, Heading } from "@radix-ui/themes";
 import { type CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
-import { keeperStorage } from "../../domains/keeperStorage";
+import { DLStorage } from "../../domains/DLStorage";
 
 export function CreateGame(props: {}) {
   const [game, setGame] = useState<CollectionEntry<"games">>();
@@ -15,7 +15,7 @@ export function CreateGame(props: {}) {
 
       setGame(json);
 
-      const uuid = keeperStorage.addGame({ slug: json.slug });
+      const uuid = DLStorage.addGame({ slug: json.slug });
 
       window.location.href = `/play/?id=${uuid}`;
     }

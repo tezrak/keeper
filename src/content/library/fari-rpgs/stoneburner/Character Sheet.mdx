@@ -1,0 +1,88 @@
+---
+name: Character Sheet
+game: fari-rpgs/stoneburner
+---
+
+<Row>
+  <TextField name="name">Name</TextField>
+</Row>
+
+<Row>
+  <TextField name="pronouns">Pronouns</TextField>
+  <TextField name="kit">Kit</TextField>
+</Row>
+
+<Columns>
+  <Column>
+    <Heading>Skills</Heading>
+    <Row>
+      <Label>Strength</Label>
+      <DieField name="skills.strength.initial" default="d4">Initial</DieField>
+      <DieField name="skills.strength.current" default="d4">Current</DieField>
+    </Row>
+    <Row>
+      <Label>Dexterity</Label>
+      <DieField name="skills.dexterity.initial" default="d4">Initial</DieField>
+      <DieField name="skills.dexterity.current" default="d4">Current</DieField>
+    </Row>
+    <Row>
+      <Label>Willpower</Label>
+      <DieField name="skills.willpower.initial" default="d4">Initial</DieField>
+      <DieField name="skills.willpower.current" default="d4">Current</DieField>
+    </Row>
+    <Row>
+      <Label>Loot</Label>
+      <DieField name="skills.loot.initial" default="d12">Initial</DieField>
+      <DieField name="skills.loot.current" default="d12">Current</DieField>
+    </Row>
+    <Row>
+      <Label>Grit</Label>
+      <DieField name="skills.grit.initial" default="d12">Initial</DieField>
+      <DieField name="skills.grit.current" default="d12">Current</DieField>
+    </Row>
+    <Label>Items</Label>
+    <List min={5} max={5}>
+        <Row>
+            <CheckboxField name="items.#.checked" />
+            <DieField name="items.#.initial">Initial</DieField>
+            <DieField name="items.#.current">Current</DieField>
+        </Row>
+    </List>
+    <Label>Hindrances</Label>
+    <List>
+        <TextField name="hindrances.#.name"/>
+        <CheckboxField name="hindrances.#.minor.checked"/>
+        <CheckboxField name="hindrances.#.major.checked"/>
+    </List>
+  </Column>
+  <Column>
+    <Label>Vision of Glory</Label>
+    <TextAreaField name="visionOfGlory" />
+
+    <Label>Stats</Label>
+    <Row>
+        <Label>Resilience</Label>
+        <NumberField name="resilience.initial">Initial</NumberField>
+        <NumberField name="resilience.current">Current</NumberField>
+    </Row>
+
+    <Label>Abilities</Label>
+    <List min={5} max={5}>
+    <Row>
+        <TextField name="abilities.#.name" />
+        <NumberField name="abilities.#.cost" />
+    </Row>
+    </List>
+
+    <Label>Projects</Label>
+    <List min={3} max={3}>
+    <Row>
+        <TextField name="projects.#.name" />
+        <DieField name="projects.#.current" />
+    </Row>
+    </List>
+
+  </Column>
+</Columns>
+
+<TextField name="advancements">Advancements</TextField>
