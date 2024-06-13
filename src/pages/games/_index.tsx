@@ -15,11 +15,12 @@ import { useEffect, useState } from "react";
 import { ClientDL } from "../../domains/ClientDL";
 import { DLStorage } from "../../domains/DLStorage";
 import { getLogger } from "../../domains/getLogger";
+import type { ThemeType } from "../../domains/getTheme";
 import type { GameType } from "../../domains/keeperSchema";
 
 const logger = getLogger("GamesPage");
 
-export function GamesPage(props: {}) {
+export function GamesPage(props: { theme: ThemeType }) {
   const [games, setGames] = useState<Record<string, GameType>>({});
 
   const gamesList = Object.entries(games).map(([id, game]) => ({
@@ -38,13 +39,7 @@ export function GamesPage(props: {}) {
   }
 
   return (
-    <Theme
-      accentColor="gold"
-      radius="full"
-      appearance="dark"
-      panelBackground="translucent"
-      hasBackground={false}
-    >
+    <Theme {...props.theme} hasBackground={false}>
       <Grid
         columns={{
           sm: "2",

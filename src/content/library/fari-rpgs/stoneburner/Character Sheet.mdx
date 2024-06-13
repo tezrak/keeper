@@ -16,39 +16,39 @@ game: fari-rpgs/stoneburner
   <Column>
     <Heading>Skills</Heading>
     <Row>
-      <Label>Strength</Label>
-      <DieField name="skills.strength.initial" default="d4">Initial</DieField>
-      <DieField name="skills.strength.current" default="d4">Current</DieField>
+      <Label fullWidth>Strength</Label>
+       <SelectField name="skills.strength.initial" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Initial</SelectField>
+      <SelectField name="skills.strength.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
     </Row>
     <Row>
-      <Label>Dexterity</Label>
-      <DieField name="skills.dexterity.initial" default="d4">Initial</DieField>
-      <DieField name="skills.dexterity.current" default="d4">Current</DieField>
+      <Label fullWidth>Dexterity</Label>
+      <SelectField name="skills.dexterity.initial" options={['d4', 'd6',   'd8', 'd10', 'd12']} defaultValue="d4">Initial</SelectField>
+      <SelectField name="skills.dexterity.current" options={['d4', 'd6',   'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
     </Row>
     <Row>
-      <Label>Willpower</Label>
-      <DieField name="skills.willpower.initial" default="d4">Initial</DieField>
-      <DieField name="skills.willpower.current" default="d4">Current</DieField>
+      <Label fullWidth>Willpower</Label>
+      <SelectField name="skills.willpower.initial" options={['d4', 'd6',   'd8', 'd10', 'd12']} defaultValue="d4">Initial</SelectField>
+      <SelectField name="skills.willpower.current" options={['d4', 'd6',   'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
     </Row>
     <Row>
-      <Label>Loot</Label>
-      <DieField name="skills.loot.initial" default="d12">Initial</DieField>
-      <DieField name="skills.loot.current" default="d12">Current</DieField>
+      <Label fullWidth>Loot</Label>
+      <SelectField name="skills.loot.initial" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Initial</SelectField>
+      <SelectField name="skills.loot.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Current</SelectField>
     </Row>
     <Row>
-      <Label>Grit</Label>
-      <DieField name="skills.grit.initial" default="d12">Initial</DieField>
-      <DieField name="skills.grit.current" default="d12">Current</DieField>
+      <Label fullWidth>Grit</Label>
+      <SelectField name="skills.grit.initial" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Initial</SelectField>
+      <SelectField name="skills.grit.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Current</SelectField>
     </Row>
-    <Label>Items</Label>
+    <Heading>Items</Heading>
     <List min={5} max={5}>
         <Row>
             <CheckboxField name="items.#.checked" />
-            <DieField name="items.#.initial">Initial</DieField>
-            <DieField name="items.#.current">Current</DieField>
+            <SelectField name="items.#.initial" options={['d4', 'd6',  'd8', 'd10', 'd12']}>Initial</SelectField>
+            <SelectField name="items.#.current" options={['d4', 'd6',  'd8', 'd10', 'd12']}>Current</SelectField>
         </Row>
     </List>
-    <Label>Hindrances</Label>
+    <Heading>Hindrances</Heading>
     <List>
         <TextField name="hindrances.#.name"/>
         <CheckboxField name="hindrances.#.minor.checked"/>
@@ -56,29 +56,32 @@ game: fari-rpgs/stoneburner
     </List>
   </Column>
   <Column>
-    <Label>Vision of Glory</Label>
+    <Heading>Vision of Glory</Heading>
     <TextAreaField name="visionOfGlory" />
 
-    <Label>Stats</Label>
+    <Heading>Resilience</Heading>
     <Row>
-        <Label>Resilience</Label>
-        <NumberField name="resilience.initial">Initial</NumberField>
-        <NumberField name="resilience.current">Current</NumberField>
+        <NumberField max={100} min={0} name="resilience.initial">Initial</NumberField>
+        <NumberField max={100}  min={0}name="resilience.current">Current</NumberField>
+    </Row>
+    <Heading>Credits</Heading>
+    <Row>
+        <NumberField max={100} min={0} name="credits.initial">Initial</NumberField>
     </Row>
 
-    <Label>Abilities</Label>
+    <Heading>Abilities</Heading>
     <List min={5} max={5}>
     <Row>
         <TextField name="abilities.#.name" />
-        <NumberField name="abilities.#.cost" />
+         <NumberField name="abilities.#.cost">Cost</NumberField>
     </Row>
     </List>
 
-    <Label>Projects</Label>
+    <Heading>Projects</Heading>
     <List min={3} max={3}>
     <Row>
         <TextField name="projects.#.name" />
-        <DieField name="projects.#.current" />
+        <SelectField name="projects.#.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
     </Row>
     </List>
 

@@ -1,15 +1,23 @@
-import { Flex, Heading, Skeleton, TextField } from "@radix-ui/themes";
+import { Flex, Heading, Skeleton, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
 import { DLStorage } from "../../../../domains/DLStorage";
 import { getLogger } from "../../../../domains/getLogger";
 import type { GameStateType } from "../../../../domains/keeperSchema";
+import type { SheetsType } from "./index.astro";
+
+import { evaluate } from "@mdx-js/mdx";
+import * as runtime from "react/jsx-runtime";
+import { MDXWrapper, getMdxComponents } from "../../../../components/MDX";
+import type { ThemeType } from "../../../../domains/getTheme";
 
 const logger = getLogger("PlayPage");
 
 export function PlayPage(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
+  sheets: SheetsType;
+  theme: ThemeType;
 }) {
   const [id, setId] = useState<string>();
 
@@ -24,9 +32,14 @@ export function PlayPage(props: {
   }, []);
 
   return (
-    <>
-      <Game id={id} game={props.game} creator={props.creator}></Game>
-    </>
+    <Theme {...props.theme} hasBackground={false}>
+      <Game
+        id={id}
+        game={props.game}
+        creator={props.creator}
+        sheets={props.sheets}
+      ></Game>
+    </Theme>
   );
 }
 
@@ -34,8 +47,21 @@ function Game(props: {
   id: string | undefined;
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
+  sheets: SheetsType;
 }) {
   const [gameState, setGameState] = useState<GameStateType>();
+  const [MDXContent, setMDXContent] =
+    useState<Awaited<ReturnType<typeof evaluate>>["default"]>();
+
+  useEffect(() => {
+    main();
+    async function main() {
+      const firstSheet = props.sheets[0];
+      const res = await evaluate(firstSheet.body, runtime as any);
+
+      setMDXContent(() => res.default);
+    }
+  }, []);
 
   useEffect(() => {
     main();
@@ -59,13 +85,22 @@ function Game(props: {
     <>
       <Skeleton loading={!gameState}>
         <Flex direction="column" gap="4">
-          <Heading size="9">Playing {props.game?.data.name}...</Heading>
-
-          <TextField.Root
-            size="3"
-            variant="soft"
-            placeholder="Give this game a name."
-          />
+          {props.sheets.map((sheet, i) => {
+            return (
+              <div key={i}>
+                <MDXWrapper>
+                  <Heading size="6">{sheet.data.name}</Heading>
+                  {MDXContent && (
+                    <MDXContent
+                      components={{
+                        ...getMdxComponents(),
+                      }}
+                    />
+                  )}
+                </MDXWrapper>
+              </div>
+            );
+          })}
         </Flex>
       </Skeleton>
     </>

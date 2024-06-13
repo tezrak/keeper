@@ -3,18 +3,24 @@ import {
   Box,
   Em,
   Flex,
-  Grid,
   Heading,
   Link,
   Strong,
   Text,
-  TextField,
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import type React from "react";
-import { z } from "zod";
+import { MDXColumn } from "./mdx-components/MDXColumn";
+import { MDXColumns } from "./mdx-components/MDXColumns";
+import { MDXHeading } from "./mdx-components/MDXHeading";
+import { MDXLabel } from "./mdx-components/MDXLabel";
+import { MDXNumberField } from "./mdx-components/MDXNumberField";
+import { MDXRow } from "./mdx-components/MDXRow";
+import { MDXSelectField } from "./mdx-components/MDXSelectField";
+import { MDXTextAreaField } from "./mdx-components/MDXTextAreaField";
+import { MDXTextField } from "./mdx-components/MDXTextField";
 
-export function MDX(props: { children: React.ReactNode }) {
+export function MDXWrapper(props: { children: React.ReactNode }) {
   return (
     <Flex gap="3" direction="column">
       {props.children}
@@ -82,72 +88,20 @@ export function getMdxComponents() {
         />
       );
     },
-    Row: (props: { children: React.ReactNode }) => {
-      return <Flex gap="4">{props.children}</Flex>;
-    },
-    Columns: (props: { children: React.ReactNode }) => {
-      const parsed = z
-        .object({
-          children: z.any().optional(),
-        })
-        .parse(props);
-      return (
-        <Grid columns={{ initial: "1", md: "2" }} gap="3" width="auto">
-          {parsed.children}
-        </Grid>
-      );
-    },
-    Column: (props: { children: React.ReactNode }) => {
-      const parsed = z
-        .object({
-          children: z.any().optional(),
-        })
-        .parse(props);
-      return <Box>{parsed.children}</Box>;
-    },
-    Heading: (props: {}) => {
-      return <Box>Heading</Box>;
-    },
-    Label: (props: {}) => {
-      return <Box>Label</Box>;
-    },
+    Row: MDXRow,
+    Columns: MDXColumns,
+    Column: MDXColumn,
+    Heading: MDXHeading,
+    Label: MDXLabel,
     List: (props: {}) => {
       return <Box>List</Box>;
     },
-    TextField: (props: {}) => {
-      const parsed = z
-        .object({
-          name: z.string(),
-          children: z.any().optional(),
-        })
-        .parse(props);
-      return (
-        <Flex gap="1" direction={"column"}>
-          {parsed.children && (
-            <Text as="label" color="gray">
-              {parsed.children}:
-            </Text>
-          )}
-          <TextField.Root size="3" variant="soft" name={parsed.name} />
-        </Flex>
-      );
-    },
-    TextAreaField: (props: {}) => {
-      const parsed = z
-        .object({
-          name: z.string(),
-        })
-        .parse(props);
-      return <Box>TextAreaField</Box>;
-    },
-    DieField: (props: {}) => {
-      return <Box>DieField</Box>;
-    },
+    TextField: MDXTextField,
+    TextAreaField: MDXTextAreaField,
+    SelectField: MDXSelectField,
     CheckboxField: (props: {}) => {
       return <Box>CheckboxField</Box>;
     },
-    NumberField: (props: {}) => {
-      return <Box>NumberField</Box>;
-    },
+    NumberField: MDXNumberField,
   };
 }

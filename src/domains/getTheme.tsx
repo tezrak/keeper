@@ -5,7 +5,10 @@ export function getTheme(props: { theme?: ThemeProps }) {
     accentColor: "gold",
     appearance: "dark",
     panelBackground: "translucent",
+    // scaling: "110%",
   };
 
   return themeProps;
 }
+
+export type ThemeType = ReturnType<typeof getTheme>;

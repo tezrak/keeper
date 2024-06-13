@@ -1,13 +1,12 @@
 ---
-import { Heading } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
 import Banner from "../../../../components/Banner.astro";
-import { MDX, getMdxComponents } from "../../../../components/MDX";
 import { DL } from "../../../../domains/DL";
+import { getTheme } from "../../../../domains/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
 import { PlayPage } from "./_index";
 
@@ -17,15 +16,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const sheets = await Promise.all(
-  props.sheets.map(async (sheet) => {
-    const { Content } = await sheet.render();
-    return {
-      sheet,
-      Content,
-    };
-  })
-);
+export type SheetsType = typeof props.sheets;
 
 export async function getStaticPaths() {
   const gamesWithCreatorsAndSheets =
@@ -44,6 +35,8 @@ export async function getStaticPaths() {
     } satisfies GetStaticPathsItem;
   });
 }
+
+const theme = getTheme({});
 ---
 
 <Layout
@@ -56,22 +49,12 @@ export async function getStaticPaths() {
     alt={props.game.data.name}
     justBackground
   />
-  <PlayPage client:load game={props.game} creator={props.creator} />
 
-  {
-    sheets.map((sheet) => {
-      return (
-        <div>
-          <MDX>
-            <Heading size="6">{sheet.sheet.data.name}</Heading>
-            <sheet.Content
-              components={{
-                ...getMdxComponents(),
-              }}
-            />
-          </MDX>
-        </div>
-      );
-    })
-  }
+  <PlayPage
+    client:load
+    game={props.game}
+    creator={props.creator}
+    sheets={props.sheets}
+    theme={theme}
+  />
 </Layout>

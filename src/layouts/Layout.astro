@@ -1,9 +1,9 @@
 ---
-import { Container, Theme, type ThemeProps } from "@radix-ui/themes";
+import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import Banner from "../components/Banner.astro";
 import Header from "../components/Header.astro";
-import { getTheme } from "../domains/getTheme";
+import { getTheme, type ThemeType } from "../domains/getTheme";
 import "./index.css";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   headingFont?: string;
   bodyFont?: string;
   withBanner?: boolean;
-  theme?: ThemeProps;
+  theme?: ThemeType;
 };
 
 const props = Astro.props;

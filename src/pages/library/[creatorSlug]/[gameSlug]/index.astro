@@ -6,7 +6,7 @@ import type {
   InferGetStaticPropsType,
 } from "astro";
 import Banner from "../../../../components/Banner.astro";
-import { MDX, getMdxComponents } from "../../../../components/MDX";
+import { MDXWrapper, getMdxComponents } from "../../../../components/MDX";
 import { DL } from "../../../../domains/DL";
 import Layout from "../../../../layouts/Layout.astro";
 
@@ -48,12 +48,12 @@ export async function getStaticPaths() {
     <a href=`/create-game?slug=${props.game.slug}`>
       <Button size="4" className="cursor-pointer"> Start a new game </Button>
     </a>
-    <MDX>
+    <MDXWrapper>
       <Content
         components={{
           ...getMdxComponents(),
         }}
       />
-    </MDX>
+    </MDXWrapper>
   </Flex>
 </Layout>
