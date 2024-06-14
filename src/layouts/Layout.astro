@@ -1,9 +1,11 @@
 ---
 import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import Banner from "../components/Banner.astro";
 import Header from "../components/Header.astro";
 import { getTheme, type ThemeType } from "../domains/getTheme";
+
 import "./index.css";
 
 type Props = {
@@ -192,6 +194,7 @@ const googleFontUrl = encodeURI(
           ></svg
         >
       </div>
+      <SpeedInsights />
     </body>
 
     <style
