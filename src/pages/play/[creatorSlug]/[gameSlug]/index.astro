@@ -10,8 +10,8 @@ import { getTheme } from "../../../../domains/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
 import { PlayPage } from "./_index";
 
-type Params = InferGetStaticParamsType<typeof getStaticPaths>;
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const props = Astro.props as Props;
 const params = Astro.params as Params;
@@ -36,13 +36,16 @@ export async function getStaticPaths() {
   });
 }
 
-const theme = getTheme({});
+const theme = getTheme({
+  theme: {
+    accentColor: props.game.data.theme.accentColor,
+  },
+});
 ---
 
 <Layout
-  title=""
-  headingFont={props.game.data.headingFont}
-  bodyFont={props.game.data.bodyFont}
+  headingFont={props.game.data.theme.headingFont}
+  bodyFont={props.game.data.theme.bodyFont}
 >
   <Banner
     src={props.game.data.image}

@@ -11,7 +11,7 @@ export function MDXRow(p: Props) {
   const props = propsSchema.parse(p);
 
   return (
-    <Flex gap="4" width={"100%"} align={"center"} data-mdx-type="row">
+    <Flex data-mdx-type="row" gap="4" width={"100%"} align={"center"}>
       {props.children}
     </Flex>
   );

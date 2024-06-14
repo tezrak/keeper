@@ -1,17 +1,7 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import {
-  AspectRatio,
-  Button,
-  Card,
-  DropdownMenu,
-  Flex,
-  Grid,
-  Skeleton,
-  Text,
-  Theme,
-} from "@radix-ui/themes";
+import { DropdownMenu, Grid, Skeleton, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
+import { Card } from "../../components/Card";
 import { ClientDL } from "../../domains/ClientDL";
 import { DLStorage } from "../../domains/DLStorage";
 import { getLogger } from "../../domains/getLogger";
@@ -108,43 +98,29 @@ function GameCard(props: {
 
   return (
     <Skeleton loading={!gameWithCreator}>
-      <Card className="hover:bg-[--accent-4]">
-        <a href={`/play/${props.slug}?id=${props.id}`}>
-          <Flex gap="2" align="start" direction={"column"}>
-            <AspectRatio ratio={4 / 3}>
-              {gameWithCreator && (
-                <img
-                  src={gameWithCreator.game.data.image}
-                  alt={gameWithCreator.game.data.name}
-                  style={{
-                    objectFit: "cover",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                />
-              )}
-            </AspectRatio>
-            <Flex gap="2" justify={"between"} width={"100%"}>
-              <Text as="div" size="6" weight="bold">
-                {props.name || gameWithCreator?.game.data.name}
-              </Text>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                  <Button variant="soft">
-                    <HamburgerMenuIcon />
-                    <DropdownMenu.TriggerIcon />
-                  </Button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Item color="red" onClick={handleDelete}>
-                    Delete
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
-            </Flex>
-          </Flex>
-        </a>
-      </Card>
+      {gameWithCreator && (
+        <Card
+          href={`/play/${props.slug}?id=${props.id}`}
+          title={props.name || gameWithCreator.game.data.name}
+          menu={
+            <>
+              <DropdownMenu.Item color="red" onClick={handleDelete}>
+                Delete
+              </DropdownMenu.Item>
+            </>
+          }
+        >
+          <img
+            src={gameWithCreator.game.data.image}
+            alt={gameWithCreator.game.data.name}
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </Card>
+      )}
     </Skeleton>
   );
 }

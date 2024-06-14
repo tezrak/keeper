@@ -11,7 +11,7 @@ export function MDXStack(p: Props) {
   const props = propsSchema.parse(p);
 
   return (
-    <Flex direction={"column"} gap="2" data-mdx-type="stack" width="100%">
+    <Flex data-mdx-type="stack" direction={"column"} gap="2" width="100%">
       {props.children}
     </Flex>
   );

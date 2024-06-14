@@ -8,15 +8,22 @@ import type {
 import Banner from "../../../../components/Banner.astro";
 import { MDXWrapper, getMdxComponents } from "../../../../components/MDX";
 import { DL } from "../../../../domains/DL";
+import { getTheme } from "../../../../domains/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
 
-type Params = InferGetStaticParamsType<typeof getStaticPaths>;
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
 const { Content } = await props.game.render();
+
+const theme = getTheme({
+  theme: {
+    accentColor: props.game.data.theme.accentColor,
+  },
+});
 
 export async function getStaticPaths() {
   const gamesAndCreators = await DL.getAllGamesWithCreators();
@@ -37,8 +44,9 @@ export async function getStaticPaths() {
 ---
 
 <Layout
-  headingFont={props.game.data.headingFont}
-  bodyFont={props.game.data.bodyFont}
+  theme={theme}
+  headingFont={props.game.data.theme.headingFont}
+  bodyFont={props.game.data.theme.bodyFont}
 >
   <Flex direction="column" gap="5">
     <Banner src={props.game.data.image} alt={props.game.data.name} />
@@ -46,7 +54,9 @@ export async function getStaticPaths() {
     <Heading size="9">{props.game.data.name}</Heading>
     <Heading size="6" color="gray">By {props.creator.data.name}</Heading>
     <a href=`/create-game?slug=${props.game.slug}`>
-      <Button size="4" className="cursor-pointer"> Start a new game </Button>
+      <Button size="4" className="cursor-pointer font-bold" variant="solid">
+        Start a new game
+      </Button>
     </a>
     <MDXWrapper>
       <Content

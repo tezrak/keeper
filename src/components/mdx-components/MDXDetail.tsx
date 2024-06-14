@@ -1,4 +1,4 @@
-import { Heading } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import { z } from "zod";
 
 const propsSchema = z.object({
@@ -7,12 +7,12 @@ const propsSchema = z.object({
 
 export type Props = z.infer<typeof propsSchema>;
 
-export function MDXHeading(p: Props) {
+export function MDXDetail(p: Props) {
   const props = propsSchema.parse(p);
 
   return (
-    <Heading data-mdx-type="heading" size={"7"} weight={"bold"}>
+    <Text as="span" color="gray" className="w-full">
       {props.children}
-    </Heading>
+    </Text>
   );
 }

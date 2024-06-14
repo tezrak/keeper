@@ -9,12 +9,12 @@ const propsSchema = z.object({
 
 export type Props = z.infer<typeof propsSchema>;
 
-export function MDCheckboxField(p: Props) {
+export function MDXCheckboxField(p: Props) {
   const props = propsSchema.parse(p);
   const name = useName({ name: props.name });
 
   return (
-    <Text as="label" size="2" data-mdx-type="text-field">
+    <Text data-mdx-type="text-field" as="label" size="2">
       <Flex gap="2">
         <Checkbox defaultChecked name={name} />
         {props.children}

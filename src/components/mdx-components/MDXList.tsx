@@ -29,21 +29,21 @@ export function MDXList(p: Props) {
   const numberOfItems = props.min || 0;
 
   return (
-    <Flex direction={"column"} gap="2" data-mdx-type="list">
+    <Flex data-mdx-type="list" direction={"column"} gap="2">
       {Array.from({ length: numberOfItems }, (_, i) => {
         return (
-          <ListContext.Provider value={i}>
+          <ListContext.Provider value={i} key={i}>
             <Card size="2">
               <Flex gap="4" align={"start"}>
                 <Flex flexGrow={"1"}>{props.children}</Flex>
                 <Flex>
                   <DropdownMenu.Root>
                     <DropdownMenu.Trigger>
-                      <Button variant="soft" size="2">
+                      <Button variant="soft" size="2" color="gray">
                         <HamburgerMenuIcon />
                       </Button>
                     </DropdownMenu.Trigger>
-                    <DropdownMenu.Content>
+                    <DropdownMenu.Content color="gray">
                       <DropdownMenu.Item onClick={() => {}}>
                         Add Below
                       </DropdownMenu.Item>

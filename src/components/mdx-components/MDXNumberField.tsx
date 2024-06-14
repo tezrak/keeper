@@ -1,5 +1,6 @@
-import { Flex, Text, TextField } from "@radix-ui/themes";
+import { Flex, TextField } from "@radix-ui/themes";
 import { z } from "zod";
+import { MDXDetail } from "./MDXDetail";
 import { useName } from "./MDXList";
 
 const propsSchema = z.object({
@@ -33,11 +34,7 @@ export function MDXNumberField(p: Props) {
         className="w-full text-center text-[1.25rem] [&>input]:indent-0 [&>input]:font-semibold"
       ></TextField.Root>{" "}
       <Flex align={"end"}>
-        {props.children && (
-          <Text as="label" color="gray" className="w-full">
-            {props.children}
-          </Text>
-        )}
+        {props.children && <MDXDetail>{props.children}</MDXDetail>}
       </Flex>
     </Flex>
   );

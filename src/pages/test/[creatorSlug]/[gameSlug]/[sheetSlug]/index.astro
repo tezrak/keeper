@@ -1,0 +1,55 @@
+---
+import type {
+  GetStaticPathsItem,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import { DL } from "../../../../../domains/DL";
+import { getTheme } from "../../../../../domains/getTheme";
+import Layout from "../../../../../layouts/Layout.astro";
+import { SheetTestPage } from "./_index";
+
+export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const props = Astro.props as Props;
+const params = Astro.params as Params;
+
+const { Content } = await props.sheet.render();
+
+const theme = getTheme({
+  theme: {
+    accentColor: props.game.data.theme.accentColor,
+  },
+});
+
+export async function getStaticPaths() {
+  const gamesWithCreatorsAndSheets =
+    await DL.getAllGamesWithCreatorsAndSheets();
+
+  return gamesWithCreatorsAndSheets.flatMap((item) => {
+    return item.sheets.map((sheet) => {
+      return {
+        params: {
+          creatorSlug: item.creator.slug,
+          gameSlug: item.game.slug.split("/").pop(),
+          sheetSlug: sheet.slug.split("/").pop(),
+        },
+        props: {
+          game: item.game,
+          creator: item.creator,
+          sheet: sheet,
+        },
+      } satisfies GetStaticPathsItem;
+    });
+  });
+}
+---
+
+<Layout
+  theme={theme}
+  headingFont={props.game.data.theme.headingFont}
+  bodyFont={props.game.data.theme.bodyFont}
+>
+  <SheetTestPage {...props} />
+</Layout>

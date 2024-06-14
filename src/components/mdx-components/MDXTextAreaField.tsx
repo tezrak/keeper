@@ -1,9 +1,11 @@
-import { Flex, Text, TextArea } from "@radix-ui/themes";
+import { Flex, TextArea } from "@radix-ui/themes";
 import { z } from "zod";
+import { MDXDetail } from "./MDXDetail";
 import { useName } from "./MDXList";
 
 const propsSchema = z.object({
   name: z.string(),
+  rows: z.number().optional().default(3),
   children: z.any().optional(),
 });
 
@@ -15,25 +17,23 @@ export function MDXTextAreaField(p: Props) {
 
   return (
     <Flex
+      data-mdx-type="text-area-field"
       gap="1"
       direction={"column"}
       className="w-full"
-      data-mdx-type="text-area-field"
     >
       <TextArea
         size="3"
         placeholder="..."
         variant="soft"
         name={name}
+        color="gray"
+        rows={props.rows}
         autoComplete="off"
         resize="vertical"
       />
       <Flex align={"end"}>
-        {props.children && (
-          <Text as="label" color="gray" className="w-full">
-            {props.children}
-          </Text>
-        )}
+        {props.children && <MDXDetail>{props.children}</MDXDetail>}
       </Flex>
     </Flex>
   );

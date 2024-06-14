@@ -57,9 +57,12 @@ function Game(props: {
     main();
     async function main() {
       const firstSheet = props.sheets[0];
-      const res = await evaluate(firstSheet.body, runtime as any);
-
-      setMDXContent(() => res.default);
+      try {
+        const res = await evaluate(firstSheet.body, runtime as any);
+        setMDXContent(() => res.default);
+      } catch (error) {
+        logger.error("Failed to evaluate MDX", { error });
+      }
     }
   }, []);
 

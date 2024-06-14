@@ -9,10 +9,11 @@ export const DL = {
     const games = await this.getAllGames();
     const gamesWithCreators = await Promise.all(
       games.map(async (game) => {
-        const creator = await getEntry(game.data.creator);
+        const [creatorSlug] = game.id.split("/");
+        const creator = await getEntry("creators", creatorSlug);
         return {
           game,
-          creator,
+          creator: creator!,
         };
       }),
     );
@@ -28,7 +29,7 @@ export const DL = {
         });
         return {
           game: gameWithCreator.game,
-          creator: gameWithCreator.creator,
+          creator: gameWithCreator.creator!,
           sheets: sheets,
         };
       }),
@@ -42,8 +43,8 @@ export const DL = {
     if (!game) {
       return null;
     }
-
-    const creator = await getEntry(game.data.creator);
+    const [creatorSlug] = game.id.split("/");
+    const creator = await getEntry("creators", creatorSlug);
     return {
       game,
       creator,

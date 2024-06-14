@@ -21,12 +21,16 @@ const bodyFont = props.bodyFont || "Inter";
 
 // family = ,
 const fontsAsString = [headingFont, bodyFont]
-  .map((font) => `family="${font}"`)
+  .map((font) => `family=${font.trim()}`)
   .join("&");
 
 const themeProps = getTheme({
   theme: props.theme,
 });
+
+const googleFontUrl = encodeURI(
+  `https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`
+);
 ---
 
 <!doctype html>
@@ -38,10 +42,7 @@ const themeProps = getTheme({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href={`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`}
-      rel="stylesheet"
-    />
+    <link href={googleFontUrl} rel="stylesheet" />
     <meta name="generator" content={Astro.generator} />
     <title>{props.title}</title>
   </head>

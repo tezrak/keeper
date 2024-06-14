@@ -1,14 +1,7 @@
 ---
-import {
-  AspectRatio,
-  Box,
-  Card,
-  Flex,
-  Grid,
-  Heading,
-  Text,
-} from "@radix-ui/themes";
+import { Flex, Grid, Heading } from "@radix-ui/themes";
 import { Image } from "astro:assets";
+import { Card } from "../components/Card";
 import { DL } from "../domains/DL";
 import Layout from "../layouts/Layout.astro";
 
@@ -29,49 +22,16 @@ const gamesWithCreators = await DL.getAllGamesWithCreators();
       {
         gamesWithCreators.map((item) => {
           return (
-            <Card variant="ghost">
-              <a href={`/library/${item.game.slug}`}>
-                <Flex
-                  gap="2"
-                  align="start"
-                  direction={"column"}
-                  position={"relative"}
-                >
-                  <AspectRatio ratio={6 / 4}>
-                    <Image
-                      src={item.game.data.image}
-                      alt={item.game.data.name}
-                      style={{
-                        borderRadius: "var(--radius-2)",
-                        objectFit: "cover",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                      inferSize
-                    />
-                  </AspectRatio>
-
-                  <Box
-                    position={"absolute"}
-                    className="bottom-0 w-full left-0 h-[50%]"
-                    style={{
-                      borderRadius: "var(--radius-2)",
-                      background:
-                        "linear-gradient(rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .8) 50%, rgba(0, 0, 0, .8) 100%)",
-                    }}
-                  />
-                  <Box position={"absolute"} className="bottom-0 w-full left-0">
-                    <Box className="px-4 py-4">
-                      <Text as="div" size="6" weight="bold">
-                        {item.game.data.name}
-                      </Text>
-                      <Text as="div" size="5" color="gray">
-                        by {item.creator.data.name}
-                      </Text>
-                    </Box>
-                  </Box>
-                </Flex>
-              </a>
+            <Card
+              href={`/library/${item.game.slug}`}
+              title={item.game.data.name}
+              subtitle={item.creator.data.name}
+            >
+              <Image
+                src={item.game.data.image}
+                alt={item.game.data.name}
+                inferSize
+              />
             </Card>
           );
         })
