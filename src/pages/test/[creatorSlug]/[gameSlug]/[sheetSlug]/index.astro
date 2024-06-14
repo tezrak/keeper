@@ -51,5 +51,10 @@ export async function getStaticPaths() {
   headingFont={props.game.data.theme.headingFont}
   bodyFont={props.game.data.theme.bodyFont}
 >
-  <SheetTestPage {...props} />
+  <SheetTestPage
+    game={props.game}
+    creator={props.creator}
+    sheet={props.sheet}
+    theme={theme}
+  />
 </Layout>
