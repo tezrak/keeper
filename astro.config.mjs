@@ -4,9 +4,11 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 
 import starlight from "@astrojs/starlight";
+import { constants } from "./src/domains/constants";
 
 // https://astro.build/config
 export default defineConfig({
+  site: constants.site,
   integrations: [
     starlight({
       title: "Keeper Doc",
