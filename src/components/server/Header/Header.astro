@@ -1,0 +1,56 @@
+---
+import { BookmarkFilledIcon } from "@radix-ui/react-icons";
+import { Button, Flex, Grid } from "@radix-ui/themes";
+import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
+---
+
+<Grid
+  justify={"between"}
+  align={"center"}
+  columns="3"
+  className="mb-16 mt-9 rounded-[--radius-2] border-b border-l border-r border-t border-[--accent-4] bg-[#0D0F11] px-6 py-6 print:hidden"
+  style={{
+    ...getSurfaceStyle(),
+  }}
+>
+  <Flex justify={"start"}>
+    <a href="/">
+      <Button
+        highContrast
+        color="gray"
+        radius="full"
+        size="4"
+        variant="ghost"
+        className="cursor-pointer"
+      >
+        <BookmarkFilledIcon className="h-[24px] w-[24px]" />
+        <span class="font-bold">Project Keeper</span>
+      </Button>
+    </a>
+  </Flex>
+  <Flex gap="4" justify="center">
+    <a href="/campaigns">
+      <Button
+        color="gray"
+        radius="full"
+        size="3"
+        variant="ghost"
+        className="cursor-pointer"
+      >
+        My Campaigns
+      </Button>
+    </a>
+  </Flex>
+  <Flex justify={"end"} gap="5">
+    <a href="/docs">
+      <Button radius="full" size="3" variant="ghost" className="cursor-pointer">
+        Docs
+      </Button>
+    </a>
+    <a href="/docs/faq">
+      <Button radius="full" size="3" variant="ghost" className="cursor-pointer">
+        FAQ
+      </Button>
+    </a>
+  </Flex>
+</Grid>

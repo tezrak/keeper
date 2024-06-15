@@ -2,7 +2,7 @@ import { getLogger } from "./getLogger";
 import {
   STORAGE_KEY,
   keeperSchema,
-  type GameStateType,
+  type CampaignStateType,
   type StorageType,
 } from "./keeperSchema";
 
@@ -21,36 +21,36 @@ export const DLStorage = {
   saveStorage(newStorage: StorageType) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newStorage));
   },
-  addGame(props: { slug: string }) {
+  addCampaign(props: { slug: string }) {
     const uuid = crypto.randomUUID();
     const storage = this.getStorage();
 
-    const parsedGameState = keeperSchema.gameState.safeParse({
+    const parsedState = keeperSchema.state.safeParse({
       slug: props.slug,
     });
 
-    if (!parsedGameState.success) {
-      throw logger.error("Failed to parse game state", {
-        gameState: parsedGameState,
+    if (!parsedState.success) {
+      throw logger.error("Failed to parse state", {
+        state: parsedState,
       });
     }
 
-    storage.games[uuid] = {
+    storage.campaigns[uuid] = {
       slug: props.slug,
-      gameState: parsedGameState.data,
+      state: parsedState.data,
     };
 
     this.saveStorage(storage);
     return uuid;
   },
-  updateGame(uuid: string, newGameState: GameStateType) {
+  updateCampaign(uuid: string, newState: CampaignStateType) {
     const storage = this.getStorage();
-    storage.games[uuid].gameState = newGameState;
+    storage.campaigns[uuid].state = newState;
     this.saveStorage(storage);
   },
-  removeGame(uuid: string) {
+  removeCampaign(uuid: string) {
     const storage = this.getStorage();
-    delete storage.games[uuid];
+    delete storage.campaigns[uuid];
     this.saveStorage(storage);
   },
 };

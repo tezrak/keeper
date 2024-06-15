@@ -1,53 +1,82 @@
-import { DropdownMenu, Grid, Skeleton, Theme } from "@radix-ui/themes";
+import {
+  Box,
+  DropdownMenu,
+  Flex,
+  Grid,
+  Heading,
+  Link,
+  Skeleton,
+  Text,
+  Theme,
+} from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
+import { Dices } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Card } from "../../components/Card";
+import { Card } from "../../components/client/Card/Card";
 import { ClientDL } from "../../domains/ClientDL";
 import { DLStorage } from "../../domains/DLStorage";
 import { getLogger } from "../../domains/getLogger";
 import type { ThemeType } from "../../domains/getTheme";
-import type { GameType } from "../../domains/keeperSchema";
+import type { CampaignType } from "../../domains/keeperSchema";
 
 const logger = getLogger("GamesPage");
 
-export function GamesPage(props: { theme: ThemeType }) {
-  const [games, setGames] = useState<Record<string, GameType>>({});
-
-  const gamesList = Object.entries(games).map(([id, game]) => ({
+export function CampaignsPage(props: { theme: ThemeType }) {
+  const [campaigns, setCampaigns] = useState<Record<string, CampaignType>>();
+  const loading = !campaigns;
+  const campaignList = Object.entries(campaigns || {}).map(([id, game]) => ({
     id,
     ...game,
   }));
+  const empty = campaignList.length === 0;
 
   useEffect(() => {
-    const games = DLStorage.getStorage().games;
-    setGames(games);
+    setCampaigns(DLStorage.getStorage().campaigns);
   }, []);
 
   function handleDelete(gameId: string) {
-    DLStorage.removeGame(gameId);
-    setGames(DLStorage.getStorage().games);
+    DLStorage.removeCampaign(gameId);
+    setCampaigns(DLStorage.getStorage().campaigns);
   }
 
   return (
     <Theme {...props.theme} hasBackground={false}>
-      <Grid
-        columns={{
-          sm: "2",
-          lg: "3",
-        }}
-        gap="6"
-        width="auto"
-      >
-        {gamesList?.map((game) => (
-          <GameCard
-            key={game.id}
-            name={game.gameState.name}
-            id={game.id}
-            slug={game.slug}
-            onDelete={handleDelete}
-          ></GameCard>
-        ))}
-      </Grid>
+      <Skeleton loading={loading} className="h-[50vh]">
+        {!loading && (
+          <>
+            {empty && (
+              <Box className="py-[10vh]">
+                <Flex direction="column" gap="4" align="center">
+                  <Dices size="20vh" className="mb-[2rem]"></Dices>
+                  <Heading size="8">You have no campaigns</Heading>
+                  <Text>
+                    Go to the <Link href="/">homepage</Link> and pick one of the
+                    available games to get started.
+                  </Text>
+                </Flex>
+              </Box>
+            )}
+            <Grid
+              columns={{
+                sm: "2",
+                lg: "3",
+              }}
+              gap="6"
+              width="auto"
+            >
+              {campaignList?.map((campaign) => (
+                <GameCard
+                  key={campaign.id}
+                  name={campaign.state.name}
+                  id={campaign.id}
+                  slug={campaign.slug}
+                  onDelete={handleDelete}
+                ></GameCard>
+              ))}
+            </Grid>
+          </>
+        )}
+      </Skeleton>
     </Theme>
   );
 }

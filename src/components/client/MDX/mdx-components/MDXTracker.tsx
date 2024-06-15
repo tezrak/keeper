@@ -25,12 +25,7 @@ export function MDXTracker(p: Props) {
         {Array.from({ length: numberOfBoxes }, (_, i) => {
           return (
             <Box key={i}>
-              <IconButton
-                name={`${name}-${i}`}
-                color="gray"
-                variant="soft"
-                key={i}
-              >
+              <IconButton color="gray" variant="soft" key={i}>
                 <CircleIcon width={"1.5rem"} height={"1.5rem"} />
               </IconButton>
             </Box>

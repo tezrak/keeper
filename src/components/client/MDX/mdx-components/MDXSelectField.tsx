@@ -19,12 +19,11 @@ export function MDXSelectField(p: Props) {
   return (
     <Tooltip data-mdx-type="select-field" content={props.children}>
       <Flex gap="1" direction={"column"} className="w-full">
-        <Select.Root defaultValue={props.defaultValue}>
+        <Select.Root defaultValue={props.defaultValue} name={name}>
           <Select.Trigger
             variant="soft"
             color="gray"
             className="h-[40px] text-[1.25rem]"
-            name={name}
           ></Select.Trigger>
           <Select.Content color="gray">
             {props.options.map((option) => (

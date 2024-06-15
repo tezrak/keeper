@@ -1,11 +1,11 @@
 ---
 import { getTheme } from "../../domains/getTheme";
 import Layout from "../../layouts/Layout.astro";
-import { GamesPage } from "./_index";
+import { CampaignsPage } from "./_index";
 
 const theme = getTheme({});
 ---
 
-<Layout title="My Games" withBanner>
-  <GamesPage client:load theme={theme} />
+<Layout title="Campaigns" withBanner h1="Campaigns">
+  <CampaignsPage client:load theme={theme} />
 </Layout>

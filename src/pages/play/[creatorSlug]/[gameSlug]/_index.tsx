@@ -1,15 +1,28 @@
-import { Flex, Heading, Skeleton, Theme } from "@radix-ui/themes";
+import { Save } from "lucide-react";
+
+import {
+  Box,
+  Button,
+  Flex,
+  Skeleton,
+  Tabs,
+  TextField,
+  Theme,
+  Tooltip,
+} from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
-import { useEffect, useState } from "react";
-import { DLStorage } from "../../../../domains/DLStorage";
+import { useEffect, useState, type FormEvent } from "react";
 import { getLogger } from "../../../../domains/getLogger";
-import type { GameStateType } from "../../../../domains/keeperSchema";
 import type { SheetsType } from "./index.astro";
 
-import { evaluate } from "@mdx-js/mdx";
-import * as runtime from "react/jsx-runtime";
-import { MDXWrapper, getMdxComponents } from "../../../../components/MDX";
+import { FilePlusIcon } from "@radix-ui/react-icons";
+import { Sheet } from "../../../../components/client/Sheet/Sheet";
+import { getSurfaceStyle } from "../../../../components/client/Surface/getSurfaceStyle";
 import type { ThemeType } from "../../../../domains/getTheme";
+import {
+  GameStateContext,
+  useGameState,
+} from "../../../../domains/useGameState";
 
 const logger = getLogger("PlayPage");
 
@@ -49,65 +62,114 @@ function Game(props: {
   creator: CollectionEntry<"creators">;
   sheets: SheetsType;
 }) {
-  const [gameState, setGameState] = useState<GameStateType>();
-  const [MDXContent, setMDXContent] =
-    useState<Awaited<ReturnType<typeof evaluate>>["default"]>();
+  const possibleTabs = ["my-sheets", "library"] as const;
+  type TabType = (typeof possibleTabs)[number];
+  const [tab, setTab] = useState<TabType>("my-sheets");
+  const gameStateManager = useGameState({
+    id: props.id,
+  });
 
-  useEffect(() => {
-    main();
-    async function main() {
-      const firstSheet = props.sheets[0];
-      try {
-        const res = await evaluate(firstSheet.body, runtime as any);
-        setMDXContent(() => res.default);
-      } catch (error) {
-        logger.error("Failed to evaluate MDX", { error });
-      }
-    }
-  }, []);
+  function handleAddSheet(p: { sheet: SheetsType[number] }) {
+    // setSheets([...sheets, new Sheet()]);
+    setTab("my-sheets");
+  }
 
-  useEffect(() => {
-    main();
-    async function main() {
-      if (!props.id) {
-        return;
-      }
-      try {
-        logger.log("Loading game state");
-        const gameState = DLStorage.getStorage().games[props.id];
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-        logger.log("Setting states");
-        setGameState(gameState.gameState);
-      } catch (error) {
-        logger.error("Failed to load game", { error });
-      }
-    }
-  }, [props.id]);
+    const formData = new FormData(e.currentTarget);
+    const serializedFormData = Object.fromEntries(formData.entries());
+    logger.info("interesting", { aslut: serializedFormData });
+    // gameStateManager.addSheet({ name: sheetName });
+  }
 
   return (
-    <>
-      <Skeleton loading={!gameState}>
-        <Flex direction="column" gap="4">
-          {props.sheets.map((sheet, i) => {
-            return (
-              <div key={i}>
-                <MDXWrapper>
-                  <Heading size="9" align={"center"} mb="9">
-                    {sheet.data.name}
-                  </Heading>
-                  {MDXContent && (
-                    <MDXContent
-                      components={{
-                        ...getMdxComponents(),
-                      }}
-                    />
-                  )}
-                </MDXWrapper>
-              </div>
-            );
-          })}
+    <GameStateContext.Provider value={gameStateManager}>
+      <form onSubmit={handleSubmit}>
+        <Flex direction="row" gap="9">
+          <Flex
+            direction="column"
+            gap="4"
+            style={{
+              ...getSurfaceStyle(),
+            }}
+            className="min-w-[272px] max-w-[272px] rounded-[--radius-2] p-4"
+          >
+            <TextField.Root
+              size="3"
+              color="gray"
+              placeholder={"Campaign name"}
+              className="shadow-none"
+              autoComplete="off"
+            />
+            <Tooltip content="Save Entire Session">
+              <Button variant="soft" size="3" className="w-full" type="submit">
+                <Save size={15}></Save>
+              </Button>
+            </Tooltip>
+            <Tabs.Root value={tab}>
+              <Tabs.List size="2" justify={"center"}>
+                <Tabs.Trigger
+                  value="my-sheets"
+                  onClick={() => setTab("my-sheets")}
+                >
+                  {renderMySheets()}
+                </Tabs.Trigger>
+                <Tabs.Trigger value="library" onClick={() => setTab("library")}>
+                  {renderLibrarySheets()}
+                </Tabs.Trigger>
+              </Tabs.List>
+
+              <Box pt="3" mt="2">
+                <Tabs.Content value="my-sheets">SHEETS</Tabs.Content>
+                <Tabs.Content value="library">
+                  <Flex direction="column" gap="4" px="2">
+                    {props.sheets.map((sheet, i) => {
+                      return (
+                        <div key={i}>
+                          <Tooltip
+                            content={`Add a new "${sheet.data.name} ${sheet.data.version}" to my sheets`}
+                          >
+                            <Button
+                              size="2"
+                              variant="ghost"
+                              className="w-full justify-start text-left"
+                              onClick={() => {
+                                handleAddSheet({ sheet });
+                              }}
+                            >
+                              <FilePlusIcon></FilePlusIcon>
+                              {sheet.data.name} {sheet.data.version}
+                            </Button>
+                          </Tooltip>
+                        </div>
+                      );
+                    })}
+                  </Flex>
+                </Tabs.Content>
+              </Box>
+            </Tabs.Root>
+          </Flex>
+          <Flex direction="column" gap="4" flexGrow={"1"}>
+            <Skeleton loading={gameStateManager.loading} height={"60vh"}>
+              {props.sheets.map((sheet, i) => {
+                return (
+                  <div key={i}>
+                    <Sheet sheet={sheet}></Sheet>
+                  </div>
+                );
+              })}
+            </Skeleton>
+          </Flex>
         </Flex>
-      </Skeleton>
-    </>
+      </form>
+    </GameStateContext.Provider>
   );
+
+  function renderMySheets() {
+    return <>My Sheets</>;
+  }
+  function renderLibrarySheets() {
+    return <>Library</>;
+  }
 }

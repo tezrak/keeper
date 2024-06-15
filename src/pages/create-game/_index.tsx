@@ -21,7 +21,7 @@ export function CreateGame(props: {}) {
         throw logger.error("Failed to parse slug", { params: parsedParams });
       }
 
-      const uuid = DLStorage.addGame({ slug: parsedParams.data.slug });
+      const uuid = DLStorage.addCampaign({ slug: parsedParams.data.slug });
 
       window.location.href = `/play/${slug}?id=${uuid}`;
     }

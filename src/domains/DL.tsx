@@ -5,6 +5,33 @@ export const DL = {
     const games = await getCollection("games");
     return games;
   },
+  async getAllCreatorsWithTheirGames() {
+    const creators = await getCollection("creators");
+
+    return Promise.all(
+      creators.map(async (creator) => {
+        const games = await getCollection("games", (game) => {
+          const [gameCreatorSlug] = game.id.split("/");
+          return gameCreatorSlug === creator.slug;
+        });
+        const gamesWithCreator = await Promise.all(
+          games.map(async (game) => {
+            const [creatorSlug] = game.id.split("/");
+            const creator = await getEntry("creators", creatorSlug);
+            return {
+              game,
+              creator: creator!,
+            };
+          }),
+        );
+
+        return {
+          creator,
+          games: gamesWithCreator,
+        };
+      }),
+    );
+  },
   async getAllGamesWithCreators() {
     const games = await this.getAllGames();
     const gamesWithCreators = await Promise.all(

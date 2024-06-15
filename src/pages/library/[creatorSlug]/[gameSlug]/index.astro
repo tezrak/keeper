@@ -1,12 +1,16 @@
 ---
-import { Button, Flex, Heading } from "@radix-ui/themes";
+import { Flex, Heading, Link } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import Banner from "../../../../components/Banner.astro";
-import { MDXWrapper, getMdxComponents } from "../../../../components/MDX";
+import { CreateNewCampaignButton } from "../../../../components/client/CreateNewCampaignButton/CreateNewCampaignButton";
+import {
+  MDXWrapper,
+  getMdxComponents,
+} from "../../../../components/client/MDX/MDX";
+import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DL } from "../../../../domains/DL";
 import { getTheme } from "../../../../domains/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
@@ -52,12 +56,17 @@ export async function getStaticPaths() {
     <Banner src={props.game.data.image} alt={props.game.data.name} />
 
     <Heading size="9">{props.game.data.name}</Heading>
-    <Heading size="6" color="gray">By {props.creator.data.name}</Heading>
-    <a href=`/create-game?slug=${props.game.slug}`>
-      <Button size="4" className="cursor-pointer font-bold" variant="solid">
-        Start a new game
-      </Button>
-    </a>
+    <Heading size="6">
+      <Link
+        href=`/library/${props.creator.slug}`
+        color="gray"
+        className="hover:text-[--accent-12]"
+      >
+        By {props.creator.data.name}
+      </Link>
+    </Heading>
+    <CreateNewCampaignButton client:idle gameSlug={props.game.slug} />
+
     <MDXWrapper>
       <Content
         components={{

@@ -4,7 +4,10 @@ import type { ThemeType } from "../../../../../domains/getTheme";
 
 import { Heading, Theme } from "@radix-ui/themes";
 import * as runtime from "react/jsx-runtime";
-import { MDXWrapper, getMdxComponents } from "../../../../../components/MDX";
+import {
+  MDXWrapper,
+  getMdxComponents,
+} from "../../../../../components/client/MDX/MDX";
 
 export function SheetTestPage(props: {
   game: CollectionEntry<"games">;

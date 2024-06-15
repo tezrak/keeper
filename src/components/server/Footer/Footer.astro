@@ -1,0 +1,37 @@
+---
+import { Box, Flex, Link, Text } from "@radix-ui/themes";
+import { MDXDivider } from "../../client/MDX/mdx-components/MDXDivider";
+
+const links: Record<string, Record<string, string>> = {
+  Community: {
+    Discord: "https://farirpgs.com/discord",
+    Threads: "https://threads.net/rpdeshaies",
+    Twitter: "https://twitter.com/rpdeshaies",
+    GitHub: "https://github.com/farirpgs",
+  },
+  ss: {
+    Discord: "https://farirpgs.com/discord",
+    Threads: "https://threads.net/rpdeshaies",
+    Twitter: "https://twitter.com/rpdeshaies",
+    GitHub: "https://github.com/farirpgs",
+  },
+};
+---
+
+<Box className="my-[10rem]">
+  <MDXDivider />
+</Box>
+<Flex gap={"8"} align={"center"} className="justify-evenly">
+  {
+    Object.entries(links).map(([title, links]) => (
+      <Flex align="start" gap={"2"} direction="column">
+        <Text className="font-bold">{title}</Text>
+        {Object.entries(links).map(([title, linkUrl]) => (
+          <Text>
+            <Link href={linkUrl}>{title}</Link>
+          </Text>
+        ))}
+      </Flex>
+    ))
+  }
+</Flex>

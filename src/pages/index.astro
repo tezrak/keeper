@@ -1,41 +1,38 @@
 ---
-import { Flex, Grid, Heading } from "@radix-ui/themes";
+import { Grid } from "@radix-ui/themes";
 import { Image } from "astro:assets";
-import { Card } from "../components/Card";
+import { Card } from "../components/client/Card/Card";
 import { DL } from "../domains/DL";
 import Layout from "../layouts/Layout.astro";
 
 const gamesWithCreators = await DL.getAllGamesWithCreators();
 ---
 
-<Layout title="Keeper" withBanner>
-  <Flex direction="column" gap="6">
-    <Heading size="9">Keeper</Heading>
-    <Grid
-      columns={{
-        sm: "2",
-        lg: "3",
-      }}
-      gap="6"
-      width="auto"
-    >
-      {
-        gamesWithCreators.map((item) => {
-          return (
-            <Card
-              href={`/library/${item.game.slug}`}
-              title={item.game.data.name}
-              subtitle={item.creator.data.name}
-            >
-              <Image
-                src={item.game.data.image}
-                alt={item.game.data.name}
-                inferSize
-              />
-            </Card>
-          );
-        })
-      }
-    </Grid>
-  </Flex>
+<Layout title="Keeper" h1="Keeper" withBanner>
+  <Grid
+    columns={{
+      sm: "2",
+      lg: "3",
+    }}
+    gap="6"
+    width="auto"
+  >
+    {
+      gamesWithCreators.map((item) => {
+        return (
+          <Card
+            href={`/library/${item.game.slug}`}
+            title={item.game.data.name}
+            subtitle={item.creator.data.name}
+          >
+            <Image
+              src={item.game.data.image}
+              alt={item.game.data.name}
+              inferSize
+            />
+          </Card>
+        );
+      })
+    }
+  </Grid>
 </Layout>

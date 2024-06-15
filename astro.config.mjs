@@ -11,6 +11,12 @@ export default defineConfig({
     starlight({
       title: "Keeper Doc",
       disable404Route: true,
+      sidebar: [
+        {
+          label: "Documentation",
+          autogenerate: { directory: "docs" },
+        },
+      ],
       customCss: [
         // Relative path to your custom CSS file
         "./src/styles/docs.css",

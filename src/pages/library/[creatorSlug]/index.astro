@@ -1,0 +1,86 @@
+---
+import { Flex, Grid, Heading } from "@radix-ui/themes";
+import type {
+  GetStaticPathsItem,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import { Image } from "astro:assets";
+import { Card } from "../../../components/client/Card/Card";
+import {
+  MDXWrapper,
+  getMdxComponents,
+} from "../../../components/client/MDX/MDX";
+import { DL } from "../../../domains/DL";
+import { getTheme } from "../../../domains/getTheme";
+import Layout from "../../../layouts/Layout.astro";
+
+export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const props = Astro.props as Props;
+const params = Astro.params as Params;
+
+const { Content } = await props.creatorWithGames.creator.render();
+
+const theme = getTheme({
+  theme: {},
+});
+
+export async function getStaticPaths() {
+  const creators = await DL.getAllCreatorsWithTheirGames();
+  return creators.map((creatorWithGames) => {
+    return {
+      params: {
+        creatorSlug: creatorWithGames.creator.slug,
+      },
+      props: {
+        creatorWithGames: creatorWithGames,
+      },
+    } satisfies GetStaticPathsItem;
+  });
+}
+---
+
+<Layout theme={theme}>
+  <Flex direction="column" gap="5">
+    <Heading size="9">{props.creatorWithGames.creator.data.name}</Heading>
+
+    <MDXWrapper>
+      <Content
+        components={{
+          ...getMdxComponents(),
+        }}
+      />
+    </MDXWrapper>
+
+    <Heading size="8">Games</Heading>
+
+    <Grid
+      columns={{
+        sm: "2",
+        lg: "3",
+      }}
+      gap="6"
+      width="auto"
+    >
+      {
+        props.creatorWithGames.games.map((creatorWithGame) => {
+          return (
+            <Card
+              href={`/library/${creatorWithGame.game.slug}`}
+              title={creatorWithGame.game.data.name}
+              subtitle={creatorWithGame.creator.data.name}
+            >
+              <Image
+                src={creatorWithGame.game.data.image}
+                alt={creatorWithGame.game.data.name}
+                inferSize
+              />
+            </Card>
+          );
+        })
+      }
+    </Grid>
+  </Flex>
+</Layout>

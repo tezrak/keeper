@@ -2,27 +2,28 @@ import z from "zod";
 
 export const STORAGE_KEY = "keeper";
 
-const gameState = z.object({
+const state = z.object({
   name: z.string().default(""),
 });
 
-const game = z.object({
+const campaign = z.object({
   slug: z.string(),
-  gameState: gameState,
+  state: state,
 });
 
+const campaignId = z.string();
 const storage = z
   .object({
-    games: z.record(z.string(), game).default({}),
+    campaigns: z.record(campaignId, campaign).default({}),
   })
   .default({});
 
 export const keeperSchema = {
   storage,
-  game: game,
-  gameState: gameState,
+  game: campaign,
+  state: state,
 };
 
 export type StorageType = z.infer<typeof storage>;
-export type GameType = z.infer<typeof game>;
-export type GameStateType = z.infer<typeof gameState>;
+export type CampaignType = z.infer<typeof campaign>;
+export type CampaignStateType = z.infer<typeof state>;

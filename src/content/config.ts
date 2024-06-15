@@ -53,6 +53,13 @@ export const collections = {
     type: "content",
     schema: z.object({
       name: z.string(),
+      version: z
+        .number()
+        .default(1)
+        .transform((version) => {
+          if (version === 1) return "";
+          return `v${version}`;
+        }),
     }),
   }),
   docs: defineCollection({ schema: docsSchema() }),
