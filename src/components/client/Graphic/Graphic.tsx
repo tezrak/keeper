@@ -1,16 +1,15 @@
-export function Background(props: {}) {
+import clsx from "clsx";
+
+export function Graphic(props: { asBackground?: boolean }) {
+  const asBackground = props.asBackground ?? true;
   return (
     <div
-      className="print:hidden"
-      style={{
-        position: "absolute",
-        top: "0",
-        left: "0",
-        width: "100vw",
-        height: "100vh",
-        zIndex: -1,
-        overflow: "hidden",
-      }}
+      className={clsx(
+        "absolute left-0 top-0",
+        asBackground ? "z-[-1]" : "",
+        "h-full w-full",
+        "overflow-hidden print:hidden",
+      )}
     >
       <svg
         width="100%"

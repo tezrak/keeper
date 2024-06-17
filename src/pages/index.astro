@@ -21,6 +21,7 @@ const gamesWithCreators = await DL.getAllGamesWithCreators();
       gamesWithCreators.map((item) => {
         return (
           <Card
+            client:visible
             href={`/library/${item.game.slug}`}
             title={item.game.data.name}
             subtitle={item.creator.data.name}

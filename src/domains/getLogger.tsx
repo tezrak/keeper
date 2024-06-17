@@ -45,9 +45,6 @@ export function makeGetLogger(deps: { appName?: string; console: Console }) {
         const { error, ...rest } = data || {};
 
         const prettyData = getPrettyData(rest);
-        console.warn("prefixLabel", `"${prefixLabel}`);
-        console.warn("errorLabel", `"${errorLabel}`);
-        console.warn("message", `"${message}`);
         const log = [prefixLabel, errorLabel, message]
           .filter(Boolean)
           .join(" ");

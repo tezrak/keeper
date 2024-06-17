@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "alpha": "vercel build && vercel deploy --prebuilt",
+    "prod": "vercel build && vercel deploy --prebuilt --prod",
     "content": "bun ./scripts/content.ts"
   },
   "dependencies": {

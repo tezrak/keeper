@@ -43,40 +43,42 @@ import {
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import { useState } from "react";
+import { getRandomElement } from "../../../domains/random";
+import { Graphic } from "../Graphic/Graphic";
 
 const colors = [
-  [amberDark.amber4, amberDark.amber9],
-  [blueDark.blue4, blueDark.blue9],
-  [bronzeDark.bronze4, bronzeDark.bronze9],
-  [brownDark.brown4, brownDark.brown9],
-  [crimsonDark.crimson4, crimsonDark.crimson9],
-  [cyanDark.cyan4, cyanDark.cyan9],
-  [goldDark.gold4, goldDark.gold9],
-  [grassDark.grass4, grassDark.grass9],
-  [grayDark.gray4, grayDark.gray9],
-  [greenDark.green4, greenDark.green9],
-  [indigoDark.indigo4, indigoDark.indigo9],
-  [irisDark.iris4, irisDark.iris9],
-  [jadeDark.jade4, jadeDark.jade9],
-  [limeDark.lime4, limeDark.lime9],
-  [mauveDark.mauve4, mauveDark.mauve9],
-  [mintDark.mint4, mintDark.mint9],
-  [oliveDark.olive4, oliveDark.olive9],
-  [orangeDark.orange4, orangeDark.orange9],
-  [pinkDark.pink4, pinkDark.pink9],
-  [plumDark.plum4, plumDark.plum9],
-  [purpleDark.purple4, purpleDark.purple9],
-  [redDark.red4, redDark.red9],
-  [rubyDark.ruby4, rubyDark.ruby9],
-  [sageDark.sage4, sageDark.sage9],
-  [sandDark.sand4, sandDark.sand9],
-  [skyDark.sky4, skyDark.sky9],
-  [slateDark.slate4, slateDark.slate9],
-  [tealDark.teal4, tealDark.teal9],
-  [tomatoDark.tomato4, tomatoDark.tomato9],
-  [violetDark.violet4, violetDark.violet9],
-  [yellowDark.yellow4, yellowDark.yellow9],
-] as const;
+  [amberDark.amber3, amberDark.amber11],
+  [blueDark.blue3, blueDark.blue11],
+  [bronzeDark.bronze3, bronzeDark.bronze11],
+  [brownDark.brown3, brownDark.brown11],
+  [crimsonDark.crimson3, crimsonDark.crimson11],
+  [cyanDark.cyan3, cyanDark.cyan11],
+  [goldDark.gold3, goldDark.gold11],
+  [grassDark.grass3, grassDark.grass11],
+  [grayDark.gray3, grayDark.gray11],
+  [greenDark.green3, greenDark.green11],
+  [indigoDark.indigo3, indigoDark.indigo11],
+  [irisDark.iris3, irisDark.iris11],
+  [jadeDark.jade3, jadeDark.jade11],
+  [limeDark.lime3, limeDark.lime11],
+  [mauveDark.mauve3, mauveDark.mauve11],
+  [mintDark.mint3, mintDark.mint11],
+  [oliveDark.olive3, oliveDark.olive11],
+  [orangeDark.orange3, orangeDark.orange11],
+  [pinkDark.pink3, pinkDark.pink11],
+  [plumDark.plum3, plumDark.plum11],
+  [purpleDark.purple3, purpleDark.purple11],
+  [redDark.red3, redDark.red11],
+  [rubyDark.ruby3, rubyDark.ruby11],
+  [sageDark.sage3, sageDark.sage11],
+  [sandDark.sand3, sandDark.sand11],
+  [skyDark.sky3, skyDark.sky11],
+  [slateDark.slate3, slateDark.slate11],
+  [tealDark.teal3, tealDark.teal11],
+  [tomatoDark.tomato3, tomatoDark.tomato11],
+  [violetDark.violet3, violetDark.violet11],
+  [yellowDark.yellow3, yellowDark.yellow11],
+];
 
 export function Card(props: {
   href: string;
@@ -88,7 +90,7 @@ export function Card(props: {
 }) {
   const [hover, setHover] = useState(false);
   const [randomGradient] = useState(() => {
-    return colors[Math.floor(Math.random() * colors.length)];
+    return getRandomElement(colors, props.title);
   });
   const [firstColor, secondColor] = randomGradient;
 
@@ -108,7 +110,10 @@ export function Card(props: {
             ? "#000"
             : `linear-gradient(45deg, ${firstColor} 0%, ${secondColor} 100%)`,
         }}
-        className="block rounded-lg"
+        className={clsx(
+          "relative block overflow-hidden rounded-lg transition-all",
+          hover ? "brightness-[115%]" : "",
+        )}
         href={props.href}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -123,16 +128,18 @@ export function Card(props: {
               "[&>img]:object-cover",
             ])}
           >
+            <Graphic asBackground={false} />
+
             {props.children}
           </AspectRatio>
 
           <Box
             position={"absolute"}
-            className="bottom-0 left-0 h-[50%] w-full"
+            className="bottom-0 left-0 h-[100%] w-full"
             style={{
               borderRadius: "var(--radius-2)",
               background:
-                "linear-gradient(rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .8) 50%, rgba(0, 0, 0, 1) 100%)",
+                "linear-gradient(rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0,.2) 65%, rgba(0, 0, 0, .66) 75%, rgba(0, 0, 0, 1) 100%)",
             }}
           />
           <Box position={"absolute"} className="bottom-0 left-0 w-full">

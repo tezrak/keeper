@@ -64,15 +64,17 @@ export function CampaignsPage(props: { theme: ThemeType }) {
               gap="6"
               width="auto"
             >
-              {campaignList?.map((campaign) => (
-                <GameCard
-                  key={campaign.id}
-                  name={campaign.state.name}
-                  id={campaign.id}
-                  slug={campaign.slug}
-                  onDelete={handleDelete}
-                ></GameCard>
-              ))}
+              {campaignList?.map((campaign) => {
+                return (
+                  <GameCard
+                    key={campaign.id}
+                    name={campaign.state.name}
+                    id={campaign.id}
+                    slug={campaign.slug}
+                    onDelete={handleDelete}
+                  ></GameCard>
+                );
+              })}
             </Grid>
           </>
         )}
@@ -91,6 +93,7 @@ function GameCard(props: {
     game: CollectionEntry<"games">;
     creator: CollectionEntry<"creators">;
   }>();
+  const [errored, setErrored] = useState(false);
 
   function handleDelete() {
     props.onDelete(props.id);
@@ -116,7 +119,11 @@ function GameCard(props: {
         }
         setGameWithCreator(result);
       } catch (error) {
-        logger.error("Failed to load game", { error });
+        if (ignore) {
+          return;
+        }
+        logger.error("Failed to get game", { error });
+        setErrored(true);
       }
     }
 
@@ -124,6 +131,10 @@ function GameCard(props: {
       ignore = true;
     };
   }, [props.id, props.slug]);
+
+  if (errored) {
+    return null;
+  }
 
   return (
     <Skeleton loading={!gameWithCreator}>

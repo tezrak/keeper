@@ -1,3 +1,8 @@
 export const constants = {
-  site: "https://keeper.farirpgs.com",
+  site(props: { localhost: boolean }) {
+    if (props.localhost) {
+      return "http://localhost:4321";
+    }
+    ("https://keeper.farirpgs.com");
+  },
 };

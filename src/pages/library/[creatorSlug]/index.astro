@@ -68,6 +68,7 @@ export async function getStaticPaths() {
         props.creatorWithGames.games.map((creatorWithGame) => {
           return (
             <Card
+              client:idle
               href={`/library/${creatorWithGame.game.slug}`}
               title={creatorWithGame.game.data.name}
               subtitle={creatorWithGame.creator.data.name}

@@ -8,7 +8,7 @@ import Banner from "../components/server/Banner/Banner.astro";
 import Header from "../components/server/Header/Header.astro";
 import { getTheme, type ThemeType } from "../domains/getTheme";
 
-import { Background } from "../components/client/Background/Background";
+import { Graphic } from "../components/client/Graphic/Graphic";
 import Footer from "../components/server/Footer/Footer.astro";
 import "./index.css";
 
@@ -62,7 +62,7 @@ const googleFontUrl = encodeURI(
   <Theme {...themeProps}>
     <body>
       <Container px="9" maxWidth={"1204px"}>
-        <Background />
+        <Graphic />
         <Header />
         {
           props.withBanner && (

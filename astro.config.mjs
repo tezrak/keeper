@@ -8,7 +8,7 @@ import { constants } from "./src/domains/constants";
 
 // https://astro.build/config
 export default defineConfig({
-  site: constants.site,
+  site: constants.site({ localhost: false }),
   integrations: [
     starlight({
       title: "Keeper Doc",

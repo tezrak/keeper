@@ -10,6 +10,7 @@ const logger = getLogger("Content");
 const contenetTypes = ["creator", "game", "asset"] as const;
 type ContentType = (typeof contenetTypes)[number];
 
+const site = constants.site({ localhost: true });
 const contentResult = await prompts({
   type: "select",
   name: "value",
@@ -58,7 +59,7 @@ name: ${nameForm.value}
 ---`,
   );
 
-  console.log(`✨ Creator created. ${constants.site}/library/${creatorSlug}`);
+  console.log(`✨ Creator created. ${site}/library/${creatorSlug}`);
 }
 
 async function createGame() {
@@ -119,7 +120,7 @@ ${descriptionForm.value}
   );
 
   console.log(
-    `✨ Game created. ${constants.site}/library/${creatorForm}/${gameSlug}`,
+    `✨ Game created. ${site}/library/${creatorForm.value}/${gameSlug}`,
   );
 }
 
@@ -187,7 +188,7 @@ game: ${creatorForm.value}/${gameForm.value}
 `,
   );
 
-  console.log(`✨ Asset created. ${constants.site}/library/${nameForm.value}`);
+  console.log(`✨ Asset created. ${site}/library/${nameForm.value}`);
 }
 
 async function getAllCreatorSlugs() {
