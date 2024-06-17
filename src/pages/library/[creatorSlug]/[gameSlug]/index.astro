@@ -25,7 +25,7 @@ const { Content } = await props.game.render();
 
 const theme = getTheme({
   theme: {
-    accentColor: props.game.data.theme.accentColor,
+    accentColor: props.game.data.theme?.accentColor,
   },
 });
 
@@ -49,11 +49,15 @@ export async function getStaticPaths() {
 
 <Layout
   theme={theme}
-  headingFont={props.game.data.theme.headingFont}
-  bodyFont={props.game.data.theme.bodyFont}
+  headingFont={props.game.data.theme?.headingFont}
+  bodyFont={props.game.data.theme?.bodyFont}
 >
   <Flex direction="column" gap="5">
-    <Banner src={props.game.data.image} alt={props.game.data.name} />
+    {
+      props.game.data.image && (
+        <Banner src={props.game.data.image} alt={props.game.data.name} />
+      )
+    }
 
     <Heading size="9">{props.game.data.name}</Heading>
     <Heading size="6">

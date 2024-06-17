@@ -24,12 +24,15 @@ const gamesWithCreators = await DL.getAllGamesWithCreators();
             href={`/library/${item.game.slug}`}
             title={item.game.data.name}
             subtitle={item.creator.data.name}
+            addColoredBackground={item.game.data.image === undefined}
           >
-            <Image
-              src={item.game.data.image}
-              alt={item.game.data.name}
-              inferSize
-            />
+            {item.game.data.image ? (
+              <Image
+                src={item.game.data.image}
+                alt={item.game.data.name}
+                inferSize
+              />
+            ) : null}
           </Card>
         );
       })

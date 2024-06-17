@@ -78,7 +78,7 @@ export const DL = {
     };
   },
   async getGameSheets(props: { slug: string }) {
-    const sheets = await getCollection("library");
+    const sheets = await getCollection("assets");
     const sheetsMatchingGame = sheets.filter((sheet) => {
       return sheet.slug.startsWith(props.slug);
     });

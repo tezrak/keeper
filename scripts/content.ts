@@ -51,7 +51,7 @@ async function createCreator() {
 
   const creatorSlug = kebabCase(nameForm.value);
 
-  await Bun.write(
+  await saveFileAndOpenInEditor(
     path.join(process.cwd(), `src/content/creators/${creatorSlug}.mdx`),
     `---
 name: ${nameForm.value}
@@ -104,7 +104,7 @@ async function createGame() {
 
   const gameSlug = kebabCase(nameForm.value);
 
-  await Bun.write(
+  await saveFileAndOpenInEditor(
     path.join(
       process.cwd(),
       `src/content/games/${creatorForm.value}/${gameSlug}.mdx`,
@@ -171,11 +171,16 @@ async function createAsset() {
     return;
   }
 
-  await Bun.write(
-    path.join(process.cwd(), `src/content/assets/${nameForm.value}.mdx`),
+  const nameSlug = kebabCase(nameForm.value);
+
+  await saveFileAndOpenInEditor(
+    path.join(
+      process.cwd(),
+      `src/content/assets/${creatorForm.value}/${gameForm.value}/${nameSlug}.mdx`,
+    ),
     `---
 name: ${nameForm.value}
-game: ${gameForm.value} 
+game: ${creatorForm.value}/${gameForm.value}
 ---
 
 
@@ -226,4 +231,9 @@ async function getAllGameSlugs(creatorSlug: string) {
   return directories.map((directory) => {
     return directory.split("/").pop();
   });
+}
+
+async function saveFileAndOpenInEditor(filePath: string, content: string) {
+  await Bun.write(filePath, content);
+  Bun.openInEditor(filePath);
 }

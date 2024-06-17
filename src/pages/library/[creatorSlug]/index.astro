@@ -72,11 +72,13 @@ export async function getStaticPaths() {
               title={creatorWithGame.game.data.name}
               subtitle={creatorWithGame.creator.data.name}
             >
-              <Image
-                src={creatorWithGame.game.data.image}
-                alt={creatorWithGame.game.data.name}
-                inferSize
-              />
+              {creatorWithGame.game.data.image && (
+                <Image
+                  src={creatorWithGame.game.data.image}
+                  alt={creatorWithGame.game.data.name}
+                  inferSize
+                />
+              )}
             </Card>
           );
         })

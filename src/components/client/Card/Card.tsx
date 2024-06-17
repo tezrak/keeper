@@ -1,3 +1,36 @@
+import {
+  amberDark,
+  blueDark,
+  bronzeDark,
+  brownDark,
+  crimsonDark,
+  cyanDark,
+  goldDark,
+  grassDark,
+  grayDark,
+  greenDark,
+  indigoDark,
+  irisDark,
+  jadeDark,
+  limeDark,
+  mauveDark,
+  mintDark,
+  oliveDark,
+  orangeDark,
+  pinkDark,
+  plumDark,
+  purpleDark,
+  redDark,
+  rubyDark,
+  sageDark,
+  sandDark,
+  skyDark,
+  slateDark,
+  tealDark,
+  tomatoDark,
+  violetDark,
+  yellowDark,
+} from "@radix-ui/colors";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import {
   AspectRatio,
@@ -11,14 +44,53 @@ import {
 import clsx from "clsx";
 import { useState } from "react";
 
+const colors = [
+  [amberDark.amber4, amberDark.amber9],
+  [blueDark.blue4, blueDark.blue9],
+  [bronzeDark.bronze4, bronzeDark.bronze9],
+  [brownDark.brown4, brownDark.brown9],
+  [crimsonDark.crimson4, crimsonDark.crimson9],
+  [cyanDark.cyan4, cyanDark.cyan9],
+  [goldDark.gold4, goldDark.gold9],
+  [grassDark.grass4, grassDark.grass9],
+  [grayDark.gray4, grayDark.gray9],
+  [greenDark.green4, greenDark.green9],
+  [indigoDark.indigo4, indigoDark.indigo9],
+  [irisDark.iris4, irisDark.iris9],
+  [jadeDark.jade4, jadeDark.jade9],
+  [limeDark.lime4, limeDark.lime9],
+  [mauveDark.mauve4, mauveDark.mauve9],
+  [mintDark.mint4, mintDark.mint9],
+  [oliveDark.olive4, oliveDark.olive9],
+  [orangeDark.orange4, orangeDark.orange9],
+  [pinkDark.pink4, pinkDark.pink9],
+  [plumDark.plum4, plumDark.plum9],
+  [purpleDark.purple4, purpleDark.purple9],
+  [redDark.red4, redDark.red9],
+  [rubyDark.ruby4, rubyDark.ruby9],
+  [sageDark.sage4, sageDark.sage9],
+  [sandDark.sand4, sandDark.sand9],
+  [skyDark.sky4, skyDark.sky9],
+  [slateDark.slate4, slateDark.slate9],
+  [tealDark.teal4, tealDark.teal9],
+  [tomatoDark.tomato4, tomatoDark.tomato9],
+  [violetDark.violet4, violetDark.violet9],
+  [yellowDark.yellow4, yellowDark.yellow9],
+] as const;
+
 export function Card(props: {
   href: string;
   title: string;
   subtitle?: string;
   menu?: React.ReactNode;
-  children: React.ReactNode;
+  addColoredBackground?: boolean;
+  children?: React.ReactNode;
 }) {
   const [hover, setHover] = useState(false);
+  const [randomGradient] = useState(() => {
+    return colors[Math.floor(Math.random() * colors.length)];
+  });
+  const [firstColor, secondColor] = randomGradient;
 
   function handleMouseEnter() {
     setHover(true);
@@ -29,8 +101,14 @@ export function Card(props: {
   }
 
   return (
-    <RadixCard variant="ghost">
+    <RadixCard variant="ghost" className="rounded-lg">
       <a
+        style={{
+          background: !props.addColoredBackground
+            ? "#000"
+            : `linear-gradient(45deg, ${firstColor} 0%, ${secondColor} 100%)`,
+        }}
+        className="block rounded-lg"
         href={props.href}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

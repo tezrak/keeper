@@ -39,20 +39,24 @@ export async function getStaticPaths() {
 
 const theme = getTheme({
   theme: {
-    accentColor: props.game.data.theme.accentColor,
+    accentColor: props.game.data.theme?.accentColor,
   },
 });
 ---
 
 <Layout
-  headingFont={props.game.data.theme.headingFont}
-  bodyFont={props.game.data.theme.bodyFont}
+  headingFont={props.game.data.theme?.headingFont}
+  bodyFont={props.game.data.theme?.bodyFont}
 >
-  <Banner
-    src={props.game.data.image}
-    alt={props.game.data.name}
-    justBackground
-  />
+  {
+    props.game.data.image && (
+      <Banner
+        src={props.game.data.image}
+        alt={props.game.data.name}
+        justBackground
+      />
+    )
+  }
 
   <PlayPage
     client:load

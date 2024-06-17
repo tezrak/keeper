@@ -12,7 +12,7 @@ import {
 export function SheetTestPage(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
-  sheet: CollectionEntry<"library">;
+  sheet: CollectionEntry<"assets">;
   theme: ThemeType;
 }) {
   const res = evaluateSync(props.sheet.body, runtime as any);

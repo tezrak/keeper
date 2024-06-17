@@ -13,12 +13,14 @@ export const collections = {
     schema: z.object({
       name: z.string(),
       creator: reference("creators"),
-      image: z.string(),
-      theme: z.object({
-        accentColor: z.enum(getRadixAccentColors()).optional(),
-        headingFont: z.string().optional(),
-        bodyFont: z.string().optional(),
-      }),
+      image: z.string().optional(),
+      theme: z
+        .object({
+          accentColor: z.enum(getRadixAccentColors()).optional(),
+          headingFont: z.string().optional(),
+          bodyFont: z.string().optional(),
+        })
+        .optional(),
     }),
   }),
   assets: defineCollection({

@@ -19,7 +19,7 @@ const { Content } = await props.sheet.render();
 
 const theme = getTheme({
   theme: {
-    accentColor: props.game.data.theme.accentColor,
+    accentColor: props.game.data.theme?.accentColor,
   },
 });
 
@@ -48,8 +48,8 @@ export async function getStaticPaths() {
 
 <Layout
   theme={theme}
-  headingFont={props.game.data.theme.headingFont}
-  bodyFont={props.game.data.theme.bodyFont}
+  headingFont={props.game.data.theme?.headingFont}
+  bodyFont={props.game.data.theme?.bodyFont}
 >
   <SheetTestPage
     game={props.game}
