@@ -5,9 +5,9 @@
 - [ ] Home Page with all games
   - [x] Logic
   - [ ] Design
-- [ ] Creator Page
-  - [ ] Logic
-  - [ ] Design
+- [x] Creator Page
+  - [x] Logic
+  - [x] Design
 - [x] Game Page
   - [x] Logic
   - [x] Design
