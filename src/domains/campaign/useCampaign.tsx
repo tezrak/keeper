@@ -49,6 +49,8 @@ export function useCampaign(props: { id: string; readonly?: boolean }) {
         logger.log("Loading campaign");
         const campaign = DLStorage.getCampaign({ campaignId: props.id });
 
+        const firstAssetId = Object.keys(campaign.assets)[0];
+        setSelectedAssetId(firstAssetId);
         logger.log("Setting campaign state");
         setCampaign(campaign);
       } catch (error) {

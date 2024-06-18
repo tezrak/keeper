@@ -56,10 +56,10 @@ function GameAssetName(props: {}) {
     <>
       <TextField.Root
         color="gray"
-        placeholder={"Asset name..."}
+        placeholder={"Asset name"}
         className={clsx(
-          "h-[3rem] w-full bg-transparent text-[1.5rem] shadow-none",
-          "[&>input]:h-[3rem] [&>input]:bg-transparent",
+          "h-[3rem] w-full text-[1.5rem] shadow-none",
+          "[&>input]:h-[3rem]",
         )}
         autoComplete="off"
         value={value}

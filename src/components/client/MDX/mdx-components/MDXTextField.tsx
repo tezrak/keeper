@@ -1,4 +1,4 @@
-import { Flex, TextField } from "@radix-ui/themes";
+import { Flex, TextField, Tooltip } from "@radix-ui/themes";
 import { useContext, useState } from "react";
 import { z } from "zod";
 import {
@@ -11,6 +11,7 @@ import { useName } from "./MDXList";
 const propsSchema = z.object({
   name: z.string(),
   children: z.any().optional(),
+  tooltip: z.string().optional(),
 });
 
 export type Props = z.infer<typeof propsSchema>;
@@ -30,15 +31,17 @@ export function MDXTextField(p: Props) {
       className="w-full"
       data-mdx-type="text-field"
     >
-      <TextField.Root
-        size="3"
-        color="gray"
-        variant="soft"
-        name={name}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        autoComplete="off"
-      />
+      <Tooltip content={props.tooltip}>
+        <TextField.Root
+          size="3"
+          color="gray"
+          variant="soft"
+          name={name}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          autoComplete="off"
+        />
+      </Tooltip>
       {props.children && (
         <Flex>
           <MDXDetail>{props.children}</MDXDetail>

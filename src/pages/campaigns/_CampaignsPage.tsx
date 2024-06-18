@@ -38,6 +38,7 @@ export function CampaignsPage(props: { theme: ThemeType }) {
           <>
             {empty && (
               <NothingToShowHere
+                icon
                 title={"You have no campaigns"}
                 description={
                   <>

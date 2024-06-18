@@ -12,6 +12,7 @@ import {
   Button,
   DropdownMenu,
   Flex,
+  Link,
   Skeleton,
   Tabs,
   TextField,
@@ -40,7 +41,7 @@ import { ASSET_NAME_KEY } from "../../../../domains/dl/DLStorage";
 import type { ThemeType } from "../../../../domains/utils/getTheme";
 import { wait } from "../../../../domains/utils/wait";
 
-const logger = getLogger("PlayPage");
+const logger = getLogger("PlayCreatorGamePage");
 
 export function PlayCreatorGamePage(props: {
   game: CollectionEntry<"games">;
@@ -100,11 +101,11 @@ function Game(props: {
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;
 }) {
-  const [tab, setTab] = useState<TabType>("library");
   const [addingAssetId, setAddingAssetId] = useState<string>();
   const campaignManager = useCampaign({
     id: props.id,
   });
+  const [tab, setTab] = useState<TabType>("assets");
   const campaignAssets = campaignManager.campaign?.assets || {};
   const campaignAssetIds = Object.keys(campaignAssets);
   const selectedAssetSlug =
@@ -152,14 +153,14 @@ function Game(props: {
         ref={campaignManager.formRef}
       >
         <Flex direction={"column"} gap="4">
-          <Flex direction="row" gap="9" align="center">
+          <Flex direction="row" gap="6" align="center">
             <TextField.Root
               size="3"
               color="gray"
-              placeholder={"Campaign name..."}
+              placeholder={"Campaign name"}
               className={clsx(
-                "h-[4rem] w-full bg-transparent text-[2rem] shadow-none",
-                "[&>input]:h-[4rem] [&>input]:bg-transparent",
+                "h-[4rem] w-full text-[2rem] shadow-none",
+                "[&>input]:h-[4rem]",
               )}
               autoComplete="off"
               value={campaignManager.campaign?.name || ""}
@@ -250,6 +251,24 @@ function Game(props: {
                   </Tabs.Content>
                   <Tabs.Content value="assets">
                     <Flex direction="column" gap="2" px="2">
+                      {campaignAssetIds.length === 0 && (
+                        <>
+                          <NothingToShowHere
+                            description={
+                              <>
+                                You don't have any assets yet.{" "}
+                                <Link
+                                  onClick={() => setTab("library")}
+                                  className="cursor-pointer"
+                                >
+                                  Click here
+                                </Link>{" "}
+                                to add one from the game's library.
+                              </>
+                            }
+                          ></NothingToShowHere>
+                        </>
+                      )}
                       {campaignAssetIds.map((assetId, i) => {
                         const assetSlug = campaignAssets[assetId].slug;
                         const asset = props.assets.find(
@@ -340,6 +359,7 @@ function Game(props: {
                 ) : (
                   <>
                     <NothingToShowHere
+                      icon
                       title={"No asset selected"}
                       description={<>Select an asset to view it.</>}
                     ></NothingToShowHere>

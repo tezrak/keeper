@@ -12,24 +12,27 @@ game: pandion-games/substratum-protocol
   <Stack>
     <Heading>Skills</Heading>
     <Box>
+
       <Row>
         <Label>Make</Label>
         <SelectField
           name="skills.make.max"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Max"
         >
-          max
+
         </SelectField>
         <SelectField
           name="skills.make.current"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Current"
         >
-          Current
         </SelectField>
       </Row>
-      <Detail>Trap, Repair, Build</Detail>
+            <Detail>Trap, Repair, Build</Detail>
+
     </Box>
     <Box>
       <Row>
@@ -38,15 +41,17 @@ game: pandion-games/substratum-protocol
           name="skills.break.max"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Max"
         >
-          max
+
         </SelectField>
         <SelectField
           name="skills.break.current"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Current"
         >
-          Current
+
         </SelectField>
       </Row>
       <Detail>Pummel, Wreck ,Destroy</Detail>
@@ -58,15 +63,17 @@ game: pandion-games/substratum-protocol
           name="skills.dash.max"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Max"
         >
-          max
+
         </SelectField>
         <SelectField
           name="skills.dash.current"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Current"
         >
-          Current
+
         </SelectField>
       </Row>
       <Detail>Run, Jump, Flee</Detail>
@@ -78,15 +85,17 @@ game: pandion-games/substratum-protocol
           name="skills.evade.max"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Max"
         >
-          max
+
         </SelectField>
         <SelectField
           name="skills.evade.current"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Current"
         >
-          Current
+
         </SelectField>
       </Row>
       <Detail>Hide, Shield, Obscure</Detail>
@@ -98,15 +107,17 @@ game: pandion-games/substratum-protocol
           name="skills.think.max"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Max"
         >
-          max
+
         </SelectField>
         <SelectField
           name="skills.think.current"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Current"
         >
-          Current
+
         </SelectField>
       </Row>
       <Detail>Observe, Hypothesize, Analyze</Detail>
@@ -118,19 +129,22 @@ game: pandion-games/substratum-protocol
           name="skills.sway.max"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Max"
         >
-          max
+
         </SelectField>
         <SelectField
           name="skills.sway.current"
           options={["d4", "d6", "d8", "d10", "d12"]}
           defaultValue="d4"
+          tooltip="Current"
         >
-          Current
+
         </SelectField>
       </Row>
       <Detail>Charm, Manipulate, Intimidate</Detail>
     </Box>
+
   </Stack>
   <Stack>
   <Row>
@@ -171,13 +185,13 @@ game: pandion-games/substratum-protocol
  <Heading>Storage Units</Heading>
     <List min={3} max={3}>
         <Row>
-            <TextField name="storage.units.#.name"/>
+            <TextField name="storage.units.#.name">Name</TextField>
             <SelectField
                 name="skills.sway.max"
                 options={["d4", "d6", "d8", "d10", "d12"]}
                 defaultValue="d4"
                 >
-                max
+                Max
                 </SelectField>
                 <SelectField
                 name="skills.sway.current"
