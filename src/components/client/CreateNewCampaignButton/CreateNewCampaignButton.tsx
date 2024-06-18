@@ -5,7 +5,7 @@ import { DLStorage } from "../../../domains/dl/DLStorage";
 import { wait } from "../../../domains/utils/wait";
 
 export function CreateNewCampaignButton(props: { gameSlug: string }) {
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
   const [adding, setAdding] = useState(false);
   useEffect(() => {
     main();

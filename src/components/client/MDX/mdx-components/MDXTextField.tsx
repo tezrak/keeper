@@ -18,9 +18,9 @@ export type Props = z.infer<typeof propsSchema>;
 export function MDXTextField(p: Props) {
   const props = propsSchema.parse(p);
   const name = useName({ name: props.name });
-  const gameStateManager = useContext(CampaignContext);
+  const campaignManager = useContext(CampaignContext);
   const [value, setValue] = useState(() => {
-    return gameStateManager.getCurrentFormValue({ name: props.name }) || "";
+    return campaignManager.getCurrentFormValue({ name: props.name }) || "";
   });
 
   return (
@@ -33,17 +33,18 @@ export function MDXTextField(p: Props) {
       <TextField.Root
         size="3"
         color="gray"
-        placeholder="..."
         variant="soft"
         name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         autoComplete="off"
       />
+      {props.children && (
+        <Flex>
+          <MDXDetail>{props.children}</MDXDetail>
+        </Flex>
+      )}
       <CampaignState name={name} value={value}></CampaignState>
-      <Flex align={"end"}>
-        {props.children && <MDXDetail>{props.children}</MDXDetail>}
-      </Flex>
     </Flex>
   );
 }

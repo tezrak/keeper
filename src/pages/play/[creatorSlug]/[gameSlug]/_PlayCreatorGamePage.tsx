@@ -36,12 +36,13 @@ import {
   CampaignContext,
   useCampaign,
 } from "../../../../domains/campaign/useCampaign";
+import { ASSET_NAME_KEY } from "../../../../domains/dl/DLStorage";
 import type { ThemeType } from "../../../../domains/utils/getTheme";
 import { wait } from "../../../../domains/utils/wait";
 
 const logger = getLogger("PlayPage");
 
-export function PlayPage(props: {
+export function PlayCreatorGamePage(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;
@@ -258,12 +259,8 @@ function Game(props: {
                           assetId === campaignManager.selectedAssetId;
                         const isFirst = i === 0;
                         const isLast = i === campaignAssetIds.length - 1;
-                        const customName =
-                          campaignAssets[assetId].state["__keeper.assetName"];
-                        console.log(
-                          "campaignAssets[assetId]",
-                          campaignAssets[assetId],
-                        );
+                        const assetName =
+                          campaignAssets[assetId].state[ASSET_NAME_KEY];
 
                         return (
                           <Flex key={assetId} gap="2">
@@ -278,7 +275,7 @@ function Game(props: {
                             >
                               {isSelected ? <EyeOpenIcon /> : <EyeClosedIcon />}
                               <Flex flexGrow={"1"}>
-                                {customName || asset.data.name}
+                                {assetName || asset.data.name}
                               </Flex>
                               <DropdownMenu.Root>
                                 <DropdownMenu.Trigger>

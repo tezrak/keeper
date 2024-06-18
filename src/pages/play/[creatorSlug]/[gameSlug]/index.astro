@@ -8,7 +8,7 @@ import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
-import { PlayPage } from "./_index";
+import { PlayCreatorGamePage } from "./_PlayCreatorGamePage";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
@@ -56,7 +56,7 @@ const theme = getTheme({
     )
   }
 
-  <PlayPage
+  <PlayCreatorGamePage
     client:load
     game={props.game}
     creator={props.creator}

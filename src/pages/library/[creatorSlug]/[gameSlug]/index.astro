@@ -1,19 +1,15 @@
 ---
-import { Flex, Heading, Link } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import { CreateNewCampaignButton } from "../../../../components/client/CreateNewCampaignButton/CreateNewCampaignButton";
-import {
-  MDXWrapper,
-  getMdxComponents,
-} from "../../../../components/client/MDX/MDX";
+import { getMdxComponents } from "../../../../components/client/MDX/MDX";
 import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
+import { LibraryCreatorGamePage } from "./_LibraryCreatorGamePage";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
@@ -30,7 +26,7 @@ const theme = getTheme({
 });
 
 export async function getStaticPaths() {
-  const gamesAndCreators = await DLAstro.getAllGamesWithCreators();
+  const gamesAndCreators = await DLAstro.getAllGamesWithCreatorsAndAssets();
 
   return gamesAndCreators.map((item) => {
     return {
@@ -41,6 +37,7 @@ export async function getStaticPaths() {
       props: {
         game: item.game,
         creator: item.creator,
+        assets: item.assets,
       },
     } satisfies GetStaticPathsItem;
   });
@@ -52,31 +49,22 @@ export async function getStaticPaths() {
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}
 >
-  <Flex direction="column" gap="5">
-    {
-      props.game.data.image && (
-        <Banner src={props.game.data.image} alt={props.game.data.name} />
-      )
-    }
-
-    <Heading size="9">{props.game.data.name}</Heading>
-    <Heading size="6">
-      <Link
-        href=`/library/${props.creator.slug}`
-        color="gray"
-        className="hover:text-[--accent-12]"
-      >
-        By {props.creator.data.name}
-      </Link>
-    </Heading>
-    <CreateNewCampaignButton client:idle gameSlug={props.game.slug} />
-
-    <MDXWrapper>
-      <Content
-        components={{
-          ...getMdxComponents(),
-        }}
-      />
-    </MDXWrapper>
-  </Flex>
+  {
+    props.game.data.image && (
+      <Banner src={props.game.data.image} alt={props.game.data.name} />
+    )
+  }
+  <LibraryCreatorGamePage
+    client:load
+    theme={theme}
+    game={props.game}
+    creator={props.creator}
+    assets={props.assets}
+  >
+    <Content
+      components={{
+        ...getMdxComponents(),
+      }}
+    />
+  </LibraryCreatorGamePage>
 </Layout>

@@ -1,0 +1,56 @@
+---
+name: Character Sheet
+game: fari-rpgs/songs-and-sagas
+---
+
+<Heading>Details</Heading>
+<TextField name="name"> Name </TextField>
+<TextField name="pronouns"> Pronouns </TextField>
+
+<SelectField
+  name="Vanori"
+  options={["Bear", "Wolf", "Raven", "Elk", "Ox", "Owl"]}
+>
+
+Vanori
+
+</SelectField>
+
+<Heading>Skills</Heading>
+<Row>
+  <NumberField name="skills.strength">Strength</NumberField>
+  <NumberField name="skills.dexterity">Dexterity</NumberField>
+  <NumberField name="skills.willpower">Willpower</NumberField>
+  <NumberField name="skills.heart">Heart</NumberField>
+</Row>
+
+<Heading>Resilience</Heading>
+<Row>
+  <NumberField min={0} name="resilience.initial">
+    Initial
+  </NumberField>
+  <NumberField min={0} name="resilience.current">
+    Current
+  </NumberField>
+</Row>
+
+<Heading>Armor</Heading>
+<Row>
+<TextField name="armor.name">Armor Name</TextField>
+
+<SelectField name="armor.type" options={["—", "d4", "d6"]}>
+  Type
+</SelectField>
+</Row>
+
+<Heading>Inventory</Heading>
+<List max={5}>
+  <TextField name="inventory.#.name" />
+</List>
+
+<Heading>Experience</Heading>
+
+<Tracker name="experience" min={8} max={8} />
+
+<Heading>Notes</Heading>
+<TextAreaField name="notes" />

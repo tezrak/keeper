@@ -25,6 +25,8 @@ import { MDXTextAreaField } from "./mdx-components/MDXTextAreaField";
 import { MDXTextField } from "./mdx-components/MDXTextField";
 import { MDXTracker } from "./mdx-components/MDXTracker";
 
+export const TEXT_CLASSES = "text-[1.2rem] leading-[1.5em] tracking-normal";
+
 export function MDXWrapper(props: { children: React.ReactNode }) {
   return (
     <Flex gap="3" direction="column">
@@ -33,8 +35,6 @@ export function MDXWrapper(props: { children: React.ReactNode }) {
   );
 }
 export function getMdxComponents() {
-  const textClasses = "!text-[1.2rem] !leading-[1.5em] !tracking-normal";
-
   return {
     h1: (props: any) => {
       return <Heading data-mdx-type="h1" {...props} as="h1" size={"9"} />;
@@ -69,7 +69,7 @@ export function getMdxComponents() {
           {...props}
           weight={"medium"}
           underline="always"
-          className={clsx(props.className, textClasses)}
+          className={clsx(props.className, TEXT_CLASSES)}
         />
       );
     },
@@ -81,7 +81,7 @@ export function getMdxComponents() {
         <Em
           data-mdx-type="em"
           {...props}
-          className={clsx(props.className, textClasses)}
+          className={clsx(props.className, TEXT_CLASSES)}
         />
       );
     },
@@ -90,7 +90,7 @@ export function getMdxComponents() {
         <Strong
           data-mdx-type="strong"
           {...props}
-          className={clsx(props.className, textClasses)}
+          className={clsx(props.className, TEXT_CLASSES)}
         />
       );
     },
@@ -99,7 +99,7 @@ export function getMdxComponents() {
         <pre
           data-mdx-type="pre"
           {...props}
-          className={clsx(props.className, "p-2", textClasses)}
+          className={clsx(props.className, "p-2", TEXT_CLASSES)}
         />
       );
     },
@@ -135,7 +135,7 @@ export function getMdxComponents() {
         <code
           data-mdx-type="code"
           {...props}
-          className={clsx(props.className, textClasses)}
+          className={clsx(props.className, TEXT_CLASSES)}
         />
       );
     },
@@ -145,8 +145,8 @@ export function getMdxComponents() {
           data-mdx-type="p"
           {...props}
           as="span"
-          size={"5"}
-          className={clsx(props.className, textClasses)}
+          size={""}
+          className={clsx(props.className, TEXT_CLASSES)}
         />
       );
     },

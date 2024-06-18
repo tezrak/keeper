@@ -19,9 +19,9 @@ export type Props = z.infer<typeof propsSchema>;
 export function MDXTextAreaField(p: Props) {
   const props = propsSchema.parse(p);
   const name = useName({ name: props.name });
-  const gameStateManager = useContext(CampaignContext);
+  const campaignManager = useContext(CampaignContext);
   const [value, setValue] = useState(() => {
-    return gameStateManager.getCurrentFormValue({ name: props.name }) || "";
+    return campaignManager.getCurrentFormValue({ name: props.name }) || "";
   });
 
   return (
@@ -33,7 +33,6 @@ export function MDXTextAreaField(p: Props) {
     >
       <TextArea
         size="3"
-        placeholder="..."
         variant="soft"
         name={name}
         color="gray"
@@ -43,9 +42,11 @@ export function MDXTextAreaField(p: Props) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <Flex align={"end"}>
-        {props.children && <MDXDetail>{props.children}</MDXDetail>}
-      </Flex>
+      {props.children && (
+        <Flex>
+          <MDXDetail>{props.children}</MDXDetail>
+        </Flex>
+      )}
       <CampaignState name={name} value={value}></CampaignState>
     </Flex>
   );

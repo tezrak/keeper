@@ -188,7 +188,9 @@ game: ${creatorForm.value}/${gameForm.value}
 `,
   );
 
-  console.log(`✨ Asset created. ${site}/library/${nameForm.value}`);
+  console.log(
+    `✨ Asset created. ${site}/library/${creatorForm.value}/${gameForm.value}/${nameSlug}`,
+  );
 }
 
 async function getAllCreatorSlugs() {

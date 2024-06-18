@@ -4,18 +4,19 @@ import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
+import { getMdxComponents } from "../../../../../components/client/MDX/MDX";
+import Banner from "../../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../../domains/utils/getTheme";
 import Layout from "../../../../../layouts/Layout.astro";
-import { SheetTestPage } from "./_index";
-
+import { LibraryCreatorGamePage } from "../_LibraryCreatorGamePage";
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const { Content } = await props.sheet.render();
+const { Content } = await props.game.render();
 
 const theme = getTheme({
   theme: {
@@ -23,22 +24,30 @@ const theme = getTheme({
   },
 });
 
+const currentAsset = props.assets.find((asset) => {
+  return (
+    asset.slug ===
+    `${params.creatorSlug}/${params.gameSlug}/${params.assetSlug}`
+  );
+});
+const AssetContent = (await currentAsset?.render())?.Content!;
+
 export async function getStaticPaths() {
-  const gamesWithCreatorsAndSheets =
+  const gameCreatorsAndAssets =
     await DLAstro.getAllGamesWithCreatorsAndAssets();
 
-  return gamesWithCreatorsAndSheets.flatMap((item) => {
-    return item.assets.map((sheet) => {
+  return gameCreatorsAndAssets.flatMap((item) => {
+    return item.assets.map((asset) => {
       return {
         params: {
           creatorSlug: item.creator.slug,
           gameSlug: item.game.slug.split("/").pop(),
-          sheetSlug: sheet.slug.split("/").pop(),
+          assetSlug: asset.slug.split("/").pop(),
         },
         props: {
           game: item.game,
           creator: item.creator,
-          sheet: sheet,
+          assets: item.assets,
         },
       } satisfies GetStaticPathsItem;
     });
@@ -51,10 +60,23 @@ export async function getStaticPaths() {
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}
 >
-  <SheetTestPage
+  {
+    props.game.data.image && (
+      <Banner src={props.game.data.image} alt={props.game.data.name} />
+    )
+  }
+  <LibraryCreatorGamePage
+    client:load
+    theme={theme}
     game={props.game}
     creator={props.creator}
-    sheet={props.sheet}
-    theme={theme}
-  />
+    assets={props.assets}
+    currentAsset={currentAsset}
+  >
+    <Content
+      components={{
+        ...getMdxComponents(),
+      }}
+    />
+  </LibraryCreatorGamePage>
 </Layout>

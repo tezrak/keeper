@@ -39,7 +39,7 @@ export function MDXList(p: Props) {
                 <Flex>
                   <DropdownMenu.Root>
                     <DropdownMenu.Trigger>
-                      <Button variant="soft" size="2" color="gray">
+                      <Button variant="soft" size="3" color="gray">
                         <HamburgerMenuIcon />
                       </Button>
                     </DropdownMenu.Trigger>

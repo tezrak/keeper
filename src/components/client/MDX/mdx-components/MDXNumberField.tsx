@@ -32,10 +32,12 @@ export function MDXNumberField(p: Props) {
         max={props.max}
         placeholder="0"
         className="w-full text-center text-[1.25rem] [&>input]:indent-0 [&>input]:font-semibold"
-      ></TextField.Root>{" "}
-      <Flex align={"end"}>
-        {props.children && <MDXDetail>{props.children}</MDXDetail>}
-      </Flex>
+      ></TextField.Root>
+      {props.children && (
+        <Flex>
+          <MDXDetail>{props.children}</MDXDetail>
+        </Flex>
+      )}
     </Flex>
   );
 }

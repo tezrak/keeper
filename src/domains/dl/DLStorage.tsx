@@ -4,14 +4,10 @@ import z from "zod";
 import { zodBuild } from "../utils/zodBuild";
 
 export const STORAGE_KEY = "keeper";
-
 export const ASSET_NAME_KEY = "__keeper.assetName";
-const stateSchema = z.union([
-  z.record(z.string(), z.any()).default({}),
-  z.object({
-    [ASSET_NAME_KEY]: z.string(),
-  }),
-]);
+
+const stateSchema = z.record(z.string(), z.any()).default({});
+
 const assetSchema = z.object({
   /**
    * Asset Slug

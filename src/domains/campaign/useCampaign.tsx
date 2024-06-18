@@ -1,12 +1,7 @@
 import { VisuallyHidden } from "@radix-ui/themes";
 import isEqual from "lodash/isEqual";
 import { createContext, useEffect, useRef, useState } from "react";
-import {
-  ASSET_NAME_KEY,
-  DLStorage,
-  schemas,
-  type CampaignType,
-} from "../dl/DLStorage";
+import { DLStorage, schemas, type CampaignType } from "../dl/DLStorage";
 import { getLogger } from "../utils/getLogger";
 
 const logger = getLogger("useGameState");
@@ -19,7 +14,7 @@ const debug = false;
 const AUTO_SAVE_INTERVAL = 2000;
 const AUTO_CHECK_DIRTY_INTERVAL = 500;
 
-export function useCampaign(props: { id: string }) {
+export function useCampaign(props: { id: string; readonly?: boolean }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [campaign, setCampaign] = useState<CampaignType>();
   const [dirty, setDirty] = useState(false);
@@ -153,8 +148,7 @@ export function useCampaign(props: { id: string }) {
       return undefined;
     }
 
-    const value =
-      campaign.assets[selectedAssetId].state[ASSET_NAME_KEY][p.name];
+    const value = campaign.assets[selectedAssetId].state[p.name];
     return value;
   }
 
@@ -201,6 +195,7 @@ export function useCampaign(props: { id: string }) {
   return {
     loading: !campaign,
     dirty: dirty,
+    readonly: props.readonly,
     formRef,
     campaign,
     selectedAssetId,

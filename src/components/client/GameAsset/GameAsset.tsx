@@ -46,10 +46,10 @@ export function GameAsset(props: { asset: CollectionEntry<"assets"> }) {
 }
 
 function GameAssetName(props: {}) {
-  const gameStateManager = useContext(CampaignContext);
+  const campaignManager = useContext(CampaignContext);
   const key = ASSET_NAME_KEY;
   const [value, setValue] = useState(() => {
-    return gameStateManager.getCurrentFormValue({ name: key }) || "";
+    return campaignManager.getCurrentFormValue({ name: key }) || "";
   });
 
   return (
