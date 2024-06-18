@@ -2,10 +2,10 @@
 import { Grid } from "@radix-ui/themes";
 import { Image } from "astro:assets";
 import { Card } from "../components/client/Card/Card";
-import { DL } from "../domains/DL";
+import { DLAstro } from "../domains/dl/DLAstro";
 import Layout from "../layouts/Layout.astro";
 
-const gamesWithCreators = await DL.getAllGamesWithCreators();
+const gamesWithCreators = await DLAstro.getAllGamesWithCreators();
 ---
 
 <Layout title="Keeper" h1="Keeper" withBanner>

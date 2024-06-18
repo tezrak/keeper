@@ -4,8 +4,8 @@ import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import { DL } from "../../../../../domains/DL";
-import { getTheme } from "../../../../../domains/getTheme";
+import { DLAstro } from "../../../../../domains/dl/DLAstro";
+import { getTheme } from "../../../../../domains/utils/getTheme";
 import Layout from "../../../../../layouts/Layout.astro";
 import { SheetTestPage } from "./_index";
 
@@ -25,10 +25,10 @@ const theme = getTheme({
 
 export async function getStaticPaths() {
   const gamesWithCreatorsAndSheets =
-    await DL.getAllGamesWithCreatorsAndSheets();
+    await DLAstro.getAllGamesWithCreatorsAndAssets();
 
   return gamesWithCreatorsAndSheets.flatMap((item) => {
-    return item.sheets.map((sheet) => {
+    return item.assets.map((sheet) => {
       return {
         params: {
           creatorSlug: item.creator.slug,

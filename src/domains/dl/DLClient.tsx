@@ -1,9 +1,9 @@
 import type { CollectionEntry } from "astro:content";
-import { getLogger } from "./getLogger";
+import { getLogger } from "../utils/getLogger";
 
 const logger = getLogger("ClientDL");
 
-export const ClientDL = {
+export const DLClient = {
   async getGameWithCreator(props: { slug: string }) {
     try {
       const response = await fetch(

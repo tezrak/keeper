@@ -1,23 +1,13 @@
-import {
-  Box,
-  DropdownMenu,
-  Flex,
-  Grid,
-  Heading,
-  Link,
-  Skeleton,
-  Text,
-  Theme,
-} from "@radix-ui/themes";
+import { DropdownMenu, Grid, Link, Skeleton, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
-import { Dices } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card } from "../../components/client/Card/Card";
-import { ClientDL } from "../../domains/ClientDL";
-import { DLStorage } from "../../domains/DLStorage";
-import { getLogger } from "../../domains/getLogger";
-import type { ThemeType } from "../../domains/getTheme";
-import type { CampaignType } from "../../domains/keeperSchema";
+import { NothingToShowHere } from "../../components/client/NothingToShowHere/NothingToShowHere";
+
+import { DLClient } from "../../domains/dl/DLClient";
+import { DLStorage, type CampaignType } from "../../domains/dl/DLStorage";
+import { getLogger } from "../../domains/utils/getLogger";
+import type { ThemeType } from "../../domains/utils/getTheme";
 
 const logger = getLogger("GamesPage");
 
@@ -35,7 +25,9 @@ export function CampaignsPage(props: { theme: ThemeType }) {
   }, []);
 
   function handleDelete(gameId: string) {
-    DLStorage.removeCampaign(gameId);
+    DLStorage.removeCampaign({
+      campaignId: gameId,
+    });
     setCampaigns(DLStorage.getStorage().campaigns);
   }
 
@@ -45,16 +37,15 @@ export function CampaignsPage(props: { theme: ThemeType }) {
         {!loading && (
           <>
             {empty && (
-              <Box className="py-[10vh]">
-                <Flex direction="column" gap="4" align="center">
-                  <Dices size="20vh" className="mb-[2rem]"></Dices>
-                  <Heading size="8">You have no campaigns</Heading>
-                  <Text>
+              <NothingToShowHere
+                title={"You have no campaigns"}
+                description={
+                  <>
                     Go to the <Link href="/">homepage</Link> and pick one of the
                     available games to get started.
-                  </Text>
-                </Flex>
-              </Box>
+                  </>
+                }
+              />
             )}
             <Grid
               columns={{
@@ -68,7 +59,7 @@ export function CampaignsPage(props: { theme: ThemeType }) {
                 return (
                   <GameCard
                     key={campaign.id}
-                    name={campaign.state.name}
+                    name={campaign.name}
                     id={campaign.id}
                     slug={campaign.slug}
                     onDelete={handleDelete}
@@ -93,7 +84,6 @@ function GameCard(props: {
     game: CollectionEntry<"games">;
     creator: CollectionEntry<"creators">;
   }>();
-  const [errored, setErrored] = useState(false);
 
   function handleDelete() {
     props.onDelete(props.id);
@@ -108,7 +98,7 @@ function GameCard(props: {
       }
       try {
         logger.log("Fetching game card");
-        const result = await ClientDL.getGameWithCreator({
+        const result = await DLClient.getGameWithCreator({
           slug: props.slug,
         });
 
@@ -123,7 +113,6 @@ function GameCard(props: {
           return;
         }
         logger.error("Failed to get game", { error });
-        setErrored(true);
       }
     }
 
@@ -132,13 +121,9 @@ function GameCard(props: {
     };
   }, [props.id, props.slug]);
 
-  if (errored) {
-    return null;
-  }
-
   return (
     <Skeleton loading={!gameWithCreator}>
-      {gameWithCreator && (
+      {gameWithCreator ? (
         <Card
           href={`/play/${props.slug}?id=${props.id}`}
           title={props.name || gameWithCreator.game.data.name}
@@ -160,6 +145,19 @@ function GameCard(props: {
             }}
           />
         </Card>
+      ) : (
+        <Card
+          title={props.slug}
+          error="(Not found)"
+          addColoredBackground
+          menu={
+            <>
+              <DropdownMenu.Item color="red" onClick={handleDelete}>
+                Delete
+              </DropdownMenu.Item>
+            </>
+          }
+        ></Card>
       )}
     </Skeleton>
   );

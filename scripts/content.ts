@@ -3,8 +3,8 @@ import { kebabCase } from "lodash";
 import startCase from "lodash/startCase";
 import path from "path";
 import prompts from "prompts";
-import { constants } from "../src/domains/constants";
-import { getLogger } from "../src/domains/getLogger";
+import { constants } from "../src/domains/utils/constants";
+import { getLogger } from "../src/domains/utils/getLogger";
 
 const logger = getLogger("Content");
 const contenetTypes = ["creator", "game", "asset"] as const;

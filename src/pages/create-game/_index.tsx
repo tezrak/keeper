@@ -1,8 +1,8 @@
 import { Flex, Spinner } from "@radix-ui/themes";
 import { useEffect } from "react";
 import { z } from "zod";
-import { DLStorage } from "../../domains/DLStorage";
-import { getLogger } from "../../domains/getLogger";
+import { DLStorage } from "../../domains/dl/DLStorage";
+import { getLogger } from "../../domains/utils/getLogger";
 
 const logger = getLogger("CreateGame");
 export function CreateGame(props: {}) {

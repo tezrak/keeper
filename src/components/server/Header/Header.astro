@@ -1,6 +1,7 @@
 ---
 import { BookmarkFilledIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Grid } from "@radix-ui/themes";
+import { SquareLibrary } from "lucide-react";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 ---
 
@@ -31,13 +32,13 @@ import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
   <Flex gap="4" justify="center">
     <a href="/campaigns">
       <Button
-        color="gray"
         radius="full"
         size="3"
-        variant="ghost"
+        variant="outline"
         className="cursor-pointer"
       >
-        My Campaigns
+        <SquareLibrary />
+        <span class="hidden lg:inline-block">My Campaigns</span>
       </Button>
     </a>
   </Flex>
@@ -47,7 +48,7 @@ import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
         Docs
       </Button>
     </a>
-    <a href="/docs/faq">
+    <a href="/docs/faq" class="hidden lg:inline-block">
       <Button radius="full" size="3" variant="ghost" className="cursor-pointer">
         FAQ
       </Button>

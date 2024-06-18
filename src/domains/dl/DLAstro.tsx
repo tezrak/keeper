@@ -1,6 +1,6 @@
 import { getCollection, getEntry } from "astro:content";
 
-export const DL = {
+export const DLAstro = {
   async getAllGames() {
     const games = await getCollection("games");
     return games;
@@ -47,17 +47,17 @@ export const DL = {
 
     return gamesWithCreators;
   },
-  async getAllGamesWithCreatorsAndSheets() {
+  async getAllGamesWithCreatorsAndAssets() {
     const gamesWithCreators = await this.getAllGamesWithCreators();
     const gamesWithCreatorsAndSheets = await Promise.all(
       gamesWithCreators.map(async (gameWithCreator) => {
-        const sheets = await this.getGameSheets({
+        const assets = await this.getAssetsForGame({
           slug: gameWithCreator.game.slug,
         });
         return {
           game: gameWithCreator.game,
           creator: gameWithCreator.creator!,
-          sheets: sheets,
+          assets: assets,
         };
       }),
     );
@@ -77,12 +77,12 @@ export const DL = {
       creator,
     };
   },
-  async getGameSheets(props: { slug: string }) {
-    const sheets = await getCollection("assets");
-    const sheetsMatchingGame = sheets.filter((sheet) => {
+  async getAssetsForGame(props: { slug: string }) {
+    const assets = await getCollection("assets");
+    const assetsForGame = assets.filter((sheet) => {
       return sheet.slug.startsWith(props.slug);
     });
 
-    return sheetsMatchingGame;
+    return assetsForGame;
   },
 };

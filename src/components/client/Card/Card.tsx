@@ -34,6 +34,7 @@ import {
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import {
   AspectRatio,
+  Badge,
   Box,
   Button,
   DropdownMenu,
@@ -43,7 +44,7 @@ import {
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import { useState } from "react";
-import { getRandomElement } from "../../../domains/random";
+import { getRandomElement } from "../../../domains/utils/random";
 import { Graphic } from "../Graphic/Graphic";
 
 const colors = [
@@ -81,11 +82,12 @@ const colors = [
 ];
 
 export function Card(props: {
-  href: string;
+  href?: string;
   title: string;
   subtitle?: string;
   menu?: React.ReactNode;
   addColoredBackground?: boolean;
+  error?: string;
   children?: React.ReactNode;
 }) {
   const [hover, setHover] = useState(false);
@@ -150,12 +152,20 @@ export function Card(props: {
               className="px-4 py-4"
             >
               <Box className="w-full max-w-[75%]">
-                <Text as="div" size="6" weight="bold" truncate>
-                  {props.title}
-                </Text>
+                <Flex gap="2" align="end">
+                  {props.error && (
+                    <Badge size="2" color="red">
+                      {props.error}
+                    </Badge>
+                  )}
+                  <Text as="div" size="6" weight="bold" truncate>
+                    {props.title}
+                  </Text>
+                </Flex>
+
                 {props.subtitle && (
                   <Text as="div" size="5" color="gray" truncate>
-                    by {props.subtitle}
+                    {props.subtitle}
                   </Text>
                 )}
               </Box>

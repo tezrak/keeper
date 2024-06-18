@@ -5,8 +5,8 @@ import type {
   InferGetStaticPropsType,
 } from "astro";
 import Banner from "../../../../components/server/Banner/Banner.astro";
-import { DL } from "../../../../domains/DL";
-import { getTheme } from "../../../../domains/getTheme";
+import { DLAstro } from "../../../../domains/dl/DLAstro";
+import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
 import { PlayPage } from "./_index";
 
@@ -16,12 +16,9 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-export type SheetsType = typeof props.sheets;
-export type SheetType = (typeof props.sheets)[number];
-
 export async function getStaticPaths() {
   const gamesWithCreatorsAndSheets =
-    await DL.getAllGamesWithCreatorsAndSheets();
+    await DLAstro.getAllGamesWithCreatorsAndAssets();
   return gamesWithCreatorsAndSheets.map((item) => {
     return {
       params: {
@@ -31,7 +28,7 @@ export async function getStaticPaths() {
       props: {
         game: item.game,
         creator: item.creator,
-        sheets: item.sheets,
+        assets: item.assets,
       },
     } satisfies GetStaticPathsItem;
   });
@@ -45,6 +42,7 @@ const theme = getTheme({
 ---
 
 <Layout
+  theme={theme}
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}
 >
@@ -62,7 +60,7 @@ const theme = getTheme({
     client:load
     game={props.game}
     creator={props.creator}
-    sheets={props.sheets}
+    assets={props.assets}
     theme={theme}
   />
 </Layout>

@@ -1,6 +1,6 @@
 import { evaluateSync } from "@mdx-js/mdx";
 import type { CollectionEntry } from "astro:content";
-import type { ThemeType } from "../../../../../domains/getTheme";
+import type { ThemeType } from "../../../../../domains/utils/getTheme";
 
 import { Heading, Theme } from "@radix-ui/themes";
 import * as runtime from "react/jsx-runtime";

@@ -1,5 +1,10 @@
 import { Flex, TextField } from "@radix-ui/themes";
+import { useContext, useState } from "react";
 import { z } from "zod";
+import {
+  CampaignContext,
+  CampaignState,
+} from "../../../../domains/campaign/useCampaign";
 import { MDXDetail } from "./MDXDetail";
 import { useName } from "./MDXList";
 
@@ -13,6 +18,11 @@ export type Props = z.infer<typeof propsSchema>;
 export function MDXTextField(p: Props) {
   const props = propsSchema.parse(p);
   const name = useName({ name: props.name });
+  const gameStateManager = useContext(CampaignContext);
+  const [value, setValue] = useState(() => {
+    return gameStateManager.getCurrentFormValue({ name: props.name }) || "";
+  });
+
   return (
     <Flex
       gap="1"
@@ -26,8 +36,11 @@ export function MDXTextField(p: Props) {
         placeholder="..."
         variant="soft"
         name={name}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
         autoComplete="off"
       />
+      <CampaignState name={name} value={value}></CampaignState>
       <Flex align={"end"}>
         {props.children && <MDXDetail>{props.children}</MDXDetail>}
       </Flex>

@@ -4,7 +4,7 @@
     {
       "type": "bun",
       "script": "check",
-      "problemMatcher": [],
+      "problemMatcher": ["$tsc"],
       "label": "bun: check",
       "detail": "bun check - package.json",
       "group": {

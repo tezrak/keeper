@@ -6,7 +6,7 @@ import { ViewTransitions, fade } from "astro:transitions";
 
 import Banner from "../components/server/Banner/Banner.astro";
 import Header from "../components/server/Header/Header.astro";
-import { getTheme, type ThemeType } from "../domains/getTheme";
+import { getTheme, type ThemeType } from "../domains/utils/getTheme";
 
 import { Graphic } from "../components/client/Graphic/Graphic";
 import Footer from "../components/server/Footer/Footer.astro";
@@ -61,7 +61,14 @@ const googleFontUrl = encodeURI(
   </head>
   <Theme {...themeProps}>
     <body>
-      <Container px="9" maxWidth={"1204px"}>
+      <Container
+        px={{
+          initial: "4",
+          sm: "6",
+          lg: "9",
+        }}
+        maxWidth={"1204px"}
+      >
         <Graphic />
         <Header />
         {

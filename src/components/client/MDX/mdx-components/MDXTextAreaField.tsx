@@ -1,5 +1,10 @@
 import { Flex, TextArea } from "@radix-ui/themes";
+import { useContext, useState } from "react";
 import { z } from "zod";
+import {
+  CampaignContext,
+  CampaignState,
+} from "../../../../domains/campaign/useCampaign";
 import { MDXDetail } from "./MDXDetail";
 import { useName } from "./MDXList";
 
@@ -14,6 +19,10 @@ export type Props = z.infer<typeof propsSchema>;
 export function MDXTextAreaField(p: Props) {
   const props = propsSchema.parse(p);
   const name = useName({ name: props.name });
+  const gameStateManager = useContext(CampaignContext);
+  const [value, setValue] = useState(() => {
+    return gameStateManager.getCurrentFormValue({ name: props.name }) || "";
+  });
 
   return (
     <Flex
@@ -31,10 +40,13 @@ export function MDXTextAreaField(p: Props) {
         rows={props.rows}
         autoComplete="off"
         resize="vertical"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
       <Flex align={"end"}>
         {props.children && <MDXDetail>{props.children}</MDXDetail>}
       </Flex>
+      <CampaignState name={name} value={value}></CampaignState>
     </Flex>
   );
 }

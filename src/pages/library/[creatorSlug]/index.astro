@@ -11,8 +11,8 @@ import {
   MDXWrapper,
   getMdxComponents,
 } from "../../../components/client/MDX/MDX";
-import { DL } from "../../../domains/DL";
-import { getTheme } from "../../../domains/getTheme";
+import { DLAstro } from "../../../domains/dl/DLAstro";
+import { getTheme } from "../../../domains/utils/getTheme";
 import Layout from "../../../layouts/Layout.astro";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
@@ -28,7 +28,7 @@ const theme = getTheme({
 });
 
 export async function getStaticPaths() {
-  const creators = await DL.getAllCreatorsWithTheirGames();
+  const creators = await DLAstro.getAllCreatorsWithTheirGames();
   return creators.map((creatorWithGames) => {
     return {
       params: {
@@ -53,37 +53,40 @@ export async function getStaticPaths() {
         }}
       />
     </MDXWrapper>
+    {
+      props.creatorWithGames.games.length && (
+        <>
+          <Heading size="8">Games</Heading>
 
-    <Heading size="8">Games</Heading>
-
-    <Grid
-      columns={{
-        sm: "2",
-        lg: "3",
-      }}
-      gap="6"
-      width="auto"
-    >
-      {
-        props.creatorWithGames.games.map((creatorWithGame) => {
-          return (
-            <Card
-              client:idle
-              href={`/library/${creatorWithGame.game.slug}`}
-              title={creatorWithGame.game.data.name}
-              subtitle={creatorWithGame.creator.data.name}
-            >
-              {creatorWithGame.game.data.image && (
-                <Image
-                  src={creatorWithGame.game.data.image}
-                  alt={creatorWithGame.game.data.name}
-                  inferSize
-                />
-              )}
-            </Card>
-          );
-        })
-      }
-    </Grid>
+          <Grid
+            columns={{
+              sm: "2",
+              lg: "3",
+            }}
+            gap="6"
+            width="auto"
+          >
+            {props.creatorWithGames.games.map((creatorWithGame) => {
+              return (
+                <Card
+                  client:idle
+                  href={`/library/${creatorWithGame.game.slug}`}
+                  title={creatorWithGame.game.data.name}
+                  subtitle={creatorWithGame.creator.data.name}
+                >
+                  {creatorWithGame.game.data.image && (
+                    <Image
+                      src={creatorWithGame.game.data.image}
+                      alt={creatorWithGame.game.data.name}
+                      inferSize
+                    />
+                  )}
+                </Card>
+              );
+            })}
+          </Grid>
+        </>
+      )
+    }
   </Flex>
 </Layout>

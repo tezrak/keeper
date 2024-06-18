@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import { DL } from "../../../../domains/DL";
+import { DLAstro } from "../../../../domains/dl/DLAstro";
 
 export const GET: APIRoute = async ({ params, request }) => {
   const parsedParams = z
@@ -9,7 +9,7 @@ export const GET: APIRoute = async ({ params, request }) => {
     })
     .parse(params);
 
-  const game = await DL.getGameWithCreator({
+  const game = await DLAstro.getGameWithCreator({
     slug: parsedParams.path,
   });
 
@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ params, request }) => {
 };
 
 export async function getStaticPaths() {
-  const games = await DL.getAllGames();
+  const games = await DLAstro.getAllGames();
 
   return games.map((game) => {
     return {

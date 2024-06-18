@@ -11,8 +11,8 @@ import {
   getMdxComponents,
 } from "../../../../components/client/MDX/MDX";
 import Banner from "../../../../components/server/Banner/Banner.astro";
-import { DL } from "../../../../domains/DL";
-import { getTheme } from "../../../../domains/getTheme";
+import { DLAstro } from "../../../../domains/dl/DLAstro";
+import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
@@ -30,7 +30,7 @@ const theme = getTheme({
 });
 
 export async function getStaticPaths() {
-  const gamesAndCreators = await DL.getAllGamesWithCreators();
+  const gamesAndCreators = await DLAstro.getAllGamesWithCreators();
 
   return gamesAndCreators.map((item) => {
     return {
