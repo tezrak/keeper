@@ -1,7 +1,12 @@
 import { VisuallyHidden } from "@radix-ui/themes";
 import isEqual from "lodash/isEqual";
 import { createContext, useEffect, useRef, useState } from "react";
-import { DLStorage, schemas, type CampaignType } from "../dl/DLStorage";
+import {
+  ASSET_NAME_KEY,
+  DLStorage,
+  schemas,
+  type CampaignType,
+} from "../dl/DLStorage";
 import { getLogger } from "../utils/getLogger";
 
 const logger = getLogger("useGameState");
@@ -148,7 +153,8 @@ export function useCampaign(props: { id: string }) {
       return undefined;
     }
 
-    const value = campaign.assets[selectedAssetId].state[p.name];
+    const value =
+      campaign.assets[selectedAssetId].state[ASSET_NAME_KEY][p.name];
     return value;
   }
 
