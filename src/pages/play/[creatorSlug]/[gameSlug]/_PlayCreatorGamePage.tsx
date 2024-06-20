@@ -1,10 +1,4 @@
-import {
-  Check,
-  FilePlus2,
-  FileSpreadsheet,
-  RefreshCw,
-  Smartphone,
-} from "lucide-react";
+import { Check, FilePlus2, RefreshCw, Smartphone } from "lucide-react";
 
 import {
   Badge,
@@ -15,6 +9,7 @@ import {
   Link,
   Skeleton,
   Tabs,
+  Text,
   TextField,
   Theme,
   Tooltip,
@@ -161,7 +156,7 @@ function Game(props: {
         ref={campaignManager.formRef}
       >
         <Flex direction={"column"} gap="4">
-          <Flex direction="row" gap="6" align="center">
+          <Flex direction="row" gap="4" align="center">
             <TextField.Root
               size="3"
               color="gray"
@@ -177,23 +172,27 @@ function Game(props: {
               }}
             />
             <Flex direction="row" gap="2" align="center">
-              <Badge variant="soft" size="3">
-                {campaignManager.dirty ? (
+              <Tooltip
+                content={
                   <>
-                    <RefreshCw size="15"></RefreshCw>
-                    Saving...
+                    {props.game.data.name} / {selectedCampaignAsset?.data.name}
                   </>
-                ) : (
-                  <>
-                    <Check size="15"></Check>
-                    Saved
-                  </>
-                )}
-              </Badge>
-              <Badge size="3">
-                <FileSpreadsheet size="15"></FileSpreadsheet>
-                {props.game.data.name} / {selectedCampaignAsset?.data.name}
-              </Badge>
+                }
+              >
+                <Badge variant="soft" size="3">
+                  {campaignManager.dirty ? (
+                    <>
+                      <RefreshCw size="15"></RefreshCw>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Check size="15"></Check>
+                      Saved
+                    </>
+                  )}
+                </Badge>
+              </Tooltip>
             </Flex>
           </Flex>
           <Flex direction="row" gap="9">
@@ -291,11 +290,11 @@ function Game(props: {
                               }}
                             >
                               {isSelected ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                              <Flex flexGrow={"1"}>
+                              <Text truncate>
                                 {assetName || asset.data.name}
-                              </Flex>
+                              </Text>
                               <DropdownMenu.Root>
-                                <DropdownMenu.Trigger>
+                                <DropdownMenu.Trigger className="ml-auto">
                                   <Button
                                     asChild
                                     variant="ghost"
