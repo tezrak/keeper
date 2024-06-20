@@ -7,7 +7,11 @@ import { parseProps } from "../../../../../domains/utils/parseProps";
 
 const propsSchema = z.object({
   name: z.string(),
-  min: z.number().optional().default(1),
+  min: z
+    .number()
+    .optional()
+    .default(1)
+    .refine((v) => v >= 1),
   max: z.number().optional(),
   children: z.any().optional(),
 });
@@ -44,24 +48,24 @@ export function MDXList(p: Props) {
   useEffect(() => {
     const state = campaignManager.getAllFormValues();
 
-    const newIds = [];
+    const idsToSet = new Set<string>();
     for (const key of Object.keys(state)) {
       const listNamePrefix = `[${props.name}].`;
       if (key.startsWith(listNamePrefix)) {
         const [extractedId] = key.replace(listNamePrefix, "").split(".");
-        newIds.push(extractedId);
+        idsToSet.add(extractedId);
       }
     }
 
     const numberOfMissingItems =
-      newIds.length < props.min ? props.min - newIds.length : 0;
+      idsToSet.size < props.min ? props.min - idsToSet.size : 0;
 
     for (const _i of Array(numberOfMissingItems).keys()) {
       const id = crypto.randomUUID();
-      newIds.push(id);
+      idsToSet.add(id);
     }
 
-    setIds(newIds);
+    setIds([...idsToSet]);
   }, []);
 
   function handleAddBelow(id: string) {
@@ -112,6 +116,11 @@ export function MDXList(p: Props) {
   return (
     <Flex data-mdx-type="list" direction={"column"} gap="2">
       {ids.map((id) => {
+        const isFirst = id === ids[0];
+        const isLast = id === ids[ids.length - 1];
+        const shouldRenderDeleteButton = ids.length > props.min;
+        const shouldRenderMoveButtons = !(isFirst && isLast);
+
         return (
           <ListContext.Provider
             value={{
@@ -134,20 +143,34 @@ export function MDXList(p: Props) {
                       <DropdownMenu.Item onClick={() => handleAddBelow(id)}>
                         Add Below
                       </DropdownMenu.Item>
-                      <DropdownMenu.Separator />
-                      <DropdownMenu.Item onClick={() => handleMoveUp(id)}>
-                        Move Up
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Item onClick={() => handleMoveDown(id)}>
-                        Move Down
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Separator />
-                      <DropdownMenu.Item
-                        color="red"
-                        onClick={() => handleDelete(id)}
-                      >
-                        Delete
-                      </DropdownMenu.Item>
+                      {shouldRenderMoveButtons && (
+                        <>
+                          <DropdownMenu.Separator />
+                          {!isFirst && (
+                            <DropdownMenu.Item onClick={() => handleMoveUp(id)}>
+                              Move Up
+                            </DropdownMenu.Item>
+                          )}
+                          {!isLast && (
+                            <DropdownMenu.Item
+                              onClick={() => handleMoveDown(id)}
+                            >
+                              Move Down
+                            </DropdownMenu.Item>
+                          )}
+                        </>
+                      )}
+                      {shouldRenderDeleteButton && (
+                        <>
+                          <DropdownMenu.Separator />
+                          <DropdownMenu.Item
+                            color="red"
+                            onClick={() => handleDelete(id)}
+                          >
+                            Delete
+                          </DropdownMenu.Item>
+                        </>
+                      )}
                     </DropdownMenu.Content>
                   </DropdownMenu.Root>
                 </Flex>

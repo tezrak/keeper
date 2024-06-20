@@ -183,18 +183,18 @@ game: pandion-games/substratum-protocol
 </Columns>
 ---
  <Heading>Storage Units</Heading>
-    <List min={3} max={3} name="storage.units">
+    <List min={3} max={3} name="storage">
         <Row>
             <TextField name="name">Name</TextField>
             <SelectField
-                name="skills.sway.max"
+                name="max"
                 options={["d4", "d6", "d8", "d10", "d12"]}
                 defaultValue="d4"
                 >
                 Max
                 </SelectField>
                 <SelectField
-                name="skills.sway.current"
+                name="current"
                 options={["d4", "d6", "d8", "d10", "d12"]}
                 defaultValue="d4"
                 >
