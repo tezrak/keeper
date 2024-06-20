@@ -14,7 +14,12 @@ const debug = false;
 const AUTO_SAVE_INTERVAL = 2000;
 const AUTO_CHECK_DIRTY_INTERVAL = 500;
 
-export function useCampaign(props: { id: string; readonly?: boolean }) {
+export function useCampaign(props: {
+  id: string;
+  readonly?: boolean;
+
+  onLoadCampaign?: (campaign: CampaignType) => void;
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const [campaign, setCampaign] = useState<CampaignType>();
   const [dirty, setDirty] = useState(false);
@@ -53,6 +58,7 @@ export function useCampaign(props: { id: string; readonly?: boolean }) {
         setSelectedAssetId(firstAssetId);
         logger.log("Setting campaign state");
         setCampaign(campaign);
+        props.onLoadCampaign?.(campaign);
       } catch (error) {
         logger.error("Failed to campaign", { error });
       }
@@ -102,6 +108,9 @@ export function useCampaign(props: { id: string; readonly?: boolean }) {
       delete draft.assets[p.id];
       return draft;
     });
+    if (selectedAssetId === p.id) {
+      setSelectedAssetId(undefined);
+    }
   }
 
   function moveAssetUp(p: { id: string }) {
@@ -154,9 +163,19 @@ export function useCampaign(props: { id: string; readonly?: boolean }) {
     return value;
   }
 
+  function getAllFormValues() {
+    if (!campaign || !selectedAssetId) {
+      return {};
+    }
+
+    const value = campaign.assets[selectedAssetId].state;
+    return value;
+  }
+
   function saveForm(p: {} = {}) {
-    const { isDirty, draftCampaign } = getIsDirty();
-    debug && console.log("draftCampaign", { isDirty, draftCampaign });
+    const { isDirty, draftCampaign, currentCampaign } = getIsDirty();
+    debug &&
+      logger.log("draftCampaign", { isDirty, draftCampaign, currentCampaign });
     if (isDirty) {
       DLStorage.updateCampaign({
         campaignId: props.id,
@@ -208,7 +227,8 @@ export function useCampaign(props: { id: string; readonly?: boolean }) {
     removeAsset,
     moveAssetUp,
     moveAssetDown,
-    getCurrentFormValue: getCurrentFormValue,
+    getCurrentFormValue,
+    getAllFormValues,
   };
 }
 

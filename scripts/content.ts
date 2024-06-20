@@ -59,7 +59,7 @@ name: ${nameForm.value}
 ---`,
   );
 
-  console.log(`✨ Creator created. ${site}/library/${creatorSlug}`);
+  logger.log(`✨ Creator created. ${site}/library/${creatorSlug}`);
 }
 
 async function createGame() {
@@ -119,7 +119,7 @@ ${descriptionForm.value}
 `,
   );
 
-  console.log(
+  logger.log(
     `✨ Game created. ${site}/library/${creatorForm.value}/${gameSlug}`,
   );
 }
@@ -188,7 +188,7 @@ game: ${creatorForm.value}/${gameForm.value}
 `,
   );
 
-  console.log(
+  logger.log(
     `✨ Asset created. ${site}/library/${creatorForm.value}/${gameForm.value}/${nameSlug}`,
   );
 }

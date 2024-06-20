@@ -1,8 +1,12 @@
 import { Flex, Select, Tooltip } from "@radix-ui/themes";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { z } from "zod";
-import { CampaignContext } from "../../../../domains/campaign/useCampaign";
-import { MDXDetail } from "./MDXDetail";
+import {
+  CampaignContext,
+  CampaignState,
+} from "../../../../../domains/campaign/useCampaign";
+import { ConditionalWrapper } from "../../../ConditionalWrapper/ConditionalWrapper";
+import { MDXDetail } from "../ui/MDXDetail";
 import { useName } from "./MDXList";
 
 const propsSchema = z.object({
@@ -19,6 +23,9 @@ export function MDXSelectField(p: Props) {
   const props = propsSchema.parse(p);
   const campaignManager = useContext(CampaignContext);
   const name = useName({ name: props.name });
+  const [value, setValue] = useState(() => {
+    return campaignManager.getCurrentFormValue({ name: name }) || "";
+  });
 
   return (
     <Flex
@@ -27,10 +34,21 @@ export function MDXSelectField(p: Props) {
       direction={"column"}
       className="w-full"
     >
-      <Select.Root defaultValue={props.defaultValue} name={name} size="3">
-        <Tooltip content={props.tooltip}>
+      <Select.Root
+        defaultValue={props.defaultValue}
+        size="3"
+        value={value}
+        onValueChange={(newValue) => setValue(newValue)}
+      >
+        <ConditionalWrapper
+          wrapWhen={!!props.tooltip}
+          wrapper={(children) => (
+            <Tooltip content={props.tooltip}>{children}</Tooltip>
+          )}
+        >
           <Select.Trigger variant="soft" color="gray"></Select.Trigger>
-        </Tooltip>
+        </ConditionalWrapper>
+
         <Select.Content color="gray">
           {props.options.map((option) => (
             <Select.Item key={option} value={option}>
@@ -39,11 +57,14 @@ export function MDXSelectField(p: Props) {
           ))}
         </Select.Content>
       </Select.Root>
+
       {props.children && (
         <Flex>
           <MDXDetail>{props.children}</MDXDetail>
         </Flex>
       )}
+
+      <CampaignState name={name} value={value}></CampaignState>
     </Flex>
   );
 }

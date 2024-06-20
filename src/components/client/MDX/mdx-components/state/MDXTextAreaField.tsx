@@ -4,8 +4,9 @@ import { z } from "zod";
 import {
   CampaignContext,
   CampaignState,
-} from "../../../../domains/campaign/useCampaign";
-import { MDXDetail } from "./MDXDetail";
+} from "../../../../../domains/campaign/useCampaign";
+import { ConditionalWrapper } from "../../../ConditionalWrapper/ConditionalWrapper";
+import { MDXDetail } from "../ui/MDXDetail";
 import { useName } from "./MDXList";
 
 const propsSchema = z.object({
@@ -22,7 +23,7 @@ export function MDXTextAreaField(p: Props) {
   const name = useName({ name: props.name });
   const campaignManager = useContext(CampaignContext);
   const [value, setValue] = useState(() => {
-    return campaignManager.getCurrentFormValue({ name: props.name }) || "";
+    return campaignManager.getCurrentFormValue({ name: name }) || "";
   });
 
   return (
@@ -32,11 +33,15 @@ export function MDXTextAreaField(p: Props) {
       direction={"column"}
       className="w-full"
     >
-      <Tooltip content={props.tooltip}>
+      <ConditionalWrapper
+        wrapWhen={!!props.tooltip}
+        wrapper={(children) => (
+          <Tooltip content={props.tooltip}>{children}</Tooltip>
+        )}
+      >
         <TextArea
           size="3"
           variant="soft"
-          name={name}
           color="gray"
           rows={props.rows}
           autoComplete="off"
@@ -44,12 +49,14 @@ export function MDXTextAreaField(p: Props) {
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-      </Tooltip>
+      </ConditionalWrapper>
+
       {props.children && (
         <Flex>
           <MDXDetail>{props.children}</MDXDetail>
         </Flex>
       )}
+
       <CampaignState name={name} value={value}></CampaignState>
     </Flex>
   );

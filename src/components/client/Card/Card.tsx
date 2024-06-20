@@ -122,7 +122,7 @@ export function Card(props: {
       >
         <Flex gap="2" align="start" direction={"column"} position={"relative"}>
           <AspectRatio
-            ratio={6 / 4}
+            ratio={630 / 500}
             className={clsx([
               "[&>img]:h-full",
               "[&>img]:w-full",

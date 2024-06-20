@@ -1,5 +1,5 @@
 import { Container, Flex, Heading, Text } from "@radix-ui/themes";
-import { Dices } from "lucide-react";
+import { CircleOff } from "lucide-react";
 
 export function NothingToShowHere(props: {
   title?: JSX.Element | string;
@@ -8,7 +8,7 @@ export function NothingToShowHere(props: {
 }) {
   let Icon: React.ComponentType<any> | undefined;
   if (props.icon === true) {
-    Icon = Dices;
+    Icon = CircleOff;
   }
   if (typeof props.icon === "function") {
     Icon = props.icon;

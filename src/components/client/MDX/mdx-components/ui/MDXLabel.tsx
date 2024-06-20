@@ -1,6 +1,7 @@
 import { Text } from "@radix-ui/themes";
 import clsx from "clsx";
 import { z } from "zod";
+import { parseProps } from "../../../../../domains/utils/parseProps";
 
 const propsSchema = z.object({
   fullWidth: z.boolean().optional(),
@@ -10,7 +11,11 @@ const propsSchema = z.object({
 export type Props = z.infer<typeof propsSchema>;
 
 export function MDXLabel(p: Props) {
-  const props = propsSchema.parse(p);
+  const props = parseProps({
+    props: p,
+    schema: propsSchema,
+    componentName: "MDXLabel",
+  });
 
   return (
     <Text

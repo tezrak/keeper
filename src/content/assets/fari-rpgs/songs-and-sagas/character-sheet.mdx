@@ -8,7 +8,7 @@ game: fari-rpgs/songs-and-sagas
 <TextField name="pronouns"> Pronouns </TextField>
 
 <SelectField
-  name="Vanori"
+  name="vanori"
   options={["Bear", "Wolf", "Raven", "Elk", "Ox", "Owl"]}
 >
 
@@ -44,8 +44,8 @@ Vanori
 </Row>
 
 <Heading>Inventory</Heading>
-<List max={5}>
-  <TextField name="inventory.#.name" />
+<List max={5} name="inventory">
+  <TextField name="name" />
 </List>
 
 <Heading>Experience</Heading>

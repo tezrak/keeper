@@ -1,7 +1,7 @@
 ---
 import { BookmarkFilledIcon } from "@radix-ui/react-icons";
-import { Button, Flex, Grid } from "@radix-ui/themes";
-import { SquareLibrary } from "lucide-react";
+import { Button, Flex, Grid, IconButton } from "@radix-ui/themes";
+import { Dices, SquareLibrary } from "lucide-react";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 ---
 
@@ -43,14 +43,20 @@ import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
     </a>
   </Flex>
   <Flex justify={"end"} gap="5">
+    <IconButton
+      radius="full"
+      size="3"
+      variant="ghost"
+      className="cursor-pointer"
+      onClick={() => {
+        alert("Coming soon!");
+      }}
+    >
+      <Dices />
+    </IconButton>
     <a href="/docs">
       <Button radius="full" size="3" variant="ghost" className="cursor-pointer">
         Docs
-      </Button>
-    </a>
-    <a href="/docs/faq" class="hidden lg:inline-block">
-      <Button radius="full" size="3" variant="ghost" className="cursor-pointer">
-        FAQ
       </Button>
     </a>
   </Flex>

@@ -7,11 +7,11 @@ import {
   Flex,
   Heading,
   Link,
+  Text,
   Theme,
   VisuallyHidden,
 } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
-import { CreateNewCampaignButton } from "../../../../components/client/CreateNewCampaignButton/CreateNewCampaignButton";
 import {
   MDXWrapper,
   getMdxComponents,
@@ -20,6 +20,7 @@ import {
   CampaignContext,
   useCampaign,
 } from "../../../../domains/campaign/useCampaign";
+import { CreateNewCampaignButton } from "./_components/CreateNewCampaignButton";
 
 import { useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
@@ -115,9 +116,9 @@ export function LibraryCreatorGamePage(props: {
           <Dialog.Content maxWidth="1024px">
             <Box pt={"7"} px="7">
               <Dialog.Title>
-                <Heading size="9" align="center">
+                <Text size="9" align="center" className="block">
                   Preview {props.currentAsset?.data.name}
-                </Heading>
+                </Text>
               </Dialog.Title>
 
               {renderAssetContent()}

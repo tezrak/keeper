@@ -1,5 +1,6 @@
 import { Box } from "@radix-ui/themes";
 import { z } from "zod";
+import { parseProps } from "../../../../../domains/utils/parseProps";
 
 const propsSchema = z.object({
   children: z.any().optional(),
@@ -8,7 +9,11 @@ const propsSchema = z.object({
 export type Props = z.infer<typeof propsSchema>;
 
 export function MDXBox(p: Props) {
-  const props = propsSchema.parse(p);
+  const props = parseProps({
+    props: p,
+    schema: propsSchema,
+    componentName: "MDXBox",
+  });
 
   return <Box data-mdx-type="box">{props.children}</Box>;
 }

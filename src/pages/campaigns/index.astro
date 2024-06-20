@@ -1,11 +1,31 @@
 ---
+import { getImage } from "astro:assets";
+import { DLAstro } from "../../domains/dl/DLAstro";
 import { getTheme } from "../../domains/utils/getTheme";
 import Layout from "../../layouts/Layout.astro";
 import { CampaignsPage } from "./_CampaignsPage";
 
 const theme = getTheme({});
+
+const gameImages: Record<string, any> = {};
+export type GameImagesType = typeof gameImages;
+
+const games = await DLAstro.getAllGames();
+
+for (const game of games) {
+  if (!game.data.image) {
+    continue;
+  }
+  const optimizedImage = await getImage({
+    src: game.data.image,
+    format: "webp",
+    quality: "low",
+  });
+
+  gameImages[game.slug] = optimizedImage.src;
+}
 ---
 
 <Layout title="Campaigns" withBanner h1="Campaigns">
-  <CampaignsPage client:load theme={theme} />
+  <CampaignsPage client:load theme={theme} gameImages={gameImages} />
 </Layout>

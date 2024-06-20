@@ -8,5 +8,8 @@
   "yaml.schemas": {
     "./.astro/collections/creators.schema.json": "/src/content/creators/**",
     "./.astro/collections/games.schema.json": "/src/content/games/**"
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
   }
 }

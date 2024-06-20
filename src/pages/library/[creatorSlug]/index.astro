@@ -76,9 +76,16 @@ export async function getStaticPaths() {
                 >
                   {creatorWithGame.game.data.image && (
                     <Image
+                      quality={"low"}
+                      loading={"eager"}
                       src={creatorWithGame.game.data.image}
                       alt={creatorWithGame.game.data.name}
-                      inferSize
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "left",
+                        width: "100%",
+                        height: "100%",
+                      }}
                     />
                   )}
                 </Card>

@@ -8,10 +8,15 @@ import { DLClient } from "../../domains/dl/DLClient";
 import { DLStorage, type CampaignType } from "../../domains/dl/DLStorage";
 import { getLogger } from "../../domains/utils/getLogger";
 import type { ThemeType } from "../../domains/utils/getTheme";
+import type { GameImagesType } from "./index.astro";
 
 const logger = getLogger("GamesPage");
 
-export function CampaignsPage(props: { theme: ThemeType }) {
+export function CampaignsPage(props: {
+  theme: ThemeType;
+
+  gameImages: GameImagesType;
+}) {
   const [campaigns, setCampaigns] = useState<Record<string, CampaignType>>();
   const loading = !campaigns;
   const campaignList = Object.entries(campaigns || {}).map(([id, game]) => ({
@@ -61,6 +66,7 @@ export function CampaignsPage(props: { theme: ThemeType }) {
                   <GameCard
                     key={campaign.id}
                     name={campaign.name}
+                    gameImages={props.gameImages}
                     id={campaign.id}
                     slug={campaign.slug}
                     onDelete={handleDelete}
@@ -79,6 +85,7 @@ function GameCard(props: {
   id: string;
   slug: string;
   name: string;
+  gameImages: GameImagesType;
   onDelete: (id: string) => void;
 }) {
   const [gameWithCreator, setGameWithCreator] = useState<{
@@ -137,10 +144,12 @@ function GameCard(props: {
           }
         >
           <img
-            src={gameWithCreator.game.data.image}
+            loading="eager"
+            src={props.gameImages[gameWithCreator.game.slug]}
             alt={gameWithCreator.game.data.name}
             style={{
               objectFit: "cover",
+              objectPosition: "left",
               width: "100%",
               height: "100%",
             }}

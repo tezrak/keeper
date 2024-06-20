@@ -8,6 +8,7 @@ import Banner from "../components/server/Banner/Banner.astro";
 import Header from "../components/server/Header/Header.astro";
 import { getTheme, type ThemeType } from "../domains/utils/getTheme";
 
+import { getEntry } from "astro:content";
 import { Graphic } from "../components/client/Graphic/Graphic";
 import Footer from "../components/server/Footer/Footer.astro";
 import "./index.css";
@@ -26,6 +27,8 @@ const props = Astro.props;
 
 const headingFont = props.headingFont || "Inter";
 const bodyFont = props.bodyFont || "Inter";
+
+const songsAndSagas = await getEntry("games", "fari-rpgs/songs-and-sagas");
 
 // family = ,
 const fontsAsString = [headingFont, bodyFont]
@@ -74,7 +77,8 @@ const googleFontUrl = encodeURI(
         {
           props.withBanner && (
             <Banner
-              src="https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZ3hqyrB-zkrNcl0vdiBVWd6LsWCAyPkXUZ3v6zmPaXx7CnznbBTjykUijNREMua_a7e3-cdPz5mYSQVPLZKw0lErXJTZSiUXg=w2800-h1910-rw-v1"
+              src={songsAndSagas.data.image!}
+              alt={"Background"}
               alt="Keeper"
               justBackground
             />

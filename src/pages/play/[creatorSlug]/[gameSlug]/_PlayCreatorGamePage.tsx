@@ -1,8 +1,8 @@
 import {
   Check,
+  FilePlus2,
   FileSpreadsheet,
   RefreshCw,
-  Save,
   Smartphone,
 } from "lucide-react";
 
@@ -20,26 +20,24 @@ import {
   Tooltip,
 } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { getLogger } from "../../../../domains/utils/getLogger";
 
 import {
   EyeClosedIcon,
   EyeOpenIcon,
-  FilePlusIcon,
   HamburgerMenuIcon,
 } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { GameAsset } from "../../../../components/client/GameAsset/GameAsset";
 import { NothingToShowHere } from "../../../../components/client/NothingToShowHere/NothingToShowHere";
 import { getSurfaceStyle } from "../../../../components/client/Surface/getSurfaceStyle";
 import {
   CampaignContext,
   useCampaign,
 } from "../../../../domains/campaign/useCampaign";
-import { ASSET_NAME_KEY } from "../../../../domains/dl/DLStorage";
 import type { ThemeType } from "../../../../domains/utils/getTheme";
 import { wait } from "../../../../domains/utils/wait";
+import { GameAsset } from "./_components/_GameAsset";
 
 const logger = getLogger("PlayCreatorGamePage");
 
@@ -101,11 +99,16 @@ function Game(props: {
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;
 }) {
+  const [tab, setTab] = useState<TabType>("assets");
   const [addingAssetId, setAddingAssetId] = useState<string>();
+  const [selectAssetId, setSelectAssetId] = useState<string>();
   const campaignManager = useCampaign({
     id: props.id,
+    onLoadCampaign: (campaign) => {
+      const hasAssets = Object.keys(campaign.assets).length > 0;
+      setTab(hasAssets ? "assets" : "library");
+    },
   });
-  const [tab, setTab] = useState<TabType>("assets");
   const campaignAssets = campaignManager.campaign?.assets || {};
   const campaignAssetIds = Object.keys(campaignAssets);
   const selectedAssetSlug =
@@ -113,6 +116,17 @@ function Game(props: {
   const selectedCampaignAsset = props.assets.find(
     (asset) => asset.slug === selectedAssetSlug,
   );
+
+  useEffect(() => {
+    // Wait for the current asset to save before loading the next one
+    if (campaignManager.dirty) {
+      return;
+    }
+    if (selectAssetId) {
+      campaignManager.setSelectedAssetId(selectAssetId);
+      setSelectAssetId(undefined);
+    }
+  }, [campaignManager.dirty, selectAssetId]);
 
   async function handleAddAsset(p: { asset: CollectionEntry<"assets"> }) {
     setAddingAssetId(p.asset.id);
@@ -123,7 +137,7 @@ function Game(props: {
   }
 
   function handleLoadAsset(p: { id: string }) {
-    campaignManager.setSelectedAssetId(p.id);
+    setSelectAssetId(p.id);
   }
 
   function handleRemoveAsset(p: { id: string }) {
@@ -136,12 +150,6 @@ function Game(props: {
 
   function handleMoveAssetDown(p: { id: string }) {
     campaignManager.moveAssetDown({ id: p.id });
-  }
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    campaignManager.saveForm();
   }
 
   return (
@@ -184,7 +192,7 @@ function Game(props: {
               </Badge>
               <Badge size="3">
                 <FileSpreadsheet size="15"></FileSpreadsheet>
-                [Sheet Name]
+                {props.game.data.name} / {selectedCampaignAsset?.data.name}
               </Badge>
             </Flex>
           </Flex>
@@ -197,16 +205,6 @@ function Game(props: {
               }}
               className="min-w-[272px] max-w-[272px] rounded-[--radius-2] p-4"
             >
-              <Tooltip content="Save Entire Session">
-                <Button
-                  variant="soft"
-                  size="3"
-                  className="w-full"
-                  type="submit"
-                >
-                  <Save size={15}></Save>
-                </Button>
-              </Tooltip>
               <Tabs.Root value={tab}>
                 <Tabs.List size="2" justify={"center"}>
                   <Tabs.Trigger
@@ -235,12 +233,12 @@ function Game(props: {
                                 loading={isAdding}
                                 color="gray"
                                 variant="outline"
-                                className="w-full justify-start text-left"
+                                className="w-full text-left"
                                 onClick={() => {
                                   handleAddAsset({ asset: asset });
                                 }}
                               >
-                                <FilePlusIcon></FilePlusIcon>
+                                <FilePlus2 size="15"></FilePlus2>
                                 {asset.data.name} {asset.data.version}
                               </Button>
                             </Tooltip>
@@ -278,8 +276,7 @@ function Game(props: {
                           assetId === campaignManager.selectedAssetId;
                         const isFirst = i === 0;
                         const isLast = i === campaignAssetIds.length - 1;
-                        const assetName =
-                          campaignAssets[assetId].state[ASSET_NAME_KEY];
+                        const assetName = campaignAssets[assetId].state["name"];
 
                         return (
                           <Flex key={assetId} gap="2">
@@ -288,6 +285,7 @@ function Game(props: {
                               color={isSelected ? undefined : "gray"}
                               variant={"soft"}
                               className="w-full justify-start text-left"
+                              loading={selectAssetId === assetId}
                               onClick={() => {
                                 handleLoadAsset({ id: assetId });
                               }}
@@ -330,6 +328,9 @@ function Game(props: {
                                   >
                                     Move Down
                                   </DropdownMenu.Item>
+                                  {(!isFirst || !isLast) && (
+                                    <DropdownMenu.Separator />
+                                  )}
                                   <DropdownMenu.Item
                                     color="red"
                                     onClick={(e) => {
@@ -354,7 +355,10 @@ function Game(props: {
               <Skeleton loading={campaignManager.loading} height={"60vh"}>
                 {selectedCampaignAsset ? (
                   <>
-                    <GameAsset asset={selectedCampaignAsset}></GameAsset>
+                    <GameAsset
+                      id={campaignManager.selectedAssetId}
+                      asset={selectedCampaignAsset}
+                    ></GameAsset>
                   </>
                 ) : (
                   <>

@@ -10,18 +10,19 @@ export const collections = {
   }),
   games: defineCollection({
     type: "content",
-    schema: z.object({
-      name: z.string(),
-      creator: reference("creators"),
-      image: z.string().optional(),
-      theme: z
-        .object({
-          accentColor: z.enum(getRadixAccentColors()).optional(),
-          headingFont: z.string().optional(),
-          bodyFont: z.string().optional(),
-        })
-        .optional(),
-    }),
+    schema: (ctx) =>
+      z.object({
+        name: z.string(),
+        creator: reference("creators"),
+        image: ctx.image(),
+        theme: z
+          .object({
+            accentColor: z.enum(getRadixAccentColors()).optional(),
+            headingFont: z.string().optional(),
+            bodyFont: z.string().optional(),
+          })
+          .optional(),
+      }),
   }),
   assets: defineCollection({
     type: "content",

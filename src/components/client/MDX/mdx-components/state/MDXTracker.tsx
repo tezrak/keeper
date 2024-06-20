@@ -1,6 +1,7 @@
 import { CircleIcon } from "@radix-ui/react-icons";
 import { Box, Flex, IconButton, Text } from "@radix-ui/themes";
 import { z } from "zod";
+import { parseProps } from "../../../../../domains/utils/parseProps";
 import { useName } from "./MDXList";
 
 const propsSchema = z.object({
@@ -14,7 +15,11 @@ const propsSchema = z.object({
 export type Props = z.infer<typeof propsSchema>;
 
 export function MDXTracker(p: Props) {
-  const props = propsSchema.parse(p);
+  const props = parseProps({
+    props: p,
+    schema: propsSchema,
+    componentName: "MDXTracker",
+  });
   const name = useName({ name: props.name });
 
   const numberOfBoxes = props.min;

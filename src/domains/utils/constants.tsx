@@ -3,6 +3,6 @@ export const constants = {
     if (props.localhost) {
       return "http://localhost:4321";
     }
-    ("https://keeper.farirpgs.com");
+    return "https://keeper.farirpgs.com";
   },
 };

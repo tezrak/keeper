@@ -29,6 +29,7 @@ export default defineConfig({
     mdx(),
   ],
   experimental: {
-    contentCollectionJsonSchema: true,
+    // contentCollectionJsonSchema: true,
+    // contentCollectionCache: true,
   },
 });

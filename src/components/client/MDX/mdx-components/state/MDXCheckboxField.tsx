@@ -1,6 +1,7 @@
 import { Checkbox, Flex, Text } from "@radix-ui/themes";
 import { z } from "zod";
-import { useName } from "./MDXList";
+import { parseProps } from "../../../../../domains/utils/parseProps";
+import { useName } from "../state/MDXList";
 
 const propsSchema = z.object({
   name: z.string(),
@@ -10,7 +11,11 @@ const propsSchema = z.object({
 export type Props = z.infer<typeof propsSchema>;
 
 export function MDXCheckboxField(p: Props) {
-  const props = propsSchema.parse(p);
+  const props = parseProps({
+    props: p,
+    schema: propsSchema,
+    componentName: "MDXCheckboxField",
+  });
   const name = useName({ name: props.name });
 
   return (

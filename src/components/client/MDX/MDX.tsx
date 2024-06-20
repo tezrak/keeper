@@ -9,21 +9,21 @@ import {
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import type React from "react";
-import { MDXBox } from "./mdx-components/MDXBox";
-import { MDXCheckboxField } from "./mdx-components/MDXCheckboxField";
-import { MDXColumns } from "./mdx-components/MDXColumns";
-import { MDXDetail } from "./mdx-components/MDXDetail";
-import { MDXDivider } from "./mdx-components/MDXDivider";
-import { MDXHeading } from "./mdx-components/MDXHeading";
-import { MDXLabel } from "./mdx-components/MDXLabel";
-import { MDXList } from "./mdx-components/MDXList";
-import { MDXNumberField } from "./mdx-components/MDXNumberField";
-import { MDXRow } from "./mdx-components/MDXRow";
-import { MDXSelectField } from "./mdx-components/MDXSelectField";
-import { MDXStack } from "./mdx-components/MDXStack";
-import { MDXTextAreaField } from "./mdx-components/MDXTextAreaField";
-import { MDXTextField } from "./mdx-components/MDXTextField";
-import { MDXTracker } from "./mdx-components/MDXTracker";
+import { MDXCheckboxField } from "./mdx-components/state/MDXCheckboxField";
+import { MDXList } from "./mdx-components/state/MDXList";
+import { MDXNumberField } from "./mdx-components/state/MDXNumberField";
+import { MDXSelectField } from "./mdx-components/state/MDXSelectField";
+import { MDXTextAreaField } from "./mdx-components/state/MDXTextAreaField";
+import { MDXTextField } from "./mdx-components/state/MDXTextField";
+import { MDXTracker } from "./mdx-components/state/MDXTracker";
+import { MDXBox } from "./mdx-components/ui/MDXBox";
+import { MDXColumns } from "./mdx-components/ui/MDXColumns";
+import { MDXDetail } from "./mdx-components/ui/MDXDetail";
+import { MDXDivider } from "./mdx-components/ui/MDXDivider";
+import { MDXHeading } from "./mdx-components/ui/MDXHeading";
+import { MDXLabel } from "./mdx-components/ui/MDXLabel";
+import { MDXRow } from "./mdx-components/ui/MDXRow";
+import { MDXStack } from "./mdx-components/ui/MDXStack";
 
 export const TEXT_CLASSES = "text-[1.2rem] leading-[1.5em] tracking-normal";
 
