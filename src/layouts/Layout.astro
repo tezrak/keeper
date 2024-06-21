@@ -20,6 +20,7 @@ type Props = {
   title: Array<string> | undefined;
   description: string | undefined;
   h1?: string;
+  maxWidth?: string;
   headingFont?: string;
   bodyFont?: string;
   withBanner?: boolean;
@@ -107,7 +108,7 @@ const ogImageUrl =
           initial: "6",
           md: "9",
         }}
-        maxWidth={"1204px"}
+        maxWidth={props.maxWidth || "1204px"}
       >
         <Graphic />
         <Header />

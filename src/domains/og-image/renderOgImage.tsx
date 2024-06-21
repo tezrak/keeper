@@ -1,4 +1,4 @@
-import { goldA, goldDark, grayDark } from "@radix-ui/colors";
+import { grayDark, tealA, tealDark } from "@radix-ui/colors";
 import { ImageResponse } from "@vercel/og";
 import truncate from "lodash/truncate";
 import fs from "node:fs/promises";
@@ -66,9 +66,9 @@ function OGImage(props: {
   const bodySize = "20px";
   const colors = {
     background: {
-      default: goldDark.gold1,
-      badge: goldA.goldA8,
-      leftBorder: goldDark.gold9,
+      default: tealDark.teal1,
+      badge: tealA.tealA4,
+      leftBorder: tealDark.teal5,
     },
     text: {
       default: "#FFFFFF",

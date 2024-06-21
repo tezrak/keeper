@@ -1,0 +1,18 @@
+---
+import { getTheme } from "../../domains/utils/getTheme";
+import Layout from "../../layouts/Layout.astro";
+import { PlaygroundPage } from "./_PlaygroundPage";
+
+const theme = getTheme({});
+---
+
+<Layout
+  title={[`Playground`]}
+  description={undefined}
+  theme={theme}
+  withBanner
+  h1="Asset Creation Playground"
+  maxWidth="100vw"
+>
+  <PlaygroundPage client:load theme={theme} />
+</Layout>

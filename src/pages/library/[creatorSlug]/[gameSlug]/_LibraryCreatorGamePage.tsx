@@ -65,7 +65,7 @@ export function LibraryCreatorGamePage(props: {
               By {props.creator.data.name}
             </Link>
           </Heading>
-          <Flex gap="2" align="center">
+          <Flex gap="2" wrap={"wrap"} align="center">
             <Badge
               size="2"
               className="bg-transparent p-0 font-bold uppercase"
