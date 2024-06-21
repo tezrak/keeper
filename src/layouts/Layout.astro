@@ -25,23 +25,24 @@ type Props = {
 
 const props = Astro.props;
 
-const headingFont = props.headingFont || "Inter";
-const bodyFont = props.bodyFont || "Inter";
+const headingFont = props.headingFont;
+const bodyFont = props.bodyFont;
 
 const songsAndSagas = await getEntry("games", "fari-rpgs/songs-and-sagas");
 
 // family = ,
 const fontsAsString = [headingFont, bodyFont]
-  .map((font) => `family=${font.trim()}`)
+  .filter((font) => font !== undefined)
+  .map((font) => `family=${font!.trim()}`)
   .join("&");
 
 const themeProps = getTheme({
   theme: props.theme,
 });
 
-const googleFontUrl = encodeURI(
-  `https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`
-);
+const googleFontUrl =
+  fontsAsString &&
+  encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
 ---
 
 <!doctype html>
@@ -57,7 +58,7 @@ const googleFontUrl = encodeURI(
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href={googleFontUrl} rel="stylesheet" />
+    {googleFontUrl && <link href={googleFontUrl} rel="stylesheet" />}
     <meta name="generator" content={Astro.generator} />
     <title>{props.title}</title>
     <ViewTransitions />
@@ -96,22 +97,32 @@ const googleFontUrl = encodeURI(
     <SpeedInsights />
   </Theme>
 
+  <style is:global>
+    body {
+      position: relative;
+    }
+  </style>
   <style
     is:global
     define:vars={{
       headingFont,
-      bodyFont,
     }}
   >
-    body {
-      position: relative;
-    }
-
     .radix-themes {
-      --default-font-family: var(--bodyFont); /* Your custom default font */
       --heading-font-family: var(
         --headingFont
       ); /* Your custom font for <Heading> components */
+    }
+  </style>
+  <style
+    is:global
+    define:vars={{
+      bodyFont,
+    }}
+  >
+    .radix-themes {
+      --default-font-family: var(--bodyFont); /* Your custom default font */
+
       --code-font-family: var(
         --bodyFont
       ); /* Your custom font for <Code> components */
