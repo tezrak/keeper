@@ -16,7 +16,7 @@ export function MDXHeading(p: Props) {
   });
 
   return (
-    <Heading data-mdx-type="heading" size={"7"} weight={"bold"}>
+    <Heading data-mdx-type="heading" size={"8"} weight={"bold"}>
       {props.children}
     </Heading>
   );
