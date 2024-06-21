@@ -1,11 +1,11 @@
 import { evaluate } from "@mdx-js/mdx";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
-import * as runtime from "react/jsx-runtime";
 import {
   MDXWrapper,
   getMdxComponents,
 } from "../../../../../components/client/MDX/MDX";
+import { evaluateMdx } from "../../../../../domains/mdx/evaluateMdx";
 import { getLogger } from "../../../../../domains/utils/getLogger";
 
 const logger = getLogger("Sheet");
@@ -22,8 +22,10 @@ export function GameAsset(props: {
     main();
     async function main() {
       try {
-        const res = await evaluate(props.asset.body, runtime as any);
-        setMDXContent(() => res.default);
+        const mdxContent = await evaluateMdx({
+          mdx: props.asset.body,
+        });
+        setMDXContent(() => mdxContent);
       } catch (error) {
         logger.error("Failed to evaluate MDX", { error });
       }
@@ -35,7 +37,9 @@ export function GameAsset(props: {
       {MDXContent && (
         <MDXContent
           components={{
-            ...getMdxComponents(),
+            ...getMdxComponents({
+              bumpOneLevel: true,
+            }),
           }}
         />
       )}

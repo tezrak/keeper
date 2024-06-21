@@ -141,13 +141,15 @@ export function LibraryCreatorGamePage(props: {
     return (
       <>
         {MDXContent && (
-          <Flex direction="column" gap="4">
+          <MDXWrapper>
             <MDXContent
               components={{
-                ...getMdxComponents(),
+                ...getMdxComponents({
+                  bumpOneLevel: true,
+                }),
               }}
             ></MDXContent>
-          </Flex>
+          </MDXWrapper>
         )}
       </>
     );

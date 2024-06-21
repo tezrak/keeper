@@ -4,7 +4,10 @@ import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import { getMdxComponents } from "../../../../components/client/MDX/MDX";
+import {
+  MDXWrapper,
+  getMdxComponents,
+} from "../../../../components/client/MDX/MDX";
 import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../domains/utils/getTheme";
@@ -61,10 +64,12 @@ export async function getStaticPaths() {
     creator={props.creator}
     assets={props.assets}
   >
-    <Content
-      components={{
-        ...getMdxComponents(),
-      }}
-    />
+    <MDXWrapper>
+      <Content
+        components={{
+          ...getMdxComponents(),
+        }}
+      />
+    </MDXWrapper>
   </LibraryCreatorGamePage>
 </Layout>
