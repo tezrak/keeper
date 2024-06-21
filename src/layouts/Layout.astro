@@ -67,9 +67,8 @@ const googleFontUrl =
     <body>
       <Container
         px={{
-          initial: "4",
-          sm: "6",
-          lg: "9",
+          initial: "6",
+          md: "9",
         }}
         maxWidth={"1204px"}
       >
@@ -98,6 +97,10 @@ const googleFontUrl =
   </Theme>
 
   <style is:global>
+    html {
+      /* scroll smooth */
+      scroll-behavior: smooth;
+    }
     body {
       position: relative;
     }

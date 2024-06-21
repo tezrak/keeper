@@ -1,7 +1,17 @@
 ---
-import { Button, Container, Flex, Grid, Heading, Text } from "@radix-ui/themes";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
 import { Image } from "astro:assets";
+import { ArrowBigDown } from "lucide-react";
 import { Card } from "../components/client/Card/Card";
+import { MDXH2 } from "../components/client/MDX/MDX";
 import { DLAstro } from "../domains/dl/DLAstro";
 import Layout from "../layouts/Layout.astro";
 
@@ -15,24 +25,41 @@ const gamesWithCreators = await DLAstro.getAllGamesWithCreators();
       justify="center"
       gap="4"
       direction={"column"}
-      className="mb-[10vh] mt-[10vh]"
+      className="md:mb-[10vh] md:mt-[10vh]"
     >
       <Heading
         as="h1"
-        size="9"
+        size={{
+          initial: "8",
+          md: "9",
+        }}
         align={"center"}
         className="font-bold leading-[normal]"
       >
         The best way to play<br /> your favorite TTRPGs
       </Heading>
 
-      <Text color="gray" size="4" mb="5" align={"center"}>
+      <Text
+        color="gray"
+        size={{
+          initial: "3",
+          md: "4",
+        }}
+        mb="5"
+        align={"center"}
+      >
         Hundreds of games you can play right here in your browser. <br /> Accessible,
         fast, and free.
       </Text>
-      <Button size="3" radius="full"> Get Started </Button>
+      <a href="#get-started">
+        <Button size="3" radius="full"> Get Started <ArrowBigDown /></Button>
+      </a>
     </Flex>
   </Container>
+
+  <Box pt="4" id="get-started">
+    <MDXH2> Games </MDXH2>
+  </Box>
   <Grid
     columns={{
       sm: "2",

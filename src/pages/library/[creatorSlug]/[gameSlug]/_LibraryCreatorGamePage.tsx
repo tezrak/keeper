@@ -1,4 +1,3 @@
-import { evaluateSync } from "@mdx-js/mdx";
 import {
   Badge,
   Box,
@@ -23,7 +22,7 @@ import {
 import { CreateNewCampaignButton } from "./_components/CreateNewCampaignButton";
 
 import { useEffect, useState } from "react";
-import * as runtime from "react/jsx-runtime";
+import { evaluateMdxSync } from "../../../../domains/mdx/evaluateMdx";
 import type { ThemeType } from "../../../../domains/utils/getTheme";
 
 export function LibraryCreatorGamePage(props: {
@@ -34,9 +33,11 @@ export function LibraryCreatorGamePage(props: {
   children: React.ReactNode;
   theme: ThemeType;
 }) {
-  const MDXContent = getMDXContent({
-    asset: props.currentAsset,
-  });
+  const MDXContent = props.currentAsset
+    ? evaluateMdxSync({
+        mdx: props.currentAsset.body,
+      })
+    : null;
   const campaignManager = useCampaign({
     id: "",
     readonly: true,
@@ -154,16 +155,4 @@ export function LibraryCreatorGamePage(props: {
       </>
     );
   }
-}
-
-function getMDXContent(props: {
-  asset: CollectionEntry<"assets"> | undefined;
-}) {
-  if (!props.asset) {
-    return null;
-  }
-
-  const res = evaluateSync(props.asset.body, runtime as any);
-  const MDXContent = res.default;
-  return MDXContent;
 }
