@@ -117,8 +117,8 @@ export function LibraryCreatorGamePage(props: {
           <Dialog.Content maxWidth="1024px">
             <Box pt={"7"} px="7">
               <Dialog.Title>
-                <Text size="9" align="center" className="block">
-                  Preview {props.currentAsset?.data.name}
+                <Text size="7" align="center" className="block" color="gray">
+                  {props.game.data.name}/{props.currentAsset?.data.name}
                 </Text>
               </Dialog.Title>
 

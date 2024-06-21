@@ -18,6 +18,7 @@ export const DLAstro = {
           games.map(async (game) => {
             const [creatorSlug] = game.id.split("/");
             const creator = await getEntry("creators", creatorSlug);
+
             return {
               game,
               creator: creator!,
@@ -64,17 +65,35 @@ export const DLAstro = {
 
     return gamesWithCreatorsAndSheets;
   },
+  async getCreator(props: { slug: string }) {
+    const creator = await getEntry("creators", props.slug);
+    return creator;
+  },
   async getGameWithCreator(props: { slug: string }) {
     const game = await getEntry("games", props.slug);
-
     if (!game) {
       return null;
     }
-    const [creatorSlug] = game.id.split("/");
-    const creator = await getEntry("creators", creatorSlug);
+
+    const creator = await getEntry(game.data.creator);
     return {
-      game,
-      creator,
+      game: game!,
+      creator: creator!,
+    };
+  },
+  async getAssetWithGameAndCreator(props: { slug: string }) {
+    const asset = await getEntry("assets", props.slug);
+
+    if (!asset) {
+      return null;
+    }
+
+    const game = await getEntry(asset.data.game);
+    const creator = await getEntry(game.data.creator);
+    return {
+      asset: asset!,
+      game: game!,
+      creator: creator!,
     };
   },
   async getAssetsForGame(props: { slug: string }) {

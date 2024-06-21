@@ -2,6 +2,10 @@
 import { Box, Flex, Link, Text } from "@radix-ui/themes";
 import { MDXDivider } from "../../client/MDX/mdx-components/ui/MDXDivider";
 
+export type Props = {
+  ogImageUrl: string;
+};
+
 const links: Record<string, Record<string, string>> = {
   Community: {
     Discord: "https://farirpgs.com/discord",
@@ -13,6 +17,14 @@ const links: Record<string, Record<string, string>> = {
     Contact: "https://farirpgs.com/contact",
   },
 };
+
+const OGImageURL = "/og" + Astro.url.pathname + "image.png";
+
+if (import.meta.env.DEV) {
+  links["Debug"] = {
+    "OG Image": Astro.props.ogImageUrl,
+  };
+}
 ---
 
 <Box className="my-[10rem]">
