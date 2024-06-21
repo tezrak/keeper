@@ -42,6 +42,8 @@ const theme = getTheme({
 ---
 
 <Layout
+  title={[`Playing ${props.game.data.name}`, props.creator.data.name]}
+  description={undefined}
   theme={theme}
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}

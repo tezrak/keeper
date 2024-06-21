@@ -26,6 +26,11 @@ for (const game of games) {
 }
 ---
 
-<Layout title="Campaigns" withBanner h1="Campaigns">
+<Layout
+  title={["My Campaigns"]}
+  description={undefined}
+  withBanner
+  h1="My Campaigns"
+>
   <CampaignsPage client:load theme={theme} gameImages={gameImages} />
 </Layout>

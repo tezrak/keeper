@@ -18,7 +18,7 @@ import Layout from "../layouts/Layout.astro";
 const gamesWithCreators = await DLAstro.getAllGamesWithCreators();
 ---
 
-<Layout title="Keeper" withBanner>
+<Layout title={undefined} description={undefined} withBanner>
   <Container size="1" maxWidth={"768px"}>
     <Flex
       align="center"

@@ -179,7 +179,7 @@ function OGImage(props: {
         >
           <div
             style={{
-              fontSize: "5em",
+              fontSize: "4em",
               display: "flex",
               fontWeight: fontWeight.bold,
               width: "100%",

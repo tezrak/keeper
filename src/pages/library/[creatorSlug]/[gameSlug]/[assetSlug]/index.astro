@@ -60,6 +60,12 @@ export async function getStaticPaths() {
 
 <Layout
   theme={theme}
+  title={[
+    currentAsset!.data.name,
+    props.game.data.name,
+    props.creator.data.name,
+  ]}
+  description={currentAsset!.data.description}
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}
 >

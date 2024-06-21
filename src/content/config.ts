@@ -6,6 +6,7 @@ export const collections = {
     type: "content",
     schema: z.object({
       name: z.string(),
+      description: z.string().default(""),
     }),
   }),
   games: defineCollection({
@@ -13,6 +14,7 @@ export const collections = {
     schema: (ctx) =>
       z.object({
         name: z.string(),
+        description: z.string().default(""),
         creator: reference("creators"),
         image: ctx.image(),
         theme: z
@@ -28,6 +30,7 @@ export const collections = {
     type: "content",
     schema: z.object({
       name: z.string(),
+      description: z.string().default(""),
       game: reference("games"),
       version: z
         .number()

@@ -42,7 +42,11 @@ export async function getStaticPaths() {
 }
 ---
 
-<Layout theme={theme}>
+<Layout
+  title={[props.creatorWithGames.creator.data.name]}
+  description={props.creatorWithGames.creator.data.description}
+  theme={theme}
+>
   <Flex direction="column" gap="5">
     <Heading size="9">{props.creatorWithGames.creator.data.name}</Heading>
 
