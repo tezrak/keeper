@@ -18,8 +18,6 @@ const links: Record<string, Record<string, string>> = {
   },
 };
 
-const OGImageURL = "/og" + Astro.url.pathname + "image.png";
-
 if (import.meta.env.DEV) {
   links["Debug"] = {
     "OG Image": Astro.props.ogImageUrl,

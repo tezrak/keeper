@@ -16,6 +16,8 @@ import { MDXDivider } from "../components/client/MDX/mdx-components/ui/MDXDivide
 import Footer from "../components/server/Footer/Footer.astro";
 import "./index.css";
 
+const ffOgImage = true;
+
 type Props = {
   title: Array<string> | undefined;
   description: string | undefined;
@@ -52,14 +54,15 @@ const googleFontUrl =
   fontsAsString &&
   encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
 
-const ogImageUrl =
-  "/" +
-  ["og", Astro.url.pathname, "image.png"]
-    // remove all extra slashes
-    .join("/")
-    .split("/")
-    .filter((part) => part !== "")
-    .join("/");
+const ogImageUrl = ffOgImage
+  ? "/" +
+    ["og", Astro.url.pathname, "image.png"]
+      // remove all extra slashes
+      .join("/")
+      .split("/")
+      .filter((part) => part !== "")
+      .join("/")
+  : "";
 ---
 
 <!doctype html>
@@ -87,7 +90,7 @@ const ogImageUrl =
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageUrl} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -95,7 +98,7 @@ const ogImageUrl =
     <meta property="twitter:url" content={Astro.url.href} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageUrl} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
 
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
@@ -150,7 +153,9 @@ const ogImageUrl =
                     props,
                   }}
                 />
-                <img src={ogImageUrl} alt="og image" class="h-max w-full" />
+                {ogImageUrl && (
+                  <img src={ogImageUrl} alt="og image" class="h-max w-full" />
+                )}
               </MDXColumns>
             </Box>
           )

@@ -2,6 +2,8 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { renderOgImage } from "../../domains/og-image/renderOgImage";
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({ params, request }) => {
   const numberOfCreators = (await getCollection("creators")).length;
   const numberOfGames = (await getCollection("games")).length;
