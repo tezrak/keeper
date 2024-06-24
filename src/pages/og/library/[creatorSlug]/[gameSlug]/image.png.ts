@@ -9,8 +9,11 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   return await renderOgImage({
     title: gameWithCreator!.game.data.name,
-    description: gameWithCreator!.game.body,
-    footerItems: [`By ${gameWithCreator!.creator.data.name}`],
+    description:
+      gameWithCreator!.game.data.description ||
+      `By ${gameWithCreator!.creator.data.name}`,
+
+    accentColor: gameWithCreator!.game.data.theme?.accentColor,
   });
 };
 

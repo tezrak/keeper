@@ -1,24 +1,30 @@
-import clsx from "clsx";
+import { Colors, type ColorType } from "../../../domains/colors/colors";
 
-export function Graphic(props: { asBackground?: boolean }) {
-  const asBackground = props.asBackground ?? true;
+export function Graphic(props: {
+  accentColor?: ColorType;
+  style?: React.CSSProperties;
+}) {
+  const accentColor = props.accentColor ?? "gold";
   return (
     <div
-      className={clsx(
-        "absolute left-0 top-0",
-        asBackground ? "z-[-1]" : "",
-        "h-full w-full",
-        "overflow-hidden print:hidden",
-      )}
+      style={{
+        display: "flex",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        width: "100%",
+        height: "auto",
+
+        ...props.style,
+      }}
     >
       <svg
-        width="100%"
-        height="100%"
-        className="opacity-20"
         viewBox="0 0 2560 1920"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ pointerEvents: "none" }}
+        style={{
+          pointerEvents: "none",
+        }}
       >
         <g>
           <path
@@ -53,13 +59,28 @@ export function Graphic(props: { asBackground?: boolean }) {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(-804.109 -2036.8) rotate(64.9401) scale(6436.87 6304.81)"
           >
-            <stop stopColor="var(--color-background)" />
-            <stop offset="0.0833333" stopColor="var(--accent-7)" />
-            <stop offset="0.364583" stopColor="var(--accent-5)" />
-            <stop offset="0.658041" stopColor="var(--color-background)" />
-            <stop offset="0.798521" stopColor="var(--accent-9)" />
-            <stop offset="0.942708" stopColor="var(--color-background)" />
-            <stop offset={1} stopColor="var(--color-background)" />
+            <stop stopColor={Colors.getDarkColor(accentColor, 1)} />
+            <stop
+              offset="0.0833333"
+              stopColor={Colors.getDarkColor(accentColor, 7)}
+            />
+            <stop
+              offset="0.364583"
+              stopColor={Colors.getDarkColor(accentColor, 5)}
+            />
+            <stop
+              offset="0.658041"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.798521"
+              stopColor={Colors.getDarkColor(accentColor, 9)}
+            />
+            <stop
+              offset="0.942708"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop offset={1} stopColor={Colors.getDarkColor(accentColor, 1)} />
           </radialGradient>
           <radialGradient
             id="paint1_radial_37_453-1"
@@ -69,13 +90,28 @@ export function Graphic(props: { asBackground?: boolean }) {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(201.6 -1080.02) rotate(64.9401) scale(6436.87 6304.81)"
           >
-            <stop stopColor="var(--color-background)" />
-            <stop offset="0.0833333" stopColor="var(--accent-2)" />
-            <stop offset="0.333803" stopColor="var(--accent-1)" />
-            <stop offset="0.658041" stopColor="var(--color-background)" />
-            <stop offset="0.798521" stopColor="var(--accent-9)" />
-            <stop offset="0.942708" stopColor="var(--color-background)" />
-            <stop offset={1} stopColor="var(--color-background)" />
+            <stop stopColor={Colors.getDarkColor(accentColor, 1)} />
+            <stop
+              offset="0.0833333"
+              stopColor={Colors.getDarkColor(accentColor, 2)}
+            />
+            <stop
+              offset="0.333803"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.658041"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.798521"
+              stopColor={Colors.getDarkColor(accentColor, 9)}
+            />
+            <stop
+              offset="0.942708"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop offset={1} stopColor={Colors.getDarkColor(accentColor, 1)} />
           </radialGradient>
           <radialGradient
             id="paint2_radial_37_453-1"
@@ -85,13 +121,28 @@ export function Graphic(props: { asBackground?: boolean }) {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(912.834 -811.021) rotate(64.9401) scale(6436.87 6304.81)"
           >
-            <stop stopColor="var(--color-background)" />
-            <stop offset="0.140625" stopColor="var(--accent-3)" />
-            <stop offset="0.333803" stopColor="var(--accent-7)" />
-            <stop offset="0.658041" stopColor="var(--color-background)" />
-            <stop offset="0.798521" stopColor="var(--accent-9)" />
-            <stop offset="0.942708" stopColor="var(--color-background)" />
-            <stop offset={1} stopColor="var(--color-background)" />
+            <stop stopColor={Colors.getDarkColor(accentColor, 1)} />
+            <stop
+              offset="0.140625"
+              stopColor={Colors.getDarkColor(accentColor, 3)}
+            />
+            <stop
+              offset="0.333803"
+              stopColor={Colors.getDarkColor(accentColor, 7)}
+            />
+            <stop
+              offset="0.658041"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.798521"
+              stopColor={Colors.getDarkColor(accentColor, 9)}
+            />
+            <stop
+              offset="0.942708"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop offset={1} stopColor={Colors.getDarkColor(accentColor, 1)} />
           </radialGradient>
           <radialGradient
             id="paint3_radial_37_453-1"
@@ -101,13 +152,28 @@ export function Graphic(props: { asBackground?: boolean }) {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(1711.41 -1639.11) rotate(64.9401) scale(6436.87 6304.81)"
           >
-            <stop stopColor="var(--color-background)" />
-            <stop offset="0.0833333" stopColor="var(--accent-7)" />
-            <stop offset="0.333803" stopColor="var(--accent-1)" />
-            <stop offset="0.658041" stopColor="var(--color-background)" />
-            <stop offset="0.798521" stopColor="var(--accent-9)" />
-            <stop offset="0.942708" stopColor="var(--color-background)" />
-            <stop offset={1} stopColor="var(--color-background)" />
+            <stop stopColor={Colors.getDarkColor(accentColor, 1)} />
+            <stop
+              offset="0.0833333"
+              stopColor={Colors.getDarkColor(accentColor, 7)}
+            />
+            <stop
+              offset="0.333803"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.658041"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.798521"
+              stopColor={Colors.getDarkColor(accentColor, 9)}
+            />
+            <stop
+              offset="0.942708"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop offset={1} stopColor={Colors.getDarkColor(accentColor, 1)} />
           </radialGradient>
           <radialGradient
             id="paint4_radial_37_453-1"
@@ -117,13 +183,28 @@ export function Graphic(props: { asBackground?: boolean }) {
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(3479.06 -623.459) rotate(113.028) scale(8332.26 4870.62)"
           >
-            <stop stopColor="var(--color-background)" />
-            <stop offset="0.0833333" stopColor="var(--accent-7)" />
-            <stop offset="0.333803" stopColor="var(--accent-1)" />
-            <stop offset="0.658041" stopColor="var(--color-background)" />
-            <stop offset="0.798521" stopColor="var(--accent-9)" />
-            <stop offset="0.942708" stopColor="var(--color-background)" />
-            <stop offset={1} stopColor="var(--color-background)" />
+            <stop stopColor={Colors.getDarkColor(accentColor, 1)} />
+            <stop
+              offset="0.0833333"
+              stopColor={Colors.getDarkColor(accentColor, 7)}
+            />
+            <stop
+              offset="0.333803"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.658041"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop
+              offset="0.798521"
+              stopColor={Colors.getDarkColor(accentColor, 9)}
+            />
+            <stop
+              offset="0.942708"
+              stopColor={Colors.getDarkColor(accentColor, 1)}
+            />
+            <stop offset={1} stopColor={Colors.getDarkColor(accentColor, 1)} />
           </radialGradient>
         </defs>
       </svg>

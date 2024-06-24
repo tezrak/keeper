@@ -53,7 +53,9 @@ export async function getStaticPaths() {
     <MDXWrapper>
       <Content
         components={{
-          ...getMdxComponents(),
+          ...getMdxComponents({
+            bumpOneLevel: true,
+          }),
         }}
       />
     </MDXWrapper>

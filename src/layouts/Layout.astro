@@ -110,7 +110,14 @@ const ogImageUrl =
         }}
         maxWidth={props.maxWidth || "1204px"}
       >
-        <Graphic />
+        <Graphic
+          accentColor={themeProps.accentColor}
+          style={{
+            zIndex: -1,
+            opacity: 0.25,
+            filter: "blur(0px)",
+          }}
+        />
         <Header />
         {
           props.withBanner && (
@@ -161,6 +168,10 @@ const ogImageUrl =
     }
     .astro-debug {
       background: none !important;
+    }
+
+    .astro-code {
+      border: none !important;
     }
   </style>
   <style

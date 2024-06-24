@@ -1,12 +1,17 @@
-import { grayDark, tealA, tealDark } from "@radix-ui/colors";
+import { grayDark } from "@radix-ui/colors";
 import { ImageResponse } from "@vercel/og";
 import truncate from "lodash/truncate";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { renderToString } from "react-dom/server";
+import { Graphic } from "../../components/client/Graphic/Graphic";
+import { Colors, type ColorType } from "../colors/colors";
 
+const debug = false;
 export async function renderOgImage(props: {
   title: string;
   description: string;
+  accentColor?: ColorType;
   footerItems?: Array<string>;
 }) {
   const interRegularFontData = await fs.readFile(
@@ -17,6 +22,25 @@ export async function renderOgImage(props: {
     path.join(process.cwd(), "./public/fonts/inter/Inter-Bold.ttf"),
   );
 
+  if (debug) {
+    return new Response(
+      renderToString(
+        <OGImage
+          siteTitle={"Keeper"}
+          title={props.title}
+          description={props.description}
+          footerItems={props.footerItems}
+          accentColor={props.accentColor}
+        ></OGImage>,
+      ),
+      {
+        headers: {
+          "content-type": "text/html",
+        },
+      },
+    );
+  }
+
   return new ImageResponse(
     (
       <OGImage
@@ -24,6 +48,7 @@ export async function renderOgImage(props: {
         title={props.title}
         description={props.description}
         footerItems={props.footerItems}
+        accentColor={props.accentColor}
       ></OGImage>
     ),
     {
@@ -52,23 +77,20 @@ function OGImage(props: {
   siteTitle: string | null | undefined;
   title: string;
   description: string;
+  accentColor?: ColorType;
   footerItems?: Array<string>;
   readingTime?: number;
   lastUpdatedDate?: string;
 }) {
-  // take the description which is raw markdown adn remove all the markdown syntax
-  const parsedDescription = props.description
-    .replaceAll("_", "")
-    .replaceAll("#", "")
-    .replaceAll("*", "")
-    .replaceAll("[", "")
-    .replaceAll("]", "");
+  const accentColor = props.accentColor || "gold";
+  const hasFooter = props.footerItems && props.footerItems.length > 0;
   const bodySize = "20px";
+
   const colors = {
     background: {
-      default: tealDark.teal1,
-      badge: tealA.tealA4,
-      leftBorder: tealDark.teal5,
+      default: Colors.getDarkColor(accentColor, 1),
+      badge: Colors.getDarkColor(accentColor, 7),
+      leftBorder: Colors.getDarkColor(accentColor, 4),
     },
     text: {
       default: "#FFFFFF",
@@ -94,7 +116,8 @@ function OGImage(props: {
     >
       <div
         style={{
-          background: colors.background.default,
+          // background: colors.background.default,
+          background: "#fff",
           color: colors.text.default,
           fontWeight: fontWeight.regular,
           fontSize: bodySize,
@@ -108,24 +131,129 @@ function OGImage(props: {
           position: "relative",
         }}
       >
-        {/* border left */}
-        <div
-          style={{
-            background: colors.background.leftBorder,
-            position: "absolute",
-            borderTopLeftRadius: "16px",
-            borderBottomLeftRadius: "16px",
-            top: 0,
-            left: 0,
-            width: "1.5rem",
-            height: "100%",
-          }}
-        ></div>
+        {renderBackground()}
+        {renderLeftBorder()}
         {renderHeader()}
         {renderContent()}
       </div>
     </div>
   );
+
+  function renderBackground() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          borderRadius: "16px",
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+          background: Colors.getDarkColor(accentColor, 1),
+        }}
+      >
+        {true && (
+          <Graphic
+            accentColor={accentColor}
+            style={{
+              width: "100%",
+              height: "100%",
+              // top: "-30%",
+              // left: "-10%",
+
+              opacity: 0.1,
+            }}
+          ></Graphic>
+        )}
+        {true && (
+          <div
+            style={{
+              display: "flex",
+              opacity: 0.4,
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640">
+              <defs>
+                <filter id="a" width="120%" height="120%" x="-10%" y="-10%">
+                  <feFlood floodOpacity={0} result="BackgroundImageFix" />
+                  <feBlend
+                    in="SourceGraphic"
+                    in2="BackgroundImageFix"
+                    result="shape"
+                  />
+                  <feGaussianBlur
+                    result="effect1_foregroundBlur"
+                    stdDeviation={202}
+                  />
+                </filter>
+              </defs>
+              <path
+                fill={Colors.getDarkColor(accentColor, 2)}
+                d="M0 0h1200v640H0z"
+              />
+              <g filter="url(#a)">
+                <circle
+                  cx={723}
+                  cy={351}
+                  r={449}
+                  fill={Colors.getDarkColor(accentColor, 4)}
+                />
+                <circle
+                  cx={424}
+                  cy={597}
+                  r={449}
+                  fill={Colors.getDarkColor(accentColor, 2)}
+                />
+                <circle
+                  cx={24}
+                  cy={308}
+                  r={449}
+                  fill={Colors.getDarkColor(accentColor, 4)}
+                />
+                <circle
+                  cx={455}
+                  cy={49}
+                  r={449}
+                  fill={Colors.getDarkColor(accentColor, 4)}
+                />
+                <circle
+                  cx={322}
+                  cy={339}
+                  r={449}
+                  fill={Colors.getDarkColor(accentColor, 2)}
+                />
+                <circle
+                  cx={912}
+                  cy={90}
+                  r={449}
+                  fill={Colors.getDarkColor(accentColor, 4)}
+                />
+              </g>
+            </svg>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function renderLeftBorder() {
+    return (
+      <div
+        style={{
+          background: colors.background.leftBorder,
+          position: "absolute",
+          borderTopLeftRadius: "16px",
+          borderBottomLeftRadius: "16px",
+          top: 0,
+          left: 0,
+          width: "1.5rem",
+          height: "100%",
+        }}
+      ></div>
+    );
+  }
 
   function renderHeader() {
     return (
@@ -159,7 +287,7 @@ function OGImage(props: {
     return (
       <div
         style={{
-          padding: "3rem 4rem 3rem 4rem",
+          padding: hasFooter ? "3rem 4rem 3rem 4rem" : "3rem 4rem 5rem 4rem",
           display: "flex",
           gap: "1rem",
           flex: "1",
@@ -196,11 +324,11 @@ function OGImage(props: {
               width: "100%",
             }}
           >
-            {truncate(parsedDescription, { length: 100 })}
+            {truncate(props.description, { length: 100 })}
           </div>
         </div>
         {/* footer */}
-        {props.footerItems && (
+        {hasFooter && (
           <div
             style={{
               display: "flex",
@@ -214,7 +342,7 @@ function OGImage(props: {
                 gap: "1rem",
               }}
             >
-              {props.footerItems.map((item) => (
+              {props.footerItems?.map((item) => (
                 <div
                   style={{
                     display: "flex",
@@ -247,9 +375,10 @@ function OGImage(props: {
       <div
         style={{
           fontSize: "1.5em",
+          textTransform: "uppercase",
         }}
       >
-        📝 Keeper
+        Keeper
       </div>
     );
   }

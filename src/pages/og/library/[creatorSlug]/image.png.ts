@@ -9,7 +9,7 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   return await renderOgImage({
     title: creator!.data.name,
-    description: creator!.body,
+    description: creator?.data.description || "Creator of games and assets",
   });
 };
 

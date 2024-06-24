@@ -1,36 +1,3 @@
-import {
-  amberDark,
-  blueDark,
-  bronzeDark,
-  brownDark,
-  crimsonDark,
-  cyanDark,
-  goldDark,
-  grassDark,
-  grayDark,
-  greenDark,
-  indigoDark,
-  irisDark,
-  jadeDark,
-  limeDark,
-  mauveDark,
-  mintDark,
-  oliveDark,
-  orangeDark,
-  pinkDark,
-  plumDark,
-  purpleDark,
-  redDark,
-  rubyDark,
-  sageDark,
-  sandDark,
-  skyDark,
-  slateDark,
-  tealDark,
-  tomatoDark,
-  violetDark,
-  yellowDark,
-} from "@radix-ui/colors";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import {
   AspectRatio,
@@ -44,42 +11,9 @@ import {
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import { useState } from "react";
+import { Colors, type ColorType } from "../../../domains/colors/colors";
 import { getRandomElement } from "../../../domains/utils/random";
 import { Graphic } from "../Graphic/Graphic";
-
-const colors = [
-  [amberDark.amber3, amberDark.amber11],
-  [blueDark.blue3, blueDark.blue11],
-  [bronzeDark.bronze3, bronzeDark.bronze11],
-  [brownDark.brown3, brownDark.brown11],
-  [crimsonDark.crimson3, crimsonDark.crimson11],
-  [cyanDark.cyan3, cyanDark.cyan11],
-  [goldDark.gold3, goldDark.gold11],
-  [grassDark.grass3, grassDark.grass11],
-  [grayDark.gray3, grayDark.gray11],
-  [greenDark.green3, greenDark.green11],
-  [indigoDark.indigo3, indigoDark.indigo11],
-  [irisDark.iris3, irisDark.iris11],
-  [jadeDark.jade3, jadeDark.jade11],
-  [limeDark.lime3, limeDark.lime11],
-  [mauveDark.mauve3, mauveDark.mauve11],
-  [mintDark.mint3, mintDark.mint11],
-  [oliveDark.olive3, oliveDark.olive11],
-  [orangeDark.orange3, orangeDark.orange11],
-  [pinkDark.pink3, pinkDark.pink11],
-  [plumDark.plum3, plumDark.plum11],
-  [purpleDark.purple3, purpleDark.purple11],
-  [redDark.red3, redDark.red11],
-  [rubyDark.ruby3, rubyDark.ruby11],
-  [sageDark.sage3, sageDark.sage11],
-  [sandDark.sand3, sandDark.sand11],
-  [skyDark.sky3, skyDark.sky11],
-  [slateDark.slate3, slateDark.slate11],
-  [tealDark.teal3, tealDark.teal11],
-  [tomatoDark.tomato3, tomatoDark.tomato11],
-  [violetDark.violet3, violetDark.violet11],
-  [yellowDark.yellow3, yellowDark.yellow11],
-];
 
 export function Card(props: {
   href?: string;
@@ -91,10 +25,12 @@ export function Card(props: {
   children?: React.ReactNode;
 }) {
   const [hover, setHover] = useState(false);
-  const [randomGradient] = useState(() => {
-    return getRandomElement(colors, props.title);
+  const allColors = Colors.getAccentColors() as any;
+  const [randomColor] = useState(() => {
+    return getRandomElement<ColorType>(allColors, props.title);
   });
-  const [firstColor, secondColor] = randomGradient;
+  const firstColor = Colors.getDarkColor(randomColor, 3);
+  const secondColor = Colors.getDarkColor(randomColor, 11);
 
   function handleMouseEnter() {
     setHover(true);
@@ -130,7 +66,11 @@ export function Card(props: {
               "[&>img]:object-cover",
             ])}
           >
-            <Graphic asBackground={false} />
+            <Graphic
+              style={{
+                zIndex: -1,
+              }}
+            />
 
             {props.children}
           </AspectRatio>

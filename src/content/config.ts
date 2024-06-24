@@ -1,5 +1,6 @@
 import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection, reference, z } from "astro:content";
+import { Colors } from "../domains/colors/colors";
 
 export const collections = {
   creators: defineCollection({
@@ -19,7 +20,7 @@ export const collections = {
         image: ctx.image(),
         theme: z
           .object({
-            accentColor: z.enum(getRadixAccentColors()).optional(),
+            accentColor: z.enum(Colors.getAccentColors()).optional(),
             headingFont: z.string().optional(),
             bodyFont: z.string().optional(),
           })
@@ -43,34 +44,3 @@ export const collections = {
   }),
   docs: defineCollection({ schema: docsSchema() }),
 };
-
-function getRadixAccentColors() {
-  return [
-    "gray",
-    "gold",
-    "bronze",
-    "brown",
-    "yellow",
-    "amber",
-    "orange",
-    "tomato",
-    "red",
-    "ruby",
-    "crimson",
-    "pink",
-    "plum",
-    "purple",
-    "violet",
-    "iris",
-    "indigo",
-    "blue",
-    "cyan",
-    "teal",
-    "jade",
-    "green",
-    "grass",
-    "lime",
-    "mint",
-    "sky",
-  ] as const;
-}
