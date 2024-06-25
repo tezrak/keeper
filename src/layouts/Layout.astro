@@ -1,5 +1,12 @@
 ---
-import { Box, Container, Flex, Heading, Theme } from "@radix-ui/themes";
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Theme,
+  type ContainerProps,
+} from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import SpeedInsights from "@vercel/speed-insights/astro";
 import { ViewTransitions, fade } from "astro:transitions";
@@ -22,7 +29,7 @@ type Props = {
   title: Array<string> | undefined;
   description: string | undefined;
   h1?: string;
-  maxWidth?: string;
+  size?: ContainerProps["size"];
   headingFont?: string;
   bodyFont?: string;
   withBanner?: boolean;
@@ -111,7 +118,7 @@ const ogImageUrl = ffOgImage
           initial: "6",
           md: "9",
         }}
-        maxWidth={props.maxWidth || "1204px"}
+        size={"4"}
       >
         <Graphic
           accentColor={themeProps.accentColor}
@@ -128,16 +135,31 @@ const ogImageUrl = ffOgImage
               src={songsAndSagas.data.image!}
               alt={"Background"}
               alt="Keeper"
-              justBackground
             />
           )
         }
+      </Container>
+      <Container
+        px={{
+          initial: "6",
+          md: "9",
+        }}
+        size={props.size || "4"}
+      >
         <main>
           <Flex direction="column" gap="5">
             {props.h1 && <Heading size="9">{props.h1}</Heading>}
             <slot />
           </Flex>
         </main>
+      </Container>
+      <Container
+        px={{
+          initial: "6",
+          md: "9",
+        }}
+        size={"4"}
+      >
         <Footer ogImageUrl={ogImageUrl} />
         {
           import.meta.env.DEV && (
@@ -154,7 +176,7 @@ const ogImageUrl = ffOgImage
                   }}
                 />
                 {ogImageUrl && (
-                  <img src={ogImageUrl} alt="og image" class="h-max w-full" />
+                  <img src={ogImageUrl} alt="open graph" class="h-max w-full" />
                 )}
               </MDXColumns>
             </Box>
@@ -162,8 +184,8 @@ const ogImageUrl = ffOgImage
         }
       </Container>
     </body>
-    <SpeedInsights />
   </Theme>
+  <SpeedInsights />
 
   <style is:global>
     html {

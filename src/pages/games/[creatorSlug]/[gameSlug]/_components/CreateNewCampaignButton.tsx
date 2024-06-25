@@ -29,17 +29,15 @@ export function CreateNewCampaignButton(props: { gameSlug: string }) {
   }
 
   return (
-    <span>
-      <Button
-        size="4"
-        className={clsx("font-bold", "transition-all")}
-        variant="solid"
-        disabled={!ready || adding}
-        onClick={handleClick}
-        loading={adding}
-      >
-        Start a new campaign
-      </Button>
-    </span>
+    <Button
+      size="4"
+      className={clsx("font-bold", "transition-all")}
+      variant="solid"
+      disabled={!ready || adding}
+      onClick={handleClick}
+      loading={adding}
+    >
+      Start a new campaign
+    </Button>
   );
 }

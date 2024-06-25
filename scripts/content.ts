@@ -3,6 +3,7 @@ import { kebabCase } from "lodash";
 import startCase from "lodash/startCase";
 import path from "path";
 import prompts from "prompts";
+import { Colors } from "../src/domains/colors/colors";
 import { constants } from "../src/domains/utils/constants";
 import { getLogger } from "../src/domains/utils/getLogger";
 
@@ -92,16 +93,18 @@ async function createGame() {
     return;
   }
 
-  // DESCRIPTION
-  const descriptionForm = await prompts({
-    type: "text",
+  // ACCENT COLOR
+  const accentColorForm = await prompts({
+    type: "autocomplete",
     name: "value",
-    message: "What is the description of the game?",
+    message: "What is the accent color of the game?",
+    choices: Colors.getAccentColors().map((color) => {
+      return {
+        title: startCase(color),
+        value: color,
+      };
+    }),
   });
-  if (descriptionForm.value === undefined) {
-    logger.error("Operation cancelled, no description provided");
-    return;
-  }
 
   const gameSlug = kebabCase(nameForm.value);
 
@@ -113,9 +116,10 @@ async function createGame() {
     `---
 name: ${nameForm.value}
 creator: ${creatorForm.value}
+theme:
+  accentColor: ${accentColorForm.value}
 ---
 
-${descriptionForm.value}
 `,
   );
 

@@ -1,0 +1,49 @@
+---
+name: Character Sheet
+game: fistful-of-crits/afterglow
+---
+
+<Label>Details</Label>
+<TextField name="name">Name</TextField>
+<TextField name="pronouns">Pronouns</TextField>
+<Columns>
+<Stack>
+
+<Label>Appearance</Label>
+
+<TextAreaField name="appearance" rows={2}/>
+</Stack>
+<Stack>
+
+<Label>Ritual Artifacts</Label>
+<List name="ritual-artifacts" min={1} max={5}>
+    <TextField name="name"/>
+</List>
+</Stack>
+</Columns>
+
+<Label>Stats</Label>
+
+<Columns cols={3}>
+  <NumberField name="stats.strong" >
+    Strong
+  </NumberField>
+  <NumberField name="stats.fast" >
+    Fast
+    </NumberField>
+
+  <NumberField name="stats.measured">
+    Measured
+    </NumberField>
+</Columns>
+
+<Label>Skills</Label>
+
+<TextAreaField name="skills" rows={3} />
+<Label>Offerings</Label>
+
+<TextAreaField name="offerings" rows={3} />
+
+<Label>Fatigue</Label>
+
+<Tracker name="fatigue" min={5} max={5} />

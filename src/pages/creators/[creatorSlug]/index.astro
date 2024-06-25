@@ -11,8 +11,11 @@ import {
   MDXWrapper,
   getMdxComponents,
 } from "../../../components/client/MDX/MDX";
+import { AppUrl } from "../../../domains/app-url/AppUrl";
+import { Colors, type ColorType } from "../../../domains/colors/colors";
 import { DLAstro } from "../../../domains/dl/DLAstro";
 import { getTheme } from "../../../domains/utils/getTheme";
+import { getRandomElement } from "../../../domains/utils/random";
 import Layout from "../../../layouts/Layout.astro";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
@@ -58,9 +61,7 @@ export async function getStaticPaths() {
     <MDXWrapper>
       <Content
         components={{
-          ...getMdxComponents({
-            bumpOneLevel: true,
-          }),
+          ...getMdxComponents({}),
         }}
       />
     </MDXWrapper>
@@ -81,9 +82,17 @@ export async function getStaticPaths() {
               return (
                 <Card
                   client:idle
-                  href={`/library/${game.slug}`}
+                  href={AppUrl.game({ slug: game.slug })}
                   title={game.data.name}
                   subtitle={creator.data.name}
+                  accentColor={
+                    game.data.image === undefined
+                      ? getRandomElement<ColorType>(
+                          Colors.getAccentColors() as any,
+                          game.data.name
+                        )
+                      : undefined
+                  }
                 >
                   {game.data.image && (
                     <Image
@@ -92,6 +101,7 @@ export async function getStaticPaths() {
                       src={game.data.image}
                       alt={game.data.name}
                       style={{
+                        position: "absolute",
                         objectFit: "cover",
                         objectPosition: "left",
                         width: "100%",

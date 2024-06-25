@@ -1,0 +1,26 @@
+---
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
+import { Image } from "astro:assets";
+import { ArrowBigDown } from "lucide-react";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title={undefined} description={undefined} withBanner>
+  <head> </head>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script src="/pagefind/pagefind-ui.js" is:inline></script>
+  <div id="search"></div>
+  <script is:inline>
+    window.addEventListener("DOMContentLoaded", (event) => {
+      new PagefindUI({ element: "#search", showSubResults: true });
+    });
+  </script>
+</Layout>

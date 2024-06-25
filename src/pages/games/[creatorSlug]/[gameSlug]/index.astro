@@ -1,10 +1,10 @@
 ---
-import { Box } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
+import { Image } from "astro:assets";
 import {
   MDXWrapper,
   getMdxComponents,
@@ -13,7 +13,7 @@ import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
-import { LibraryCreatorGamePage } from "./_LibraryCreatorGamePage";
+import { Page } from "./_page";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
@@ -58,28 +58,26 @@ export async function getStaticPaths() {
   headingFont={game.data.theme?.headingFont}
   bodyFont={game.data.theme?.bodyFont}
 >
-  {
-    game.data.image && (
-      <Box mb="9">
-        <Banner src={game.data.image} alt={game.data.name} />
-      </Box>
-    )
-  }
-  <LibraryCreatorGamePage
-    client:load
-    theme={theme}
-    game={game}
-    creator={creator}
-    assets={assets}
-  >
+  {game.data.image && <Banner src={game.data.image} alt={game.data.name} />}
+  <Page client:load theme={theme} game={game} creator={creator} assets={assets}>
+    <div slot="gameCover">
+      {
+        game.data.image && (
+          <Image
+            class={"rounded-lg"}
+            src={game.data.image}
+            alt={game.data.name}
+            width={1200}
+          />
+        )
+      }
+    </div>
     <MDXWrapper>
       <Content
         components={{
-          ...getMdxComponents({
-            bumpOneLevel: true,
-          }),
+          ...getMdxComponents({}),
         }}
       />
     </MDXWrapper>
-  </LibraryCreatorGamePage>
+  </Page>
 </Layout>

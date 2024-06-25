@@ -4,22 +4,17 @@ import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import {
-  MDXWrapper,
-  getMdxComponents,
-} from "../../../../../components/client/MDX/MDX";
 import Banner from "../../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../../domains/utils/getTheme";
 import Layout from "../../../../../layouts/Layout.astro";
-import { LibraryCreatorGamePage } from "../_LibraryCreatorGamePage";
+import { Page } from "./_page";
+
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const props = Astro.props as Props;
 const params = Astro.params as Params;
-
-const { Content } = await props.game.render();
 
 const theme = getTheme({
   theme: {
@@ -33,7 +28,6 @@ const currentAsset = props.assets.find((asset) => {
     `${params.creatorSlug}/${params.gameSlug}/${params.assetSlug}`
   );
 });
-const AssetContent = (await currentAsset?.render())?.Content!;
 
 export async function getStaticPaths() {
   const { games } = await DLAstro.getAllGamesWithCreator({
@@ -66,6 +60,7 @@ export async function getStaticPaths() {
     props.game.data.name,
     props.creator.data.name,
   ]}
+  size="3"
   description={currentAsset!.data.description}
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}
@@ -75,20 +70,12 @@ export async function getStaticPaths() {
       <Banner src={props.game.data.image} alt={props.game.data.name} />
     )
   }
-  <LibraryCreatorGamePage
+  <Page
     client:load
     theme={theme}
     game={props.game}
     creator={props.creator}
     assets={props.assets}
     currentAsset={currentAsset}
-  >
-    <MDXWrapper>
-      <Content
-        components={{
-          ...getMdxComponents({}),
-        }}
-      />
-    </MDXWrapper>
-  </LibraryCreatorGamePage>
+  />
 </Layout>

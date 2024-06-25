@@ -12,7 +12,10 @@ import { Image } from "astro:assets";
 import { ArrowBigDown } from "lucide-react";
 import { Card } from "../components/client/Card/Card";
 import { MDXH2 } from "../components/client/MDX/MDX";
+import { AppUrl } from "../domains/app-url/AppUrl";
+import { Colors, type ColorType } from "../domains/colors/colors";
 import { DLAstro } from "../domains/dl/DLAstro";
+import { getRandomElement } from "../domains/utils/random";
 import Layout from "../layouts/Layout.astro";
 
 const { games } = await DLAstro.getAllGamesWithCreator({});
@@ -73,10 +76,19 @@ const { games } = await DLAstro.getAllGamesWithCreator({});
         return (
           <Card
             client:idle
-            href={`/library/${item.game.slug}`}
+            href={AppUrl.game({
+              slug: item.game.slug,
+            })}
             title={item.game.data.name}
             subtitle={item.creator.data.name}
-            addColoredBackground={item.game.data.image === undefined}
+            accentColor={
+              item.game.data.image === undefined
+                ? getRandomElement<ColorType>(
+                    Colors.getAccentColors() as any,
+                    item.game.data.name
+                  )
+                : undefined
+            }
           >
             {item.game.data.image ? (
               <Image

@@ -36,7 +36,7 @@ import { GameAsset } from "./_components/_GameAsset";
 
 const logger = getLogger("PlayCreatorGamePage");
 
-export function PlayCreatorGamePage(props: {
+export function Page(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;

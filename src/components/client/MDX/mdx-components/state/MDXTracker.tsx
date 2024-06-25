@@ -12,7 +12,7 @@ const propsSchema = z.object({
   children: z.any().optional(),
 });
 
-export type Props = z.infer<typeof propsSchema>;
+export type Props = z.input<typeof propsSchema>;
 
 export function MDXTracker(p: Props) {
   const props = parseProps({

@@ -1,8 +1,8 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
-import starlight from "@astrojs/starlight";
 import { constants } from "./src/domains/utils/constants";
 
 import vercel from "@astrojs/vercel/serverless";
@@ -11,24 +11,32 @@ import vercel from "@astrojs/vercel/serverless";
 export default defineConfig({
   output: "hybrid",
   site: constants.site({
-    localhost: false
+    localhost: false,
   }),
-  integrations: [starlight({
-    title: "Keeper Doc",
-    disable404Route: true,
-    sidebar: [{
-      label: "Documentation",
-      autogenerate: {
-        directory: "docs"
-      }
-    }],
-    customCss: [
-    // Relative path to your custom CSS file
-    "./src/styles/docs.css"]
-  }), react(), tailwind(), mdx()],
+  integrations: [
+    starlight({
+      title: "Keeper Doc",
+      disable404Route: true,
+      sidebar: [
+        {
+          label: "Documentation",
+          autogenerate: {
+            directory: "docs",
+          },
+        },
+      ],
+      customCss: [
+        // Relative path to your custom CSS file
+        "./src/styles/docs.css",
+      ],
+    }),
+    react(),
+    tailwind(),
+    mdx(),
+  ],
   experimental: {
     // contentCollectionJsonSchema: true,
     // contentCollectionCache: true,
   },
-  adapter: vercel()
+  adapter: vercel(),
 });

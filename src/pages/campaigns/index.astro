@@ -3,7 +3,7 @@ import { getImage } from "astro:assets";
 import { DLAstro } from "../../domains/dl/DLAstro";
 import { getTheme } from "../../domains/utils/getTheme";
 import Layout from "../../layouts/Layout.astro";
-import { CampaignsPage } from "./_CampaignsPage";
+import { Page } from "./_page";
 
 const theme = getTheme({});
 
@@ -32,5 +32,5 @@ for (const game of games) {
   withBanner
   h1="My Campaigns"
 >
-  <CampaignsPage client:load theme={theme} gameImages={gameImages} />
+  <Page client:load theme={theme} gameImages={gameImages} />
 </Layout>

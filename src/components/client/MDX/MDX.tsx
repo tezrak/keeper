@@ -37,14 +37,15 @@ export function MDXWrapper(props: { children: React.ReactNode }) {
   );
 }
 
-export function getMdxComponents(arg: { bumpOneLevel?: boolean } = {}) {
+export function getMdxComponents(arg: { allowH1s?: boolean } = {}) {
+  const allowH1s = arg.allowH1s ?? false;
   return {
-    h1: !arg.bumpOneLevel ? MDXH1 : MDXH2,
-    h2: !arg.bumpOneLevel ? MDXH2 : MDXH3,
-    h3: !arg.bumpOneLevel ? MDXH3 : MDXH4,
-    h4: !arg.bumpOneLevel ? MDXH4 : MDXH5,
-    h5: !arg.bumpOneLevel ? MDXH5 : MDXH6,
-    h6: !arg.bumpOneLevel ? MDXH6 : MDXH6,
+    h1: allowH1s ? MDXH1 : MDXH2,
+    h2: allowH1s ? MDXH2 : MDXH3,
+    h3: allowH1s ? MDXH3 : MDXH4,
+    h4: allowH1s ? MDXH4 : MDXH5,
+    h5: allowH1s ? MDXH5 : MDXH6,
+    h6: allowH1s ? MDXH6 : MDXH6,
     a: MDXA,
     blockquote: MDXBlockquote,
     em: MDXEm,

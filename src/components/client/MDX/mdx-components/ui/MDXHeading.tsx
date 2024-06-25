@@ -6,7 +6,7 @@ const propsSchema = z.object({
   children: z.any().optional(),
 });
 
-export type Props = z.infer<typeof propsSchema>;
+export type Props = z.input<typeof propsSchema>;
 
 export function MDXHeading(p: Props) {
   const props = parseProps({

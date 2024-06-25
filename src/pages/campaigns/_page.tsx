@@ -12,7 +12,7 @@ import type { GameImagesType } from "./index.astro";
 
 const logger = getLogger("GamesPage");
 
-export function CampaignsPage(props: {
+export function Page(props: {
   theme: ThemeType;
 
   gameImages: GameImagesType;
@@ -88,6 +88,7 @@ function GameCard(props: {
   gameImages: GameImagesType;
   onDelete: (id: string) => void;
 }) {
+  const [loading, setLoading] = useState(true);
   const [gameWithCreator, setGameWithCreator] = useState<{
     game: CollectionEntry<"games">;
     creator: CollectionEntry<"creators">;
@@ -97,6 +98,9 @@ function GameCard(props: {
     props.onDelete(props.id);
   }
 
+  console.log("loading", loading);
+  console.log("gameWithCreator", gameWithCreator);
+
   useEffect(() => {
     let ignore = false;
     main();
@@ -104,6 +108,7 @@ function GameCard(props: {
       if (!props.id || !props.slug) {
         return;
       }
+      setLoading(true);
       try {
         logger.log("Fetching game card");
         const result = await DLClient.getGameWithCreator({
@@ -121,6 +126,11 @@ function GameCard(props: {
           return;
         }
         logger.error("Failed to get game", { error });
+      } finally {
+        if (ignore) {
+          return;
+        }
+        setLoading(false);
       }
     }
 
@@ -130,7 +140,7 @@ function GameCard(props: {
   }, [props.id, props.slug]);
 
   return (
-    <Skeleton loading={!gameWithCreator}>
+    <Skeleton loading={loading}>
       {gameWithCreator ? (
         <Card
           href={`/play/${props.slug}?id=${props.id}`}
@@ -159,7 +169,6 @@ function GameCard(props: {
         <Card
           title={props.slug}
           error="(Not found)"
-          addColoredBackground
           menu={
             <>
               <DropdownMenu.Item color="red" onClick={handleDelete}>

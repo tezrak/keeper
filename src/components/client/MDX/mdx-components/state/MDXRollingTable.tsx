@@ -29,7 +29,7 @@ const propsSchema = z
     return true;
   });
 
-export type Props = z.infer<typeof propsSchema>;
+export type Props = z.input<typeof propsSchema>;
 
 export function MDXRollingTable(p: Props) {
   const props = propsSchema.parse(p);

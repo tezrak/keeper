@@ -37,9 +37,7 @@ export function GameAsset(props: {
       {MDXContent && (
         <MDXContent
           components={{
-            ...getMdxComponents({
-              bumpOneLevel: true,
-            }),
+            ...getMdxComponents({}),
           }}
         />
       )}

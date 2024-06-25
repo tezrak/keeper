@@ -1,66 +1,47 @@
 ---
-import { AspectRatio } from "@radix-ui/themes";
+import { AspectRatio, Box } from "@radix-ui/themes";
 import { Image } from "astro:assets";
 
 type Props = {
   src: ImageMetadata;
   alt: string;
-  justBackground?: boolean;
   class?: string;
 };
 
 const props = Astro.props;
-const ratio = props.justBackground ? 4 / 1.2 : 4 / 1;
+const ratio = 4 / 1.2;
 ---
 
 <div
   class:list={[
-    {
-      relative: !props.justBackground,
-      absolute: props.justBackground,
-      "left-0 top-0 z-[-1] h-full w-full": props.justBackground,
-      "pointer-events-none": props.justBackground,
-      "opacity-30": props.justBackground,
-    },
+    "absolute",
+    "left-0 top-0 z-[-1] h-full w-full",
+    "pointer-events-none",
+    "opacity-30",
     props.class,
   ]}
 >
-  <AspectRatio ratio={ratio}>
-    <Image
-      loading="eager"
-      quality={"low"}
-      src={props.src}
-      alt={props.alt}
-      class={"print:hidden"}
-      style={{
-        position: "absolute",
-        top: "0",
-        left: "0",
-        objectFit: "cover",
-        objectPosition: "center",
-        width: "100%",
-        height: "100%",
-        borderRadius: "var(--radius-2)",
-        filter: "blur(75px) brightness(1.75)",
-        zIndex: -1,
-      }}
-    />
-    {
-      !props.justBackground && (
-        <Image
-          loading="eager"
-          quality={"high"}
-          src={props.src}
-          alt={props.alt}
-          style={{
-            objectFit: "cover",
-            objectPosition: "center",
-            width: "100%",
-            height: "100%",
-            borderRadius: "var(--radius-2)",
-          }}
-        />
-      )
-    }
-  </AspectRatio>
+  <Box className="">
+    <AspectRatio ratio={ratio}>
+      <Image
+        loading="eager"
+        quality={"low"}
+        src={props.src}
+        alt={props.alt}
+        class={"print:hidden"}
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          objectFit: "cover",
+          objectPosition: "center",
+          width: "100%",
+          height: "100%",
+          borderRadius: "var(--radius-2)",
+          filter: "blur(50px)",
+          zIndex: -1,
+        }}
+      />
+    </AspectRatio>
+  </Box>
 </div>

@@ -18,7 +18,7 @@ const propsSchema = z.object({
   tooltip: z.string().optional(),
 });
 
-export type Props = z.infer<typeof propsSchema>;
+export type Props = z.input<typeof propsSchema>;
 
 export function MDXNumberField(p: Props) {
   const props = parseProps({

@@ -12,7 +12,6 @@ import {
 import clsx from "clsx";
 import { useState } from "react";
 import { Colors, type ColorType } from "../../../domains/colors/colors";
-import { getRandomElement } from "../../../domains/utils/random";
 import { Graphic } from "../Graphic/Graphic";
 
 export function Card(props: {
@@ -20,17 +19,18 @@ export function Card(props: {
   title: string;
   subtitle?: string;
   menu?: React.ReactNode;
-  addColoredBackground?: boolean;
+  accentColor?: ColorType;
   error?: string;
   children?: React.ReactNode;
 }) {
   const [hover, setHover] = useState(false);
-  const allColors = Colors.getAccentColors() as any;
-  const [randomColor] = useState(() => {
-    return getRandomElement<ColorType>(allColors, props.title);
-  });
-  const firstColor = Colors.getDarkColor(randomColor, 3);
-  const secondColor = Colors.getDarkColor(randomColor, 11);
+
+  const firstColor = props.accentColor
+    ? Colors.getDarkColor(props.accentColor, 3)
+    : undefined;
+  const secondColor = props.accentColor
+    ? Colors.getDarkColor(props.accentColor, 11)
+    : undefined;
 
   function handleMouseEnter() {
     setHover(true);
@@ -43,13 +43,11 @@ export function Card(props: {
   return (
     <RadixCard variant="ghost" className="rounded-lg">
       <a
-        style={
-          {
-            // background: !props.addColoredBackground
-            //   ? "#000"
-            //   : `linear-gradient(45deg, ${firstColor} 0%, ${secondColor} 100%)`,
-          }
-        }
+        style={{
+          background: !props.accentColor
+            ? "#000"
+            : `linear-gradient(45deg, ${firstColor} 0%, ${secondColor} 100%)`,
+        }}
         className={clsx(
           "relative block overflow-hidden rounded-lg transition-all",
           hover ? "brightness-[115%]" : "",
@@ -69,12 +67,11 @@ export function Card(props: {
             ])}
           >
             <Graphic
-              accentColor={randomColor}
+              accentColor={props.accentColor}
               style={{
-                width: "250%",
+                opacity: 0.5,
               }}
             />
-
             {props.children}
           </AspectRatio>
 

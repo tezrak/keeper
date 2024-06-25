@@ -1,4 +1,4 @@
-import { Box, Flex, TextArea, Theme } from "@radix-ui/themes";
+import { Flex, TextArea, Theme } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { getMdxComponents, MDXWrapper } from "../../components/client/MDX/MDX";
 import {
@@ -11,10 +11,10 @@ import type { ThemeType } from "../../domains/utils/getTheme";
 
 const logger = getLogger("PlaygroundPage");
 
-export function PlaygroundPage(props: { theme: ThemeType }) {
+export function Page(props: { theme: ThemeType }) {
   const [text, setText] = useState("");
   const campaignManager = useCampaign({
-    id: "playground",
+    id: "",
   });
 
   const [MDXContent, setMDXContent] =
@@ -37,27 +37,27 @@ export function PlaygroundPage(props: { theme: ThemeType }) {
   return (
     <Theme {...props.theme} hasBackground={false}>
       <Flex gap="7" direction="row">
-        <Box flexBasis={"30%"}>
+        <div className="w-[30%]">
           <TextArea
             className="f-full"
             rows={20}
             value={text}
             onChange={(e) => setText(e.target.value)}
           ></TextArea>
-        </Box>
-        <Box flexBasis={"60%"}>
+        </div>
+        <div className="w-[70%]">
           <CampaignContext.Provider value={campaignManager}>
             <MDXWrapper>
               {MDXContent && (
                 <MDXContent
                   components={{
-                    ...getMdxComponents({ bumpOneLevel: true }),
+                    ...getMdxComponents({}),
                   }}
                 />
               )}
             </MDXWrapper>
           </CampaignContext.Provider>
-        </Box>
+        </div>
       </Flex>
     </Theme>
   );

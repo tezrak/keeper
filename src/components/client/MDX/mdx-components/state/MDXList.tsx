@@ -16,7 +16,7 @@ const propsSchema = z.object({
   children: z.any().optional(),
 });
 
-export type Props = z.infer<typeof propsSchema>;
+export type Props = z.input<typeof propsSchema>;
 
 const ListContext = React.createContext<{
   name: string;
