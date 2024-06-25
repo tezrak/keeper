@@ -98,9 +98,6 @@ function GameCard(props: {
     props.onDelete(props.id);
   }
 
-  console.log("loading", loading);
-  console.log("gameWithCreator", gameWithCreator);
-
   useEffect(() => {
     let ignore = false;
     main();
@@ -158,6 +155,7 @@ function GameCard(props: {
             src={props.gameImages[gameWithCreator.game.slug]}
             alt={gameWithCreator.game.data.name}
             style={{
+              position: "absolute",
               objectFit: "cover",
               objectPosition: "left",
               width: "100%",

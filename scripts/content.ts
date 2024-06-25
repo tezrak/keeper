@@ -8,7 +8,7 @@ import { constants } from "../src/domains/utils/constants";
 import { getLogger } from "../src/domains/utils/getLogger";
 
 const logger = getLogger("Content");
-const contenetTypes = ["creator", "game", "asset"] as const;
+const contenetTypes = ["creator", "game", "asset", "resource"] as const;
 type ContentType = (typeof contenetTypes)[number];
 
 const site = constants.site({ localhost: true });
@@ -37,6 +37,9 @@ switch (type) {
     await createAsset();
     break;
   }
+  case "resource":
+    await createResource();
+    break;
 }
 
 async function createCreator() {
@@ -60,7 +63,7 @@ name: ${nameForm.value}
 ---`,
   );
 
-  logger.log(`✨ Creator created. ${site}/library/${creatorSlug}`);
+  logger.log(`✨ Creator created. ${site}/creators/${creatorSlug}`);
 }
 
 async function createGame() {
@@ -123,9 +126,7 @@ theme:
 `,
   );
 
-  logger.log(
-    `✨ Game created. ${site}/library/${creatorForm.value}/${gameSlug}`,
-  );
+  logger.log(`✨ Game created. ${site}/games/${creatorForm.value}/${gameSlug}`);
 }
 
 async function createAsset() {
@@ -178,6 +179,19 @@ async function createAsset() {
 
   const nameSlug = kebabCase(nameForm.value);
 
+  // ACCENT COLOR
+  const accentColorForm = await prompts({
+    type: "autocomplete",
+    name: "value",
+    message: "What is the accent color of the game?",
+    choices: Colors.getAccentColors().map((color) => {
+      return {
+        title: startCase(color),
+        value: color,
+      };
+    }),
+  });
+
   await saveFileAndOpenInEditor(
     path.join(
       process.cwd(),
@@ -186,14 +200,65 @@ async function createAsset() {
     `---
 name: ${nameForm.value}
 game: ${creatorForm.value}/${gameForm.value}
+theme:
+  accentColor: ${accentColorForm.value}
 ---
-
 
 `,
   );
 
   logger.log(
-    `✨ Asset created. ${site}/library/${creatorForm.value}/${gameForm.value}/${nameSlug}`,
+    `✨ Asset created. ${site}/games/${creatorForm.value}/${gameForm.value}/${nameSlug}`,
+  );
+}
+
+async function createResource() {
+  // CREATOR
+  const creatorSlugs = await getAllCreatorSlugs();
+  const creatorForm = await prompts({
+    type: "autocomplete",
+    name: "value",
+    message: "Who is the creator of the resource?",
+    choices: creatorSlugs.map((creatorSlug) => {
+      return {
+        title: startCase(creatorSlug),
+        value: creatorSlug,
+      };
+    }),
+  });
+  if (!creatorForm.value) {
+    logger.error("Operation cancelled, no creator provided");
+    return;
+  }
+
+  // NAME
+  const nameForm = await prompts({
+    type: "text",
+    name: "value",
+    message: "What is the name of the resource?",
+  });
+  if (!nameForm.value) {
+    logger.error("Operation cancelled, no name provided");
+    return;
+  }
+
+  const nameSlug = kebabCase(nameForm.value);
+
+  await saveFileAndOpenInEditor(
+    path.join(
+      process.cwd(),
+      `src/content/resources/${creatorForm.value}/${nameSlug}.mdx`,
+    ),
+    `---
+name: ${nameForm.value}
+creator: ${creatorForm.value}
+---
+
+`,
+  );
+
+  logger.log(
+    `✨ Resource created. ${site}/resources/${creatorForm.value}/${nameSlug}`,
   );
 }
 
