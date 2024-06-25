@@ -36,10 +36,11 @@ const currentAsset = props.assets.find((asset) => {
 const AssetContent = (await currentAsset?.render())?.Content!;
 
 export async function getStaticPaths() {
-  const gameCreatorsAndAssets =
-    await DLAstro.getAllGamesWithCreatorsAndAssets();
+  const { games } = await DLAstro.getAllGamesWithCreator({
+    includeAssets: true,
+  });
 
-  return gameCreatorsAndAssets.flatMap((item) => {
+  return games.flatMap((item) => {
     return item.assets.map((asset) => {
       return {
         params: {

@@ -43,11 +43,13 @@ export function Card(props: {
   return (
     <RadixCard variant="ghost" className="rounded-lg">
       <a
-        style={{
-          background: !props.addColoredBackground
-            ? "#000"
-            : `linear-gradient(45deg, ${firstColor} 0%, ${secondColor} 100%)`,
-        }}
+        style={
+          {
+            // background: !props.addColoredBackground
+            //   ? "#000"
+            //   : `linear-gradient(45deg, ${firstColor} 0%, ${secondColor} 100%)`,
+          }
+        }
         className={clsx(
           "relative block overflow-hidden rounded-lg transition-all",
           hover ? "brightness-[115%]" : "",
@@ -67,8 +69,9 @@ export function Card(props: {
             ])}
           >
             <Graphic
+              accentColor={randomColor}
               style={{
-                zIndex: -1,
+                width: "250%",
               }}
             />
 

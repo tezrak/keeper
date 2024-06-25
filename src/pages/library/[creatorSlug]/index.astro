@@ -21,21 +21,26 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const { Content } = await props.creatorWithGames.creator.render();
+const { creator, games } = await DLAstro.getCreator({
+  slug: props.creatorSlug,
+  includeGames: true,
+});
+
+const { Content } = await creator.render();
 
 const theme = getTheme({
   theme: {},
 });
 
 export async function getStaticPaths() {
-  const creators = await DLAstro.getAllCreatorsWithTheirGames();
-  return creators.map((creatorWithGames) => {
+  const { creators } = await DLAstro.getAllCreators();
+  return creators.map((creator) => {
     return {
       params: {
-        creatorSlug: creatorWithGames.creator.slug,
+        creatorSlug: creator.slug,
       },
       props: {
-        creatorWithGames: creatorWithGames,
+        creatorSlug: creator.slug,
       },
     } satisfies GetStaticPathsItem;
   });
@@ -43,12 +48,12 @@ export async function getStaticPaths() {
 ---
 
 <Layout
-  title={[props.creatorWithGames.creator.data.name]}
-  description={props.creatorWithGames.creator.data.description}
+  title={[creator.data.name]}
+  description={creator.data.description}
   theme={theme}
 >
   <Flex direction="column" gap="5">
-    <Heading size="9">{props.creatorWithGames.creator.data.name}</Heading>
+    <Heading size="9">{creator.data.name}</Heading>
 
     <MDXWrapper>
       <Content
@@ -60,7 +65,7 @@ export async function getStaticPaths() {
       />
     </MDXWrapper>
     {
-      props.creatorWithGames.games.length && (
+      games.length && (
         <>
           <Heading size="8">Games</Heading>
 
@@ -72,20 +77,20 @@ export async function getStaticPaths() {
             gap="6"
             width="auto"
           >
-            {props.creatorWithGames.games.map((creatorWithGame) => {
+            {games.map((game) => {
               return (
                 <Card
                   client:idle
-                  href={`/library/${creatorWithGame.game.slug}`}
-                  title={creatorWithGame.game.data.name}
-                  subtitle={creatorWithGame.creator.data.name}
+                  href={`/library/${game.slug}`}
+                  title={game.data.name}
+                  subtitle={creator.data.name}
                 >
-                  {creatorWithGame.game.data.image && (
+                  {game.data.image && (
                     <Image
                       quality={"low"}
                       loading={"eager"}
-                      src={creatorWithGame.game.data.image}
-                      alt={creatorWithGame.game.data.name}
+                      src={game.data.image}
+                      alt={game.data.name}
                       style={{
                         objectFit: "cover",
                         objectPosition: "left",

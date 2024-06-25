@@ -10,7 +10,7 @@ const theme = getTheme({});
 const gameImages: Record<string, any> = {};
 export type GameImagesType = typeof gameImages;
 
-const games = await DLAstro.getAllGames();
+const { games } = await DLAstro.getAllGames();
 
 for (const game of games) {
   if (!game.data.image) {

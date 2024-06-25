@@ -17,7 +17,7 @@ export const collections = {
         name: z.string(),
         description: z.string().default(""),
         creator: reference("creators"),
-        image: ctx.image(),
+        image: ctx.image().optional(),
         theme: z
           .object({
             accentColor: z.enum(Colors.getAccentColors()).optional(),

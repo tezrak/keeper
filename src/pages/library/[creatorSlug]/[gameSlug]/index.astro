@@ -21,27 +21,30 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const { Content } = await props.game.render();
+const { creator } = await DLAstro.getCreator({ slug: props.creatorSlug });
+const { game } = await DLAstro.getGame({ slug: props.gameSlug });
+const { assets } = await DLAstro.getAssetsForGame({ slug: props.gameSlug });
+
+const { Content } = await game.render();
 
 const theme = getTheme({
   theme: {
-    accentColor: props.game.data.theme?.accentColor,
+    accentColor: game.data.theme?.accentColor,
   },
 });
 
 export async function getStaticPaths() {
-  const gamesAndCreators = await DLAstro.getAllGamesWithCreatorsAndAssets();
+  const { games } = await DLAstro.getAllGamesWithCreator({});
 
-  return gamesAndCreators.map((item) => {
+  return games.map((item) => {
     return {
       params: {
         creatorSlug: item.creator.slug,
         gameSlug: item.game.slug.split("/").pop(),
       },
       props: {
-        game: item.game,
-        creator: item.creator,
-        assets: item.assets,
+        creatorSlug: item.creator.slug,
+        gameSlug: item.game.slug,
       },
     } satisfies GetStaticPathsItem;
   });
@@ -50,24 +53,24 @@ export async function getStaticPaths() {
 
 <Layout
   theme={theme}
-  title={[props.game.data.name, props.creator.data.name]}
-  description={props.game.data.description}
-  headingFont={props.game.data.theme?.headingFont}
-  bodyFont={props.game.data.theme?.bodyFont}
+  title={[game.data.name, creator.data.name]}
+  description={game.data.description}
+  headingFont={game.data.theme?.headingFont}
+  bodyFont={game.data.theme?.bodyFont}
 >
   {
-    props.game.data.image && (
+    game.data.image && (
       <Box mb="9">
-        <Banner src={props.game.data.image} alt={props.game.data.name} />
+        <Banner src={game.data.image} alt={game.data.name} />
       </Box>
     )
   }
   <LibraryCreatorGamePage
     client:load
     theme={theme}
-    game={props.game}
-    creator={props.creator}
-    assets={props.assets}
+    game={game}
+    creator={creator}
+    assets={assets}
   >
     <MDXWrapper>
       <Content

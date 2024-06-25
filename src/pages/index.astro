@@ -15,7 +15,7 @@ import { MDXH2 } from "../components/client/MDX/MDX";
 import { DLAstro } from "../domains/dl/DLAstro";
 import Layout from "../layouts/Layout.astro";
 
-const gamesWithCreators = await DLAstro.getAllGamesWithCreators();
+const { games } = await DLAstro.getAllGamesWithCreator({});
 ---
 
 <Layout title={undefined} description={undefined} withBanner>
@@ -69,10 +69,10 @@ const gamesWithCreators = await DLAstro.getAllGamesWithCreators();
     width="auto"
   >
     {
-      gamesWithCreators.map((item) => {
+      games.map((item) => {
         return (
           <Card
-            client:visible
+            client:idle
             href={`/library/${item.game.slug}`}
             title={item.game.data.name}
             subtitle={item.creator.data.name}
@@ -85,6 +85,7 @@ const gamesWithCreators = await DLAstro.getAllGamesWithCreators();
                 src={item.game.data.image}
                 alt={item.game.data.name}
                 style={{
+                  position: "absolute",
                   objectFit: "cover",
                   objectPosition: "left",
                   width: "100%",

@@ -1,92 +1,74 @@
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
 export const DLAstro = {
+  // CREATOR
+  async getAllCreators() {
+    const creators = await getCollection("creators");
+    return { creators };
+  },
+  async getCreator(props: {
+    slug: CollectionEntry<"creators">["slug"];
+    includeGames?: boolean;
+  }) {
+    const creator = await getEntry("creators", props.slug);
+
+    if (props.includeGames) {
+      const games = await getCollection("games", ({ data }) => {
+        return data.creator.slug === creator.slug;
+      });
+
+      return { creator, games: games };
+    } else {
+      return { creator, games: [] };
+    }
+  },
+
+  // GAMES
   async getAllGames() {
     const games = await getCollection("games");
-    return games;
+    return { games };
   },
-  async getAllCreatorsWithTheirGames() {
-    const creators = await getCollection("creators");
+  async getGame(props: {
+    slug: CollectionEntry<"games">["slug"];
+    includeCreator?: boolean;
+  }) {
+    const game = await getEntry("games", props.slug);
 
-    return Promise.all(
-      creators.map(async (creator) => {
-        const games = await getCollection("games", (game) => {
-          const [gameCreatorSlug] = game.id.split("/");
-          return gameCreatorSlug === creator.slug;
-        });
-        const gamesWithCreator = await Promise.all(
-          games.map(async (game) => {
-            const [creatorSlug] = game.id.split("/");
-            const creator = await getEntry("creators", creatorSlug);
+    if (props.includeCreator) {
+      const creator = await getEntry("creators", game.data.creator.slug);
+      return { game, creator };
+    }
 
-            return {
-              game,
-              creator: creator!,
-            };
-          }),
-        );
-
-        return {
-          creator,
-          games: gamesWithCreator,
-        };
-      }),
-    );
+    return { game };
   },
-  async getAllGamesWithCreators() {
-    const games = await this.getAllGames();
+  async getAllGamesWithCreator(props: { includeAssets?: boolean }) {
+    const games = await getCollection("games");
+
     const gamesWithCreators = await Promise.all(
       games.map(async (game) => {
-        const [creatorSlug] = game.id.split("/");
-        const creator = await getEntry("creators", creatorSlug);
+        const creator = await getEntry("creators", game.data.creator.slug);
+
+        const assets = props.includeAssets
+          ? await getCollection("assets", ({ data }) => {
+              return data.game.slug === game.slug;
+            })
+          : [];
+
         return {
           game,
-          creator: creator!,
+          creator,
+          assets,
         };
       }),
     );
 
-    return gamesWithCreators;
+    return { games: gamesWithCreators };
   },
-  async getAllGamesWithCreatorsAndAssets() {
-    const gamesWithCreators = await this.getAllGamesWithCreators();
-    const gamesWithCreatorsAndSheets = await Promise.all(
-      gamesWithCreators.map(async (gameWithCreator) => {
-        const assets = await this.getAssetsForGame({
-          slug: gameWithCreator.game.slug,
-        });
-        return {
-          game: gameWithCreator.game,
-          creator: gameWithCreator.creator!,
-          assets: assets,
-        };
-      }),
-    );
 
-    return gamesWithCreatorsAndSheets;
-  },
-  async getCreator(props: { slug: string }) {
-    const creator = await getEntry("creators", props.slug);
-    return creator;
-  },
-  async getGameWithCreator(props: { slug: string }) {
-    const game = await getEntry("games", props.slug);
-    if (!game) {
-      return null;
-    }
-
-    const creator = await getEntry(game.data.creator);
-    return {
-      game: game!,
-      creator: creator!,
-    };
-  },
-  async getAssetWithGameAndCreator(props: { slug: string }) {
+  async getAssetWithGameAndCreator(props: {
+    slug: CollectionEntry<"assets">["slug"];
+  }) {
     const asset = await getEntry("assets", props.slug);
-
-    if (!asset) {
-      return null;
-    }
 
     const game = await getEntry(asset.data.game);
     const creator = await getEntry(game.data.creator);
@@ -96,12 +78,11 @@ export const DLAstro = {
       creator: creator!,
     };
   },
-  async getAssetsForGame(props: { slug: string }) {
-    const assets = await getCollection("assets");
-    const assetsForGame = assets.filter((sheet) => {
-      return sheet.slug.startsWith(props.slug);
+  async getAssetsForGame(props: { slug: CollectionEntry<"games">["slug"] }) {
+    const assets = await getCollection("assets", ({ data }) => {
+      return data.game.slug === props.slug;
     });
 
-    return assetsForGame;
+    return { assets };
   },
 };

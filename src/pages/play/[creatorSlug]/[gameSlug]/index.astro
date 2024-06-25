@@ -16,53 +16,54 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
+const { creator } = await DLAstro.getCreator({ slug: props.creatorSlug });
+const { game } = await DLAstro.getGame({ slug: props.gameSlug });
+const { assets } = await DLAstro.getAssetsForGame({ slug: props.gameSlug });
+
+const theme = getTheme({
+  theme: {
+    accentColor: game.data.theme?.accentColor,
+  },
+});
+
 export async function getStaticPaths() {
-  const gamesWithCreatorsAndSheets =
-    await DLAstro.getAllGamesWithCreatorsAndAssets();
-  return gamesWithCreatorsAndSheets.map((item) => {
+  const { games } = await DLAstro.getAllGamesWithCreator({
+    includeAssets: true,
+  });
+
+  return games.map((item) => {
     return {
       params: {
         creatorSlug: item.creator.slug,
         gameSlug: item.game.slug.split("/").pop(),
       },
       props: {
-        game: item.game,
-        creator: item.creator,
-        assets: item.assets,
+        creatorSlug: item.creator.slug,
+        gameSlug: item.game.slug,
       },
     } satisfies GetStaticPathsItem;
   });
 }
-
-const theme = getTheme({
-  theme: {
-    accentColor: props.game.data.theme?.accentColor,
-  },
-});
 ---
 
 <Layout
-  title={[`Playing ${props.game.data.name}`, props.creator.data.name]}
+  title={[`Playing ${game.data.name}`, creator.data.name]}
   description={undefined}
   theme={theme}
-  headingFont={props.game.data.theme?.headingFont}
-  bodyFont={props.game.data.theme?.bodyFont}
+  headingFont={game.data.theme?.headingFont}
+  bodyFont={game.data.theme?.bodyFont}
 >
   {
-    props.game.data.image && (
-      <Banner
-        src={props.game.data.image}
-        alt={props.game.data.name}
-        justBackground
-      />
+    game.data.image && (
+      <Banner src={game.data.image} alt={game.data.name} justBackground />
     )
   }
 
   <PlayCreatorGamePage
     client:load
-    game={props.game}
-    creator={props.creator}
-    assets={props.assets}
+    game={game}
+    creator={creator}
+    assets={assets}
     theme={theme}
   />
 </Layout>
