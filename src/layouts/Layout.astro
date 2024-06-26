@@ -20,6 +20,7 @@ import { Graphic } from "../components/client/Graphic/Graphic";
 import { MDXColumns } from "../components/client/MDX/mdx-components/ui/MDXColumns";
 import { MDXDivider } from "../components/client/MDX/mdx-components/ui/MDXDivider";
 import Footer from "../components/server/Footer/Footer.astro";
+import { Colors } from "../domains/colors/colors";
 import "./index.css";
 
 type Props = {
@@ -81,11 +82,18 @@ const ogImageUrl = props.withOgImage
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta
+      name="theme-color"
+      content={Colors.getDarkColor(themeProps.accentColor, 9)}
+    />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     {googleFontUrl && <link href={googleFontUrl} rel="stylesheet" />}
-    <meta name="generator" content={Astro.generator} />
 
     <!-- HTML Meta Tags -->
     <title>{title}</title>
