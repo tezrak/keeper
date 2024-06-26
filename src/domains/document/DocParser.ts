@@ -1,17 +1,15 @@
 import kebabCase from "lodash/kebabCase";
 import { evaluateMdx } from "../mdx/evaluateMdx";
 
-export type IDoc = ReturnType<InstanceType<typeof DocParser>["getDoc"]>;
+export type DocType = ReturnType<InstanceType<typeof DocParser>["getDoc"]>;
 
 export class DocParser {
-  MDXContent: Awaited<ReturnType<typeof evaluateMdx>> | null = null;
   #content: string;
   #pages: Array<IPageElement>;
   #indexes: Array<ISearchIndex>;
   #currentPage: IPageElement;
   #nextPage: IPageElement | undefined;
   #previousPage: IPageElement | undefined;
-  #toc: Array<ITocElement>;
   #sidebar: ISidebar;
 
   constructor(
@@ -23,7 +21,6 @@ export class DocParser {
     const { pages, toc, sidebar, indexes } = this.#extractPages();
     this.#pages = pages;
     this.#indexes = indexes;
-    this.#toc = toc;
     this.#sidebar = sidebar;
 
     const currentPageId = this.options.currentChapterId ?? this.#pages[0].id;
@@ -37,20 +34,10 @@ export class DocParser {
     this.#content = this.#currentPage.content;
   }
 
-  async process() {
-    const result = await evaluateMdx({
-      mdx: this.#currentPage.content,
-    });
-
-    this.MDXContent = result;
-  }
-
   getDoc() {
     return {
-      MDXContent: this.MDXContent,
       pages: this.#pages,
       indexes: this.#indexes,
-      toc: this.#toc,
       sidebar: this.#sidebar,
       numberOfChapters: this.#pages.length,
       numberOfWordsInPage: this.#content.split(" ").length,
@@ -58,6 +45,15 @@ export class DocParser {
       nextPage: this.#nextPage,
       currentPage: this.#currentPage,
     };
+  }
+
+  async getMDXContent() {
+    const result = await evaluateMdx({
+      mdx: this.#currentPage.content,
+    });
+
+    result;
+    return result;
   }
 
   #extractPages() {

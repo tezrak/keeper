@@ -1,5 +1,6 @@
 import {
   Blockquote,
+  Card,
   Em,
   Flex,
   Heading,
@@ -152,11 +153,18 @@ export function MDXStrong(props: any) {
 
 export function MDXPre(props: any) {
   return (
-    <pre
-      data-mdx-type="pre"
-      {...props}
-      className={clsx(props.className, "p-2", TEXT_CLASSES)}
-    />
+    <Card>
+      <pre
+        data-mdx-type="pre"
+        {...props}
+        className={clsx(
+          props.className,
+          "p-2",
+          TEXT_CLASSES,
+          "whitespace-pre-wrap",
+        )}
+      />
+    </Card>
   );
 }
 

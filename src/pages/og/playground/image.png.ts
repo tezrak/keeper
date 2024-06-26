@@ -1,9 +1,9 @@
-import type { APIRoute, InferGetStaticParamsType } from "astro";
+import type { APIRoute } from "astro";
 import { renderOgImage } from "../../../domains/og-image/renderOgImage";
 
 export const prerender = false;
 
-export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Params = {};
 
 export const GET: APIRoute = async (ctx) => {
   const params = ctx.params as Params;
@@ -13,7 +13,3 @@ export const GET: APIRoute = async (ctx) => {
     description: "Create your own assets and contribute to the community!",
   });
 };
-
-export async function getStaticPaths() {
-  return [];
-}

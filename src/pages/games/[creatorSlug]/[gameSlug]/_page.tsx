@@ -83,7 +83,6 @@ export function Page(props: {
                 initial: "auto",
                 md: "40%",
               }}
-              className="md:sticky md:top-0 md:pt-5"
             >
               <Box className={"sticky top-8 rounded-lg"}>
                 <Flex direction={"column"} gap="4">

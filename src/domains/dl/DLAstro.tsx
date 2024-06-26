@@ -9,18 +9,30 @@ export const DLAstro = {
   async getCreator(props: {
     slug: CollectionEntry<"creators">["slug"];
     includeGames?: boolean;
+    includeResources?: boolean;
   }) {
     const creator = await getEntry("creators", props.slug);
 
+    let games: Array<CollectionEntry<"games">> = [];
+    let resources: Array<CollectionEntry<"resources">> = [];
     if (props.includeGames) {
-      const games = await getCollection("games", ({ data }) => {
-        return data.creator.slug === creator.slug;
+      games = await getCollection("games", (item) => {
+        return item.data.creator.slug === creator.slug;
       });
-
-      return { creator, games: games };
-    } else {
-      return { creator, games: [] };
     }
+    if (props.includeResources) {
+      resources = await getCollection("resources", (item) => {
+        const isTranslation = item.slug.split("/").length === 3;
+
+        if (isTranslation) {
+          return false;
+        }
+
+        return item.data.creator.slug === creator.slug;
+      });
+    }
+
+    return { creator, games, resources };
   },
 
   // GAMES
@@ -49,8 +61,8 @@ export const DLAstro = {
         const creator = await getEntry("creators", game.data.creator.slug);
 
         const assets = props.includeAssets
-          ? await getCollection("assets", ({ data }) => {
-              return data.game.slug === game.slug;
+          ? await getCollection("assets", (item) => {
+              return item.data.game.slug === game.slug;
             })
           : [];
 
@@ -64,7 +76,7 @@ export const DLAstro = {
 
     return { games: gamesWithCreators };
   },
-
+  // ASSET
   async getAssetWithGameAndCreator(props: {
     slug: CollectionEntry<"assets">["slug"];
   }) {
@@ -84,5 +96,43 @@ export const DLAstro = {
     });
 
     return { assets };
+  },
+  // RESOURCE
+  async getResource(props: {
+    slug: CollectionEntry<"resources">["slug"];
+    includeCreator?: boolean;
+  }) {
+    const resource = await getEntry("resources", props.slug);
+
+    if (props.includeCreator) {
+      const creator = await getEntry("creators", resource.data.creator.slug);
+      return { resource, creator };
+    }
+
+    return { resource };
+  },
+  async getAllResourcesWithCreator(props: { includeTranslations?: boolean }) {
+    const resources = await getCollection("resources", (resource) => {
+      const isTranslation = resource.slug.split("/").length === 3;
+
+      if (isTranslation && !props.includeTranslations) {
+        return false;
+      }
+
+      return true;
+    });
+
+    const resourcesWithCreators = await Promise.all(
+      resources.map(async (resource) => {
+        const creator = await getEntry("creators", resource.data.creator.slug);
+
+        return {
+          resource,
+          creator,
+        };
+      }),
+    );
+
+    return { resources: resourcesWithCreators };
   },
 };

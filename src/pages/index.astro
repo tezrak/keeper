@@ -19,9 +19,10 @@ import { getRandomElement } from "../domains/utils/random";
 import Layout from "../layouts/Layout.astro";
 
 const { games } = await DLAstro.getAllGamesWithCreator({});
+const { resources } = await DLAstro.getAllResourcesWithCreator({});
 ---
 
-<Layout title={undefined} description={undefined} withBanner>
+<Layout ogImage title={undefined} description={undefined} withBanner>
   <Container size="1" maxWidth={"768px"}>
     <Flex
       align="center"
@@ -96,6 +97,56 @@ const { games } = await DLAstro.getAllGamesWithCreator({});
                 quality={"low"}
                 src={item.game.data.image}
                 alt={item.game.data.name}
+                style={{
+                  position: "absolute",
+                  objectFit: "cover",
+                  objectPosition: "left",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            ) : null}
+          </Card>
+        );
+      })
+    }
+  </Grid>
+  <Box pt="4" id="get-started">
+    <MDXH2> Resources </MDXH2>
+  </Box>
+  <Grid
+    columns={{
+      sm: "2",
+      lg: "3",
+    }}
+    gap="6"
+    width="auto"
+  >
+    {
+      resources.map((item) => {
+        return (
+          <Card
+            client:idle
+            href={AppUrl.resource({
+              slug: item.resource.slug,
+            })}
+            title={item.resource.data.name}
+            subtitle={item.creator.data.name}
+            accentColor={
+              item.resource.data.image === undefined
+                ? getRandomElement<ColorType>(
+                    Colors.getAccentColors() as any,
+                    item.resource.data.name
+                  )
+                : undefined
+            }
+          >
+            {item.resource.data.image ? (
+              <Image
+                loading={"eager"}
+                quality={"low"}
+                src={item.resource.data.image}
+                alt={item.resource.data.name}
                 style={{
                   position: "absolute",
                   objectFit: "cover",

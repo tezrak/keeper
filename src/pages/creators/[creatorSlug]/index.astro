@@ -24,9 +24,10 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const { creator, games } = await DLAstro.getCreator({
+const { creator, games, resources } = await DLAstro.getCreator({
   slug: props.creatorSlug,
   includeGames: true,
+  includeResources: true,
 });
 
 const { Content } = await creator.render();
@@ -51,6 +52,7 @@ export async function getStaticPaths() {
 ---
 
 <Layout
+  ogImage
   title={[creator.data.name]}
   description={creator.data.description}
   theme={theme}
@@ -100,6 +102,57 @@ export async function getStaticPaths() {
                       loading={"eager"}
                       src={game.data.image}
                       alt={game.data.name}
+                      style={{
+                        position: "absolute",
+                        objectFit: "cover",
+                        objectPosition: "left",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  )}
+                </Card>
+              );
+            })}
+          </Grid>
+        </>
+      )
+    }
+    {
+      resources.length && (
+        <>
+          <Heading size="8">Resources</Heading>
+
+          <Grid
+            columns={{
+              sm: "2",
+              lg: "3",
+            }}
+            gap="6"
+            width="auto"
+          >
+            {resources.map((resource) => {
+              return (
+                <Card
+                  client:idle
+                  href={AppUrl.resource({ slug: resource.slug })}
+                  title={resource.data.name}
+                  subtitle={creator.data.name}
+                  accentColor={
+                    resource.data.image === undefined
+                      ? getRandomElement<ColorType>(
+                          Colors.getAccentColors() as any,
+                          resource.data.name
+                        )
+                      : undefined
+                  }
+                >
+                  {resource.data.image && (
+                    <Image
+                      quality={"low"}
+                      loading={"eager"}
+                      src={resource.data.image}
+                      alt={resource.data.name}
                       style={{
                         position: "absolute",
                         objectFit: "cover",

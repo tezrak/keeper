@@ -1,14 +1,13 @@
-import type {
-  APIRoute,
-  GetStaticPathsItem,
-  InferGetStaticParamsType,
-} from "astro";
+import type { APIRoute } from "astro";
 import { DLAstro } from "../../../../../domains/dl/DLAstro";
 import { renderOgImage } from "../../../../../domains/og-image/renderOgImage";
 
 export const prerender = false;
 
-export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Params = {
+  creatorSlug: string;
+  gameSlug: string;
+};
 
 export const GET: APIRoute = async (ctx) => {
   const params = ctx.params as Params;
@@ -24,15 +23,3 @@ export const GET: APIRoute = async (ctx) => {
     footerItems: [`By ${creator!.data.name}`],
   });
 };
-
-export async function getStaticPaths() {
-  const { games } = await DLAstro.getAllGamesWithCreator({});
-  return games.map((item) => {
-    return {
-      params: {
-        creatorSlug: item.creator.slug,
-        gameSlug: item.game.slug.split("/").pop(),
-      },
-    } satisfies GetStaticPathsItem;
-  });
-}

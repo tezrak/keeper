@@ -1,0 +1,96 @@
+---
+import { Flex } from "@radix-ui/themes";
+import type {
+  GetStaticPathsItem,
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+} from "astro";
+import { Image } from "astro:assets";
+import { getMdxComponents } from "../../../../components/client/MDX/MDX";
+import { DLAstro } from "../../../../domains/dl/DLAstro";
+import { DocParser } from "../../../../domains/document/DocParser";
+import { getTheme } from "../../../../domains/utils/getTheme";
+import Layout from "../../../../layouts/Layout.astro";
+import { Page } from "./_page";
+export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const props = Astro.props as Props;
+const params = Astro.params as Params;
+
+const { creator, resource } = await DLAstro.getResource({
+  slug: props.resourceSlug,
+  includeCreator: true,
+});
+
+const theme = getTheme({
+  theme: {
+    accentColor: resource.data.theme?.accentColor,
+  },
+});
+
+const parser = new DocParser({
+  markdown: resource.body,
+});
+const doc = parser.getDoc();
+
+const MDXContent = await parser.getMDXContent();
+
+export async function getStaticPaths() {
+  const { resources } = await DLAstro.getAllResourcesWithCreator({});
+  return resources.map((item) => {
+    const [creatorSegment, resourceSegment, languageSegment] =
+      item.resource.slug.split("/");
+
+    const resourceSlug = languageSegment
+      ? `${resourceSegment}.${languageSegment}`
+      : resourceSegment;
+
+    return {
+      params: {
+        creatorSlug: item.creator.slug,
+        resourceSlug: resourceSlug,
+      },
+      props: {
+        creatorSlug: item.creator.slug,
+        resourceSlug: item.resource.slug,
+      },
+    } satisfies GetStaticPathsItem;
+  });
+}
+---
+
+<Layout
+  title={[resource.data.name]}
+  description={resource.data.description}
+  theme={theme}
+>
+  <Flex direction="column" gap="5">
+    <Page
+      creator={creator!}
+      resource={resource}
+      theme={theme}
+      doc={doc}
+      pathname={Astro.url.pathname}
+    >
+      {
+        resource.data.image && (
+          <Image
+            src={resource.data.image}
+            alt={resource.data.name}
+            slot="image"
+          />
+        )
+      }
+      {
+        MDXContent && (
+          <MDXContent
+            components={{
+              ...getMdxComponents({}),
+            }}
+          />
+        )
+      }
+    </Page>
+  </Flex>
+</Layout>

@@ -35,7 +35,6 @@ const theme = getTheme({
 
 export async function getStaticPaths() {
   const { games } = await DLAstro.getAllGamesWithCreator({});
-
   return games.map((item) => {
     return {
       params: {
@@ -52,6 +51,7 @@ export async function getStaticPaths() {
 ---
 
 <Layout
+  ogImage
   theme={theme}
   title={[game.data.name, creator.data.name]}
   description={game.data.description}

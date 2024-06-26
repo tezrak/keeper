@@ -5,13 +5,14 @@ import { SquareLibrary } from "lucide-react";
 import { AppUrl } from "../../../domains/app-url/AppUrl";
 import { DiceRollerButton } from "../../client/DiceRoller/DiceRoller";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
+import Patreon from "./Patreon.astro";
 ---
 
 <Grid
   justify={"between"}
   align={"center"}
   columns="3"
-  className="mb-16 mt-9 rounded-[--radius-2] border-b border-l border-r border-t border-[--accent-4] px-6 py-6 print:hidden"
+  className="mb-9 mt-9 rounded-[--radius-2] border-b border-l border-r border-t border-[--accent-4] px-6 py-6 print:hidden"
   style={{
     ...getSurfaceStyle(),
   }}
@@ -46,13 +47,24 @@ import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
       </Button>
     </a>
   </Flex>
-  <Flex justify={"end"} gap="5">
-    <Box className="hidden sm:inline-block">
-      <DiceRollerButton client:idle />
-    </Box>
+  <Flex justify={"end"} gap="2" align={"center"}>
+    {
+      false && (
+        <Box className="hidden sm:inline-block">
+          <DiceRollerButton client:idle />
+        </Box>
+      )
+    }
     <a href={AppUrl.docs()}>
-      <Button radius="full" size="3" variant="ghost" className="cursor-pointer">
+      <Button radius="full" size="3" variant="soft" className="cursor-pointer">
         Docs
+      </Button>
+    </a>
+
+    <a href={AppUrl.patreon()} target="_blank">
+      <Button radius="full" size="3" variant="soft" className="cursor-pointer">
+        <Patreon />
+        <span class="hidden md:inline-block"> Become a member </span>
       </Button>
     </a>
   </Flex>

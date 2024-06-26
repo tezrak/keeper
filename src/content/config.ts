@@ -50,6 +50,7 @@ export const collections = {
       z.object({
         name: z.string(),
         description: z.string().default(""),
+        creator: reference("creators"),
         links: z.record(z.string(), z.string()).default({}),
         image: ctx.image().optional(),
         theme: themeSchema,

@@ -114,7 +114,7 @@ async function createGame() {
   await saveFileAndOpenInEditor(
     path.join(
       process.cwd(),
-      `src/content/games/${creatorForm.value}/${gameSlug}.mdx`,
+      `src/content/games/${creatorForm.value}/${gameSlug}/index.mdx`,
     ),
     `---
 name: ${nameForm.value}
@@ -179,19 +179,6 @@ async function createAsset() {
 
   const nameSlug = kebabCase(nameForm.value);
 
-  // ACCENT COLOR
-  const accentColorForm = await prompts({
-    type: "autocomplete",
-    name: "value",
-    message: "What is the accent color of the game?",
-    choices: Colors.getAccentColors().map((color) => {
-      return {
-        title: startCase(color),
-        value: color,
-      };
-    }),
-  });
-
   await saveFileAndOpenInEditor(
     path.join(
       process.cwd(),
@@ -200,8 +187,7 @@ async function createAsset() {
     `---
 name: ${nameForm.value}
 game: ${creatorForm.value}/${gameForm.value}
-theme:
-  accentColor: ${accentColorForm.value}
+
 ---
 
 `,
@@ -242,16 +228,31 @@ async function createResource() {
     return;
   }
 
+  // ACCENT COLOR
+  const accentColorForm = await prompts({
+    type: "autocomplete",
+    name: "value",
+    message: "What is the accent color of the game?",
+    choices: Colors.getAccentColors().map((color) => {
+      return {
+        title: startCase(color),
+        value: color,
+      };
+    }),
+  });
+
   const nameSlug = kebabCase(nameForm.value);
 
   await saveFileAndOpenInEditor(
     path.join(
       process.cwd(),
-      `src/content/resources/${creatorForm.value}/${nameSlug}.mdx`,
+      `src/content/resources/${creatorForm.value}/${nameSlug}/index.mdx`,
     ),
     `---
 name: ${nameForm.value}
 creator: ${creatorForm.value}
+theme:
+  accentColor: ${accentColorForm.value}
 ---
 
 `,

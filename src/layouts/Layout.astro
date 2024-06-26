@@ -23,11 +23,10 @@ import { MDXDivider } from "../components/client/MDX/mdx-components/ui/MDXDivide
 import Footer from "../components/server/Footer/Footer.astro";
 import "./index.css";
 
-const ffOgImage = true;
-
 type Props = {
   title: Array<string> | undefined;
   description: string | undefined;
+  ogImage?: boolean;
   h1?: string;
   size?: ContainerProps["size"];
   headingFont?: string;
@@ -61,7 +60,7 @@ const googleFontUrl =
   fontsAsString &&
   encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
 
-const ogImageUrl = ffOgImage
+const ogImageUrl = props.ogImage
   ? "/" +
     ["og", Astro.url.pathname, "image.png"]
       // remove all extra slashes
@@ -199,6 +198,14 @@ const ogImageUrl = ffOgImage
 
     .astro-code {
       border: none !important;
+    }
+
+    *,
+    ::before,
+    ::after {
+      border-width: 0;
+      border-style: solid;
+      border-color: theme("borderColor.DEFAULT", currentColor);
     }
   </style>
   <style
