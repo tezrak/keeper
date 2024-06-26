@@ -1,26 +1,26 @@
 # Keeper
 
-## MVP
+This is the home of Project Keeper, a VTT and compdiuem of free resources for TTRPG players and designers.
 
-- [ ] Home Page with all games
-  - [x] Logic
-  - [ ] Design
-- [x] Creator Page
-  - [x] Logic
-  - [x] Design
-- [x] Game Page
-  - [x] Logic
-  - [x] Design
-- [x] My Games
-- [x] Create Game redirect
-- [ ] Play
-  - [x] Render Sheet
-  - [ ] Interactive Sheet
-  - [ ] Load Multiple Sheets
-  - [ ] Roll Dice
-  - [ ] Dice History
-  - [ ] Game assets
-- [ ] Components
-  - [ ] List
-  - [ ] Tracker (as clock)
-- [ ] Documentation
+## Installation
+
+### Prerequisites
+
+- [Node.js LTS](https://nodejs.org/en/)
+- [Bun](https://bun.sh)
+
+### Install
+
+Once you've installed the project's prerequisites, you can install the project's dependencies by running the following command:
+
+```bash
+bun install
+```
+
+### Usage
+
+To start the project, run the following command:
+
+```bash
+bun dev
+```
