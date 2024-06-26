@@ -1,7 +1,7 @@
 import { Colors, type ColorType } from "../../../domains/colors/colors";
 
 export function Graphic(props: {
-  accentColor: ColorType;
+  accentColor?: ColorType;
   style?: React.CSSProperties;
 }) {
   const accentColor = props.accentColor ?? "gold";
