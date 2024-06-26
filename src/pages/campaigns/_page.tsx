@@ -1,4 +1,12 @@
-import { DropdownMenu, Grid, Link, Skeleton, Theme } from "@radix-ui/themes";
+import {
+  DropdownMenu,
+  Flex,
+  Grid,
+  Heading,
+  Link,
+  Skeleton,
+  Theme,
+} from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
 import { Card } from "../../components/client/Card/Card";
@@ -38,45 +46,48 @@ export function Page(props: {
 
   return (
     <Theme {...props.theme} hasBackground={false}>
-      <Skeleton loading={loading} className="h-[50vh]">
-        {!loading && (
-          <>
-            {empty && (
-              <NothingToShowHere
-                icon
-                title={"You have no campaigns"}
-                description={
-                  <>
-                    Go to the <Link href="/">homepage</Link> and pick one of the
-                    available games to get started.
-                  </>
-                }
-              />
-            )}
-            <Grid
-              columns={{
-                sm: "2",
-                lg: "3",
-              }}
-              gap="6"
-              width="auto"
-            >
-              {campaignList?.map((campaign) => {
-                return (
-                  <GameCard
-                    key={campaign.id}
-                    name={campaign.name}
-                    gameImages={props.gameImages}
-                    id={campaign.id}
-                    slug={campaign.slug}
-                    onDelete={handleDelete}
-                  ></GameCard>
-                );
-              })}
-            </Grid>
-          </>
-        )}
-      </Skeleton>
+      <Flex gap="5" direction="column">
+        <Heading size="9">My Campaigns</Heading>
+        <Skeleton loading={loading} className="h-[50vh]">
+          {!loading && (
+            <>
+              {empty && (
+                <NothingToShowHere
+                  icon
+                  title={"You have no campaigns"}
+                  description={
+                    <>
+                      Go to the <Link href="/">homepage</Link> and pick one of
+                      the available games to get started.
+                    </>
+                  }
+                />
+              )}
+              <Grid
+                columns={{
+                  sm: "2",
+                  lg: "3",
+                }}
+                gap="6"
+                width="auto"
+              >
+                {campaignList?.map((campaign) => {
+                  return (
+                    <GameCard
+                      key={campaign.id}
+                      name={campaign.name}
+                      gameImages={props.gameImages}
+                      id={campaign.id}
+                      slug={campaign.slug}
+                      onDelete={handleDelete}
+                    ></GameCard>
+                  );
+                })}
+              </Grid>
+            </>
+          )}
+        </Skeleton>
+      </Flex>
     </Theme>
   );
 }

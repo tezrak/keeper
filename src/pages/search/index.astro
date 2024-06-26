@@ -1,26 +1,65 @@
 ---
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Grid,
-  Heading,
-  Text,
-} from "@radix-ui/themes";
-import { Image } from "astro:assets";
-import { ArrowBigDown } from "lucide-react";
+import { getImage } from "astro:assets";
+import { AppUrl } from "../../domains/app-url/AppUrl";
+import { DLAstro } from "../../domains/dl/DLAstro";
 import Layout from "../../layouts/Layout.astro";
+import { Page, type SearchIndexType } from "./_page";
+
+const { games } = await DLAstro.getAllGamesWithCreator({ includeAssets: true });
+const { resources } = await DLAstro.getAllResourcesWithCreator({});
+
+const indexes: Array<SearchIndexType> = [];
+
+for (const item of games) {
+  indexes.push({
+    title: item.game.data.name,
+    subTitle: "By " + item.creator.data.name,
+    searchIn: [
+      item.game.data.name,
+      item.game.data.description,
+      item.creator.data.name,
+    ],
+    imageAttr: item.game.data.image,
+    imageSrc: "",
+    type: "Game",
+    href: AppUrl.game({
+      slug: item.game.slug,
+    }),
+  });
+}
+
+for (const item of resources) {
+  indexes.push({
+    title: item.resource.data.name,
+    subTitle: "By " + item.creator.data.name,
+    searchIn: [
+      item.resource.data.name,
+      item.resource.data.description,
+      item.creator.data.name,
+    ],
+    imageAttr: item.resource.data.image,
+    imageSrc: "",
+    type: "Resource",
+    href: AppUrl.resource({
+      slug: item.resource.slug,
+    }),
+  });
+}
+
+await Promise.all(
+  indexes.map(async (item) => {
+    if (item.imageAttr) {
+      const optimizedImage = await getImage({
+        src: item.imageAttr,
+        format: "webp",
+        quality: "low",
+      });
+      item.imageSrc = optimizedImage.src;
+    }
+  })
+);
 ---
 
-<Layout title={undefined} description={undefined} withBanner>
-  OK ?
-  <link href="/keeper-pagefind/pagefind-ui.css" rel="stylesheet" />
-  <script src="/keeper-pagefind/pagefind-ui.js" is:inline></script>
-  <div id="search"></div>
-  <script is:inline>
-    window.addEventListener("DOMContentLoaded", (event) => {
-      new PagefindUI({ element: "#search", showSubResults: true });
-    });
-  </script>
+<Layout title={undefined} description={undefined} withDefaultBanner>
+  <Page client:load indexes={indexes} />
 </Layout>

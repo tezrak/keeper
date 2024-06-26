@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "bun check && astro build && pagefind --site .vercel/output/static --output-subdir keeper-pagefind",
+    "build": "bun check && astro build",
     "check": "astro check --minimumSeverity warning",
     "preview": "astro preview",
     "astro": "astro",
@@ -38,7 +38,6 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.396.0",
     "npm": "^10.8.1",
-    "pagefind": "^1.1.0",
     "prettier": "^3.3.2",
     "prettier-plugin-astro": "^0.14.0",
     "prettier-plugin-tailwindcss": "^0.6.5",

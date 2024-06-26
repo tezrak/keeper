@@ -3,7 +3,6 @@ import {
   Box,
   Container,
   Flex,
-  Heading,
   Theme,
   type ContainerProps,
 } from "@radix-ui/themes";
@@ -26,12 +25,14 @@ import "./index.css";
 type Props = {
   title: Array<string> | undefined;
   description: string | undefined;
-  ogImage?: boolean;
-  h1?: string;
+
   size?: ContainerProps["size"];
+
+  withOgImage?: boolean;
+  withDefaultBanner?: boolean;
+
   headingFont?: string;
   bodyFont?: string;
-  withBanner?: boolean;
   theme?: ThemeType;
 };
 
@@ -46,7 +47,6 @@ const bodyFont = props.bodyFont;
 
 const songsAndSagas = await getEntry("games", "fari-rpgs/songs-and-sagas");
 
-// family = ,
 const fontsAsString = [headingFont, bodyFont]
   .filter((font) => font !== undefined)
   .map((font) => `family=${font!.trim()}`)
@@ -60,7 +60,7 @@ const googleFontUrl =
   fontsAsString &&
   encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
 
-const ogImageUrl = props.ogImage
+const ogImageUrl = props.withOgImage
   ? "/" +
     ["og", Astro.url.pathname, "image.png"]
       // remove all extra slashes
@@ -75,7 +75,7 @@ const ogImageUrl = props.ogImage
 <html
   lang="en"
   transition:animate={fade({ duration: ".150s" })}
-  class="mb-[10rem]"
+  class="dark mb-[10rem]"
 >
   <head>
     <meta charset="UTF-8" />
@@ -111,7 +111,7 @@ const ogImageUrl = props.ogImage
     <ViewTransitions />
   </head>
   <Theme {...themeProps}>
-    <body>
+    <body class="dark">
       <Container
         px={{
           initial: "6",
@@ -130,7 +130,7 @@ const ogImageUrl = props.ogImage
 
         <Header />
         {
-          props.withBanner && (
+          props.withDefaultBanner && (
             <Banner
               src={songsAndSagas.data.image!}
               alt={"Background"}
@@ -148,7 +148,6 @@ const ogImageUrl = props.ogImage
       >
         <main>
           <Flex direction="column" gap="5">
-            {props.h1 && <Heading size="9">{props.h1}</Heading>}
             <slot />
           </Flex>
         </main>
@@ -184,64 +183,67 @@ const ogImageUrl = props.ogImage
         }
       </Container>
     </body>
+
+    <SpeedInsights />
+
+    <style is:global>
+      /* GLOBAL TAGS */
+      html {
+      }
+      body {
+        position: relative;
+      }
+      /* ASTRO DEBUG */
+      .astro-debug {
+        background: none !important;
+      }
+
+      .astro-code {
+        border: none !important;
+      }
+
+      html.dark {
+        --pagefind-ui-primary: #eeeeee;
+        --pagefind-ui-text: #eeeeee;
+        --pagefind-ui-background: #152028;
+        --pagefind-ui-border: #152028;
+        --pagefind-ui-tag: #152028;
+      }
+    </style>
+    <style
+      is:global
+      define:vars={{
+        headingFont,
+      }}
+    >
+      .radix-themes {
+        --heading-font-family: var(
+          --headingFont
+        ); /* Your custom font for <Heading> components */
+      }
+    </style>
+    <style
+      is:global
+      define:vars={{
+        bodyFont,
+      }}
+    >
+      .radix-themes {
+        --default-font-family: var(--bodyFont); /* Your custom default font */
+
+        --code-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Code> components */
+        --strong-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Strong> components */
+        --em-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Em> components */
+        --quote-font-family: var(
+          --bodyFont
+        ); /* Your custom font for <Quote> components */
+      }
+    </style>
   </Theme>
-  <SpeedInsights />
-
-  <style is:global>
-    html {
-    }
-    body {
-      position: relative;
-    }
-    .astro-debug {
-      background: none !important;
-    }
-
-    .astro-code {
-      border: none !important;
-    }
-
-    *,
-    ::before,
-    ::after {
-      border-width: 0;
-      border-style: solid;
-      border-color: theme("borderColor.DEFAULT", currentColor);
-    }
-  </style>
-  <style
-    is:global
-    define:vars={{
-      headingFont,
-    }}
-  >
-    .radix-themes {
-      --heading-font-family: var(
-        --headingFont
-      ); /* Your custom font for <Heading> components */
-    }
-  </style>
-  <style
-    is:global
-    define:vars={{
-      bodyFont,
-    }}
-  >
-    .radix-themes {
-      --default-font-family: var(--bodyFont); /* Your custom default font */
-
-      --code-font-family: var(
-        --bodyFont
-      ); /* Your custom font for <Code> components */
-      --strong-font-family: var(
-        --bodyFont
-      ); /* Your custom font for <Strong> components */
-      --em-font-family: var(
-        --bodyFont
-      ); /* Your custom font for <Em> components */
-      --quote-font-family: var(
-        --bodyFont
-      ); /* Your custom font for <Quote> components */
-    }
-  </style>
 </html>
