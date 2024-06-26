@@ -3,10 +3,10 @@
   "tasks": [
     {
       "type": "bun",
-      "script": "check",
+      "script": "run build",
       "problemMatcher": ["$tsc"],
-      "label": "bun: check",
-      "detail": "bun check - package.json",
+      "label": "bun: build",
+      "detail": "bun build - package.json",
       "group": {
         "kind": "build",
         "isDefault": true
