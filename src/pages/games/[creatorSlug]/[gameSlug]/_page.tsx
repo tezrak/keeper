@@ -18,7 +18,6 @@ import { CreateNewCampaignButton } from "./_components/CreateNewCampaignButton";
 
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
 import { AppUrl } from "../../../../domains/app-url/AppUrl";
 import type { ThemeType } from "../../../../domains/utils/getTheme";
 
@@ -35,14 +34,6 @@ export function Page(props: {
     id: "",
     readonly: true,
   });
-
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (props.currentAsset) {
-      setOpen(true);
-    }
-  }, [props.currentAsset]);
 
   return (
     <Theme {...props.theme} hasBackground={false}>
@@ -61,9 +52,9 @@ export function Page(props: {
                 md: "60%",
               }}
             >
-              <Flex direction="column" gap="5">
+              <Flex direction="column" gap="4">
                 <Heading size="9">{props.game.data.name}</Heading>
-                <Heading size="6" className="mt-[-1rem]">
+                <Heading size="6" className="mt-[-0.5rem]">
                   <Link
                     href={AppUrl.creator({
                       slug: props.creator.slug,
@@ -113,10 +104,7 @@ export function Page(props: {
                           >
                             {props.assets.map((asset) => (
                               <Box key={asset.slug}>
-                                <a
-                                  target="_blank"
-                                  href={AppUrl.asset({ slug: asset.slug })}
-                                >
+                                <a href={AppUrl.asset({ slug: asset.slug })}>
                                   <Button
                                     size="2"
                                     className={clsx(

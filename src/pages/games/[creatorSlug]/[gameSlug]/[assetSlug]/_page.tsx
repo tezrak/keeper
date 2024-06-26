@@ -1,9 +1,10 @@
-import { Container, Theme } from "@radix-ui/themes";
+import { Container, Flex, Heading, Link, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import {
   MDXWrapper,
   getMdxComponents,
 } from "../../../../../components/client/MDX/MDX";
+import { AppUrl } from "../../../../../domains/app-url/AppUrl";
 import {
   CampaignContext,
   useCampaign,
@@ -32,17 +33,31 @@ export function Page(props: {
   return (
     <Theme {...props.theme} hasBackground={false}>
       <CampaignContext.Provider value={campaignManager}>
-        <Container size={"1"}>
-          {MDXContent && (
-            <MDXWrapper>
-              <MDXContent
-                components={{
-                  ...getMdxComponents({}),
-                }}
-              ></MDXContent>
-            </MDXWrapper>
-          )}
-        </Container>
+        <Flex direction="column" gap="4">
+          <Heading size="9">{props.currentAsset?.data.name}</Heading>
+          <Heading size="6" className="mt-[-0.5rem]">
+            <Link
+              href={AppUrl.game({
+                slug: props.game.slug,
+              })}
+              color="gray"
+              className="hover:text-[--accent-12]"
+            >
+              For {props.game.data.name}
+            </Link>
+          </Heading>
+          <Container size={"1"}>
+            {MDXContent && (
+              <MDXWrapper>
+                <MDXContent
+                  components={{
+                    ...getMdxComponents({}),
+                  }}
+                ></MDXContent>
+              </MDXWrapper>
+            )}
+          </Container>
+        </Flex>
       </CampaignContext.Provider>
     </Theme>
   );

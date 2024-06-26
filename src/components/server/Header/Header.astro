@@ -6,6 +6,7 @@ import { AppUrl } from "../../../domains/app-url/AppUrl";
 import { DiceRollerButton } from "../../client/DiceRoller/DiceRoller";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 import Patreon from "./Patreon.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
 <Grid
@@ -56,16 +57,27 @@ import Patreon from "./Patreon.astro";
       )
     }
     <a href={AppUrl.docs()}>
-      <Button radius="full" size="3" variant="soft" className="cursor-pointer">
+      <Button
+        radius="full"
+        size="3"
+        variant="ghost"
+        className="m-0 cursor-pointer"
+      >
         Docs
       </Button>
     </a>
 
     <a href={AppUrl.patreon()} target="_blank">
-      <Button radius="full" size="3" variant="soft" className="cursor-pointer">
+      <Button
+        radius="full"
+        size="3"
+        variant="ghost"
+        className="m-0 cursor-pointer"
+      >
         <Patreon />
         <span class="hidden md:inline-block"> Become a member </span>
       </Button>
     </a>
+    {false && <ThemeToggle />}
   </Flex>
 </Grid>
