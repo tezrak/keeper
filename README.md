@@ -24,3 +24,5 @@ To start the project, run the following command:
 ```bash
 bun dev
 ```
+
+You can then access the project at http://localhost:4321.
