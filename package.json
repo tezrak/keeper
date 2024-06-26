@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "bun check && astro build && pagefind --site dist",
+    "build": "bun check && astro build && pagefind --site dist --output-subdir keeper-pagefind",
     "check": "astro check --minimumSeverity warning",
     "preview": "astro preview",
     "astro": "astro",
