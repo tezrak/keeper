@@ -1,5 +1,6 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import {
+  Badge,
   Flex,
   Grid,
   SegmentedControl,
@@ -63,7 +64,7 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
           const joinedSegments = index.segments.join(" ").toLowerCase();
           const queryMatch = joinedSegments.includes(query.toLowerCase());
           const typeMatch = type === "all" || index.type === type;
-          debugger;
+
           if (query === "*") {
             return typeMatch;
           }
@@ -126,7 +127,13 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
               <MagnifyingGlassIcon height="16" width="16" />
             </TextField.Slot>
           </TextField.Root>
-          <SegmentedControl.Root value={type} size="3">
+          <SegmentedControl.Root
+            value={type}
+            size={{
+              initial: "1",
+              xs: "3",
+            }}
+          >
             {Object.keys(searchTypes).map((key) => {
               return (
                 <SegmentedControl.Item
@@ -161,10 +168,23 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
             {results.map((item) => {
               return (
                 <Card
+                  key={item.href}
                   href={item.href}
                   title={item.title}
                   subtitle={item.subTitle}
                   accentColor={"gold"}
+                  badge={
+                    <>
+                      <Badge
+                        size="3"
+                        variant="outline"
+                        color="gray"
+                        className="bg-[--accent-2]"
+                      >
+                        {item.type === "games" ? "Game" : "Resource"}
+                      </Badge>
+                    </>
+                  }
                 >
                   {item.imageMetaData ? (
                     <img

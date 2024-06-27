@@ -19,6 +19,7 @@ export function Card(props: {
   title: string;
   subtitle?: string;
   menu?: React.ReactNode;
+  badge?: React.ReactNode;
   accentColor?: ColorType;
   error?: string;
   children?: React.ReactNode;
@@ -32,6 +33,7 @@ export function Card(props: {
     ? Colors.getDarkColor(props.accentColor, 11)
     : undefined;
 
+  const hasSideContent = props.menu || props.badge;
   function handleMouseEnter() {
     setHover(true);
   }
@@ -84,17 +86,22 @@ export function Card(props: {
                 "linear-gradient(rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0,.2) 65%, rgba(0, 0, 0, .66) 75%, rgba(0, 0, 0, 1) 100%)",
             }}
           />
+          {props.badge && (
+            <Box className="absolute right-4 top-4">{props.badge}</Box>
+          )}
+
           <Box position={"absolute"} className="bottom-0 left-0 w-full">
             <Flex
               gap="2"
               justify={"between"}
+              align={"end"}
               width={"100%"}
               className="px-4 py-4"
             >
               <Box
                 className={clsx("w-full", {
-                  "max-w-[75%]": props.menu,
-                  "max-w-[100%]": !props.menu,
+                  "max-w-[75%]": hasSideContent,
+                  "max-w-[100%]": !hasSideContent,
                 })}
               >
                 <Flex gap="2" align="end">

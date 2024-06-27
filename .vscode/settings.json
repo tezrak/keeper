@@ -12,5 +12,10 @@
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "workbench.editor.customLabels.patterns": {
+    // Astro
+    "**/src/**/index.astro": "Astro Server Page",
+    "**/src/**/_page.tsx": "Astro Client Page"
+  }
 }
