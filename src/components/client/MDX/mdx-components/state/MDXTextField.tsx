@@ -43,7 +43,12 @@ export function MDXTextField(p: Props) {
           color="gray"
           variant="soft"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            if (campaignManager.readonly) {
+              return;
+            }
+            return setValue(e.target.value);
+          }}
           autoComplete="off"
         />
       </ConditionalWrapper>

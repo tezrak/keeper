@@ -1,6 +1,6 @@
-# Keeper
+# Storied
 
-This is the home of Project Keeper, a VTT and compdiuem of free resources for TTRPG players and designers.
+This is the home of Storied, a VTT and compdiuem of free resources for TTRPG players and designers.
 
 ## Installation
 

@@ -29,6 +29,8 @@ type Props = {
 
   size?: ContainerProps["size"];
 
+  maxWidth?: ContainerProps["maxWidth"];
+
   withOgImage?: boolean;
   withDefaultBanner?: boolean;
 
@@ -39,7 +41,7 @@ type Props = {
 
 const props = Astro.props;
 
-const titleArray = props.title ? [...props.title, "Keeper"] : ["Keeper"];
+const titleArray = props.title ? [...props.title, "Storied"] : ["Storied"];
 const title = titleArray.join(" • ");
 const description =
   "The best way to play your favorite TTRPGs. Hundreds of games you can play right here in your browser. Accessible, fast, and free.";
@@ -125,7 +127,8 @@ const ogImageUrl = props.withOgImage
           initial: "6",
           md: "9",
         }}
-        size={"4"}
+        size={props.size || "4"}
+        maxWidth={props.maxWidth || undefined}
       >
         <Graphic
           accentColor={themeProps.accentColor}
@@ -142,7 +145,7 @@ const ogImageUrl = props.withOgImage
             <Banner
               src={songsAndSagas.data.image!}
               alt={"Background"}
-              alt="Keeper"
+              alt="Storied Background"
             />
           )
         }
@@ -153,6 +156,7 @@ const ogImageUrl = props.withOgImage
           md: "9",
         }}
         size={props.size || "4"}
+        maxWidth={props.maxWidth || undefined}
       >
         <main>
           <Flex direction="column" gap="5">
@@ -165,7 +169,8 @@ const ogImageUrl = props.withOgImage
           initial: "6",
           md: "9",
         }}
-        size={"4"}
+        size={props.size || "4"}
+        maxWidth={props.maxWidth || undefined}
       >
         <Footer ogImageUrl={ogImageUrl} />
         {

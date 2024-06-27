@@ -42,22 +42,7 @@ game: fari-rpgs/stoneburner
       <SelectField name="skills.grit.initial" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Initial</SelectField>
       <SelectField name="skills.grit.current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d12">Current</SelectField>
     </Row>
-    <Heading>Items</Heading>
-    <List  max={5} name="items">
-        <Row>
-            <CheckboxField name="checked" />
-            <SelectField name="initial" options={['d4', 'd6',  'd8', 'd10', 'd12']}>Initial</SelectField>
-            <SelectField name="current" options={['d4', 'd6',  'd8', 'd10', 'd12']}>Current</SelectField>
-        </Row>
-    </List>
-    <Heading>Hindrances</Heading>
-    <List name="hindrances">
-      <Row>
-          <TextField name="name"/>
-          <CheckboxField name="minor.checked">Minor</CheckboxField>
-          <CheckboxField name="major.checked">Major</CheckboxField>
-      </Row>
-    </List>
+  
   </Stack>
   <Stack>
     <Heading>Vision of Glory</Heading>
@@ -73,7 +58,31 @@ game: fari-rpgs/stoneburner
         <NumberField max={100} min={0} name="credits.initial">Initial</NumberField>
     </Row>
 
-    <Heading>Abilities</Heading>
+  </Stack>
+</Columns>
+
+<Heading>Items</Heading>
+<List max={5} name="items">
+  <Row>
+    <CheckboxField name="checked" />
+    <SelectField name="initial" options={["d4", "d6", "d8", "d10", "d12"]}>
+      Initial
+    </SelectField>
+    <SelectField name="current" options={["d4", "d6", "d8", "d10", "d12"]}>
+      Current
+    </SelectField>
+  </Row>
+</List>
+<Heading>Hindrances</Heading>
+<List name="hindrances">
+  <Row>
+    <TextField name="name" />
+    <CheckboxField name="minor.checked">Minor</CheckboxField>
+    <CheckboxField name="major.checked">Major</CheckboxField>
+  </Row>
+</List>
+
+ <Heading>Abilities</Heading>
     <List  max={5} name="abilities">
     <Stack>
       <Row><TextField name="name" >Description</TextField></Row>
@@ -91,9 +100,6 @@ game: fari-rpgs/stoneburner
           <SelectField name="current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
       </Row>
     </List>
-
-  </Stack>
-</Columns>
 
 ---
 

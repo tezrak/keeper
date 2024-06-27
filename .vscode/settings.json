@@ -16,6 +16,13 @@
   "workbench.editor.customLabels.patterns": {
     // Astro
     "**/src/**/index.astro": "Astro Server Page",
-    "**/src/**/_page.tsx": "Astro Client Page"
+    "**/src/**/_page.tsx": "Astro Client Page",
+    // Astro Content
+    "**/src/content/assets/*/*/*.mdx": "Assets ${dirname(1)} / ${dirname(0)} / ${filename}.${extname}",
+    "**/src/content/resources/*/*/*.mdx": "Resources ${dirname(1)} / ${dirname(0)} / ${filename}.${extname}",
+    "**/src/content/games/*/*/*.mdx": "Games ${dirname(1)} / ${dirname(0)}",
+    "**/src/content/creators/*.mdx": "Creators ${filename}.${extname}",
+    "**/src/content/docs/**/*.md": "Docs ${filename}.${extname}",
+    "**/src/content/docs/**/*.mdx": "Docs ${filename}.${extname}"
   }
 }

@@ -27,7 +27,7 @@ export async function renderOgImage(props: {
     return new Response(
       renderToString(
         <OGImage
-          siteTitle={"Keeper"}
+          siteTitle={"Storied"}
           title={props.title}
           src={props.src}
           description={props.description}
@@ -46,7 +46,7 @@ export async function renderOgImage(props: {
   return new ImageResponse(
     (
       <OGImage
-        siteTitle={"Keeper"}
+        siteTitle={"Storied"}
         title={props.title}
         src={props.src}
         description={props.description}
@@ -405,7 +405,7 @@ function OGImage(props: {
           textTransform: "uppercase",
         }}
       >
-        Keeper
+        Storied
       </div>
     );
   }

@@ -1,6 +1,10 @@
 import { CircleIcon } from "@radix-ui/react-icons";
 import { Box, Flex, IconButton, Text } from "@radix-ui/themes";
+import clsx from "clsx";
+import { CircleCheckBig } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import { z } from "zod";
+import { CampaignContext } from "../../../../../domains/campaign/useCampaign";
 import { parseProps } from "../../../../../domains/utils/parseProps";
 import { useName } from "./MDXList";
 
@@ -21,17 +25,62 @@ export function MDXTracker(p: Props) {
     componentName: "MDXTracker",
   });
   const name = useName({ name: props.name });
+  const campaignManager = useContext(CampaignContext);
+  const [values, setValues] = useState<Array<boolean>>(() => {
+    return campaignManager.getCurrentFormValue({ name: name }) || [];
+  });
 
-  const numberOfBoxes = props.min;
+  useEffect(() => {
+    const numberOfMissingItems =
+      values.length < props.min ? props.min - values.length : 0;
+
+    for (const _i of Array(numberOfMissingItems).keys()) {
+      setValues((prev) => {
+        return [...prev, false];
+      });
+    }
+  }, []);
 
   return (
     <Text data-mdx-type="text-field" as="label" size="2">
       <Flex gap="2">
-        {Array.from({ length: numberOfBoxes }, (_, i) => {
+        {values.map((value, i) => {
           return (
             <Box key={i}>
-              <IconButton color="gray" variant="soft" key={i}>
-                <CircleIcon width={"1.5rem"} height={"1.5rem"} />
+              <IconButton
+                radius="full"
+                // color={value ? undefined : "gray"}
+                name={name + i.toString()}
+                variant={value ? "soft" : "soft"}
+                className={clsx(
+                  {
+                    "bg-[--accent-7]": value,
+                    "bg-[--accent-4]": !value,
+                  },
+                  "hover:bg-[--accent-5]",
+                )}
+                key={i}
+                onClick={() => {
+                  if (campaignManager.readonly) {
+                    return;
+                  }
+
+                  setValues((prev) => {
+                    const copy = [...prev];
+                    copy[i] = !copy[i];
+                    return copy;
+                  });
+                }}
+              >
+                <div></div>
+                {value ? (
+                  <CircleCheckBig
+                    width={"1.5rem"}
+                    height={"1.5rem"}
+                  ></CircleCheckBig>
+                ) : (
+                  <CircleIcon width={"1.5rem"} height={"1.5rem"} />
+                )}
               </IconButton>
             </Box>
           );

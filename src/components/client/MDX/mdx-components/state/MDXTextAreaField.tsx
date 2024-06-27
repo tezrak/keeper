@@ -47,7 +47,12 @@ export function MDXTextAreaField(p: Props) {
           autoComplete="off"
           resize="vertical"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            if (campaignManager.readonly) {
+              return;
+            }
+            return setValue(e.target.value);
+          }}
         />
       </ConditionalWrapper>
 

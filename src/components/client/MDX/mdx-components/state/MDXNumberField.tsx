@@ -51,6 +51,9 @@ export function MDXNumberField(p: Props) {
           variant="soft"
           value={value}
           onChange={(e) => {
+            if (campaignManager.readonly) {
+              return;
+            }
             return setValue(e.target.value);
           }}
           autoComplete="off"

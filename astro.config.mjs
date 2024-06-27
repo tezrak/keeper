@@ -15,7 +15,7 @@ export default defineConfig({
   }),
   integrations: [
     starlight({
-      title: "Keeper Doc",
+      title: "Storied Doc",
       disable404Route: true,
       sidebar: [
         {

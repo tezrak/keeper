@@ -200,12 +200,12 @@ export function useCampaign(props: {
     const formData = new FormData(formRef.current);
     const serializedFormData = Object.fromEntries(formData.entries());
     const keysToSave = Object.keys(serializedFormData).filter((key) =>
-      key.startsWith("__keeper."),
+      key.startsWith("__storied."),
     );
 
     const data: Record<string, any> = {};
     keysToSave.forEach((key) => {
-      const keyWithoutPrefix = key.replace("__keeper.", "");
+      const keyWithoutPrefix = key.replace("__storied.", "");
       const inputValue = JSON.parse(serializedFormData[key] as string);
       data[keyWithoutPrefix] = inputValue.value;
     });
@@ -233,7 +233,7 @@ export function useCampaign(props: {
 }
 
 export function CampaignState<T>(props: { name: string; value: T }) {
-  const name = "__keeper." + props.name;
+  const name = "__storied." + props.name;
   const state = JSON.stringify({ value: props.value });
   return (
     <VisuallyHidden>

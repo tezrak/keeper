@@ -38,7 +38,12 @@ export function MDXSelectField(p: Props) {
         defaultValue={props.defaultValue}
         size="3"
         value={value}
-        onValueChange={(newValue) => setValue(newValue)}
+        onValueChange={(newValue) => {
+          if (campaignManager.readonly) {
+            return;
+          }
+          return setValue(newValue);
+        }}
       >
         <ConditionalWrapper
           wrapWhen={!!props.tooltip}
