@@ -1,5 +1,5 @@
 ---
-import { Flex, Grid, Heading } from "@radix-ui/themes";
+import { Flex, Grid } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
@@ -8,6 +8,8 @@ import type {
 import { Image } from "astro:assets";
 import { Card } from "../../../components/client/Card/Card";
 import {
+  MDXH1,
+  MDXH2,
   MDXWrapper,
   getMdxComponents,
 } from "../../../components/client/MDX/MDX";
@@ -58,7 +60,7 @@ export async function getStaticPaths() {
   theme={theme}
 >
   <Flex direction="column" gap="5">
-    <Heading size="9">{creator.data.name}</Heading>
+    <MDXH1>{creator.data.name}</MDXH1>
 
     <MDXWrapper>
       <Content
@@ -70,7 +72,7 @@ export async function getStaticPaths() {
     {
       games.length && (
         <>
-          <Heading size="8">Games</Heading>
+          <MDXH2>Games</MDXH2>
 
           <Grid
             columns={{
@@ -121,7 +123,7 @@ export async function getStaticPaths() {
     {
       resources.length && (
         <>
-          <Heading size="8">Resources</Heading>
+          <MDXH2>Resources</MDXH2>
 
           <Grid
             columns={{

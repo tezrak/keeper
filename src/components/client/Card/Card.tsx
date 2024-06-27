@@ -91,7 +91,12 @@ export function Card(props: {
               width={"100%"}
               className="px-4 py-4"
             >
-              <Box className="w-full max-w-[75%]">
+              <Box
+                className={clsx("w-full", {
+                  "max-w-[75%]": props.menu,
+                  "max-w-[100%]": !props.menu,
+                })}
+              >
                 <Flex gap="2" align="end">
                   {props.error && (
                     <Badge size="2" color="red">

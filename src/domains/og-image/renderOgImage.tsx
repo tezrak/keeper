@@ -11,6 +11,7 @@ const debug = false;
 export async function renderOgImage(props: {
   title: string;
   description: string;
+  src?: string;
   accentColor?: ColorType;
   footerItems?: Array<string>;
 }) {
@@ -28,6 +29,7 @@ export async function renderOgImage(props: {
         <OGImage
           siteTitle={"Keeper"}
           title={props.title}
+          src={props.src}
           description={props.description}
           footerItems={props.footerItems}
           accentColor={props.accentColor}
@@ -46,6 +48,7 @@ export async function renderOgImage(props: {
       <OGImage
         siteTitle={"Keeper"}
         title={props.title}
+        src={props.src}
         description={props.description}
         footerItems={props.footerItems}
         accentColor={props.accentColor}
@@ -77,6 +80,7 @@ function OGImage(props: {
   siteTitle: string | null | undefined;
   title: string;
   description: string;
+  src?: string;
   accentColor?: ColorType;
   footerItems?: Array<string>;
   readingTime?: number;
@@ -154,24 +158,47 @@ function OGImage(props: {
           background: Colors.getDarkColor(accentColor, 1),
         }}
       >
+        {false && (
+          <>
+            {/* https://github.com/withastro/astro/issues/11363 */}
+            <img
+              src={props.src}
+              alt={props.title}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: -1,
+              }}
+            ></img>
+          </>
+        )}
         {true && (
           <Graphic
             accentColor={accentColor}
             style={{
               width: "100%",
               height: "100%",
-              // top: "-30%",
-              // left: "-10%",
-
-              opacity: 0.1,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              opacity: 0.4,
             }}
           ></Graphic>
         )}
         {true && (
           <div
             style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
               display: "flex",
-              opacity: 0.4,
+              opacity: 0.6,
             }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640">

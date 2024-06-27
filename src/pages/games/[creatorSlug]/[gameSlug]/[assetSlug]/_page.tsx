@@ -1,6 +1,8 @@
-import { Container, Flex, Heading, Link, Theme } from "@radix-ui/themes";
+import { Container, Flex, Link, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import {
+  MDXH1,
+  MDXH2,
   MDXWrapper,
   getMdxComponents,
 } from "../../../../../components/client/MDX/MDX";
@@ -34,8 +36,8 @@ export function Page(props: {
     <Theme {...props.theme} hasBackground={false}>
       <CampaignContext.Provider value={campaignManager}>
         <Flex direction="column" gap="4">
-          <Heading size="9">{props.currentAsset?.data.name}</Heading>
-          <Heading size="6" className="mt-[-0.5rem]">
+          <MDXH1 size="9">{props.currentAsset?.data.name}</MDXH1>
+          <MDXH2 size="6" className="mt-[-0.5rem]">
             <Link
               href={AppUrl.game({
                 slug: props.game.slug,
@@ -45,7 +47,7 @@ export function Page(props: {
             >
               For {props.game.data.name}
             </Link>
-          </Heading>
+          </MDXH2>
           <Container size={"1"}>
             {MDXContent && (
               <MDXWrapper>

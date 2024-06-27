@@ -1,4 +1,5 @@
 import type { CollectionEntry } from "astro:content";
+import type { SearchType } from "../../pages/search/_page";
 
 export const AppUrl = {
   home() {
@@ -36,5 +37,8 @@ export const AppUrl = {
   },
   asset(props: { slug: CollectionEntry<"assets">["slug"] }) {
     return `/games/${props.slug}`;
+  },
+  search(props: { query: string; type: SearchType }) {
+    return `/search?query=${props.query}&type=${props.type}`;
   },
 };

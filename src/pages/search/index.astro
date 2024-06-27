@@ -14,14 +14,14 @@ for (const item of games) {
   indexes.push({
     title: item.game.data.name,
     subTitle: "By " + item.creator.data.name,
-    searchIn: [
+    segments: [
       item.game.data.name,
       item.game.data.description,
       item.creator.data.name,
     ],
-    imageAttr: item.game.data.image,
+    imageMetaData: item.game.data.image,
     imageSrc: "",
-    type: "Game",
+    type: "games",
     href: AppUrl.game({
       slug: item.game.slug,
     }),
@@ -32,14 +32,14 @@ for (const item of resources) {
   indexes.push({
     title: item.resource.data.name,
     subTitle: "By " + item.creator.data.name,
-    searchIn: [
+    segments: [
       item.resource.data.name,
       item.resource.data.description,
       item.creator.data.name,
     ],
-    imageAttr: item.resource.data.image,
+    imageMetaData: item.resource.data.image,
     imageSrc: "",
-    type: "Resource",
+    type: "resources",
     href: AppUrl.resource({
       slug: item.resource.slug,
     }),
@@ -48,9 +48,9 @@ for (const item of resources) {
 
 await Promise.all(
   indexes.map(async (item) => {
-    if (item.imageAttr) {
+    if (item.imageMetaData) {
       const optimizedImage = await getImage({
-        src: item.imageAttr,
+        src: item.imageMetaData,
         format: "webp",
         quality: "low",
       });

@@ -11,7 +11,11 @@ import {
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
 import React from "react";
-import { MDXWrapper } from "../../../../components/client/MDX/MDX";
+import {
+  MDXH1,
+  MDXH2,
+  MDXWrapper,
+} from "../../../../components/client/MDX/MDX";
 import { getSurfaceStyle } from "../../../../components/client/Surface/getSurfaceStyle";
 import { AppUrl } from "../../../../domains/app-url/AppUrl";
 import { Colors } from "../../../../domains/colors/colors";
@@ -30,7 +34,7 @@ export function Page(props: {
   return (
     <Theme {...props.theme} hasBackground={false}>
       <div className="flex gap-9">
-        <div className="flex-shrink-0 flex-grow basis-[300px]">
+        <div className="hidden flex-shrink-0 flex-grow basis-[300px] lg:flex">
           <Card
             className=""
             style={{
@@ -42,10 +46,10 @@ export function Page(props: {
         </div>
         <div className="block">
           <MDXWrapper>
-            <Heading size="9">{props.doc.currentPage.title}</Heading>
-            <Heading size="5" color="gray">
+            <MDXH1 size="9">{props.doc.currentPage.title}</MDXH1>
+            <MDXH2 color="gray" className="mt-[-.5rem]" size="6">
               {props.resource.data.name}
-            </Heading>
+            </MDXH2>
             {props.children}
           </MDXWrapper>
         </div>

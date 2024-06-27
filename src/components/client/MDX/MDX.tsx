@@ -8,6 +8,7 @@ import {
   Strong,
   Table,
   Text,
+  type HeadingProps,
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import type React from "react";
@@ -83,45 +84,99 @@ export function getMdxComponents(arg: { allowH1s?: boolean } = {}) {
   };
 }
 
-export function MDXH1(props: any) {
-  return <Heading data-mdx-type="h1" {...props} as="h1" size={"9"} />;
-}
-
-export function MDXH2(props: any) {
+export function MDXH1(props: HeadingProps) {
   return (
     <Heading
-      data-mdx-type="h2"
+      data-mdx-type="h1"
+      as="h1"
+      size={{
+        initial: "8",
+        sm: "9",
+      }}
       {...props}
-      as="h2"
-      size={"8"}
-      className="mt-4"
+      className={clsx("", props.className)}
     />
   );
 }
 
-export function MDXH3(props: any) {
-  return <Heading data-mdx-type="h3" {...props} as="h3" size={"7"} />;
+export function MDXH2(props: HeadingProps) {
+  return (
+    <Heading
+      data-mdx-type="h2"
+      as="h2"
+      size={{
+        initial: "7",
+        sm: "8",
+      }}
+      {...props}
+      className={clsx("mt-4", props.className)}
+    />
+  );
 }
 
-export function MDXH4(props: any) {
-  return <Heading data-mdx-type="h4" {...props} as="h4" size={"6"} />;
+export function MDXH3(props: HeadingProps) {
+  return (
+    <Heading
+      data-mdx-type="h3"
+      as="h3"
+      size={{
+        initial: "6",
+        sm: "7",
+      }}
+      {...props}
+    />
+  );
 }
 
-export function MDXH5(props: any) {
-  return <Heading data-mdx-type="h5" {...props} as="h5" size={"5"} />;
+export function MDXH4(props: HeadingProps) {
+  return (
+    <Heading
+      data-mdx-type="h4"
+      as="h4"
+      size={{
+        initial: "5",
+        sm: "6",
+      }}
+      {...props}
+    />
+  );
 }
 
-export function MDXH6(props: any) {
-  return <Heading data-mdx-type="h6" {...props} as="h6" size={"4"} />;
+export function MDXH5(props: HeadingProps) {
+  return (
+    <Heading
+      data-mdx-type="h5"
+      as="h5"
+      size={{
+        initial: "4",
+        sm: "5",
+      }}
+      {...props}
+    />
+  );
+}
+
+export function MDXH6(props: HeadingProps) {
+  return (
+    <Heading
+      data-mdx-type="h6"
+      as="h6"
+      size={{
+        initial: "3",
+        sm: "4",
+      }}
+      {...props}
+    />
+  );
 }
 
 export function MDXA(props: any) {
   return (
     <Link
       data-mdx-type="a"
-      {...props}
       weight={"medium"}
       underline="always"
+      {...props}
       className={clsx(props.className, TEXT_CLASSES)}
     />
   );

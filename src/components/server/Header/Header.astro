@@ -1,5 +1,5 @@
 ---
-import { BookmarkFilledIcon } from "@radix-ui/react-icons";
+import { BookmarkFilledIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Box, Button, Flex, Grid, VisuallyHidden } from "@radix-ui/themes";
 import { SquareLibrary } from "lucide-react";
 import { AppUrl } from "../../../domains/app-url/AppUrl";
@@ -67,6 +67,22 @@ import ThemeToggle from "./ThemeToggle.astro";
       </Button>
     </a>
 
+    <a
+      href={AppUrl.search({
+        query: "",
+        type: "all",
+      })}
+      aria-label="Search"
+    >
+      <Button
+        radius="full"
+        size="3"
+        variant="ghost"
+        className="m-0 cursor-pointer"
+      >
+        <MagnifyingGlassIcon className="h-[24px] w-[24px]" />
+      </Button>
+    </a>
     <a href={AppUrl.patreon()} target="_blank">
       <Button
         radius="full"
@@ -75,7 +91,7 @@ import ThemeToggle from "./ThemeToggle.astro";
         className="m-0 cursor-pointer"
       >
         <Patreon />
-        <span class="hidden md:inline-block"> Become a member </span>
+        <span class="hidden lg:inline-block">Become a member</span>
       </Button>
     </a>
     {false && <ThemeToggle />}

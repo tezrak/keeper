@@ -2,7 +2,6 @@ import {
   DropdownMenu,
   Flex,
   Grid,
-  Heading,
   Link,
   Skeleton,
   Theme,
@@ -12,6 +11,7 @@ import { useEffect, useState } from "react";
 import { Card } from "../../components/client/Card/Card";
 import { NothingToShowHere } from "../../components/client/NothingToShowHere/NothingToShowHere";
 
+import { MDXH1 } from "../../components/client/MDX/MDX";
 import { DLClient } from "../../domains/dl/DLClient";
 import { DLStorage, type CampaignType } from "../../domains/dl/DLStorage";
 import { getLogger } from "../../domains/utils/getLogger";
@@ -47,7 +47,7 @@ export function Page(props: {
   return (
     <Theme {...props.theme} hasBackground={false}>
       <Flex gap="5" direction="column">
-        <Heading size="9">My Campaigns</Heading>
+        <MDXH1>My Campaigns</MDXH1>
         <Skeleton loading={loading} className="h-[50vh]">
           {!loading && (
             <>

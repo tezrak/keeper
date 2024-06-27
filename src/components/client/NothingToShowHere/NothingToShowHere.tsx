@@ -1,5 +1,6 @@
-import { Container, Flex, Heading, Text } from "@radix-ui/themes";
+import { Container, Flex, Text } from "@radix-ui/themes";
 import { CircleOff } from "lucide-react";
+import { MDXH1 } from "../MDX/MDX";
 
 export function NothingToShowHere(props: {
   title?: JSX.Element | string;
@@ -19,9 +20,9 @@ export function NothingToShowHere(props: {
       <div className="py-[10vh]">
         <Flex direction="column" gap="4" align="center">
           {Icon && <Icon size="20vh" className="mb-[2rem]"></Icon>}
-          <Heading size="8" align={"center"}>
+          <MDXH1 as="h3" align={"center"}>
             {props.title}
-          </Heading>
+          </MDXH1>
           <Text align={"center"}>{props.description}</Text>
         </Flex>
       </div>

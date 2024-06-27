@@ -1,6 +1,10 @@
-import { Flex, Heading, TextArea, Theme } from "@radix-ui/themes";
+import { Flex, TextArea, Theme } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
-import { getMdxComponents, MDXWrapper } from "../../components/client/MDX/MDX";
+import {
+  getMdxComponents,
+  MDXH1,
+  MDXWrapper,
+} from "../../components/client/MDX/MDX";
 import {
   CampaignContext,
   useCampaign,
@@ -36,7 +40,7 @@ export function Page(props: { theme: ThemeType }) {
 
   return (
     <Theme {...props.theme} hasBackground={false}>
-      <Heading size="9">Asset Creation Playground</Heading>
+      <MDXH1>Asset Creation Playground</MDXH1>
       <Flex gap="7" direction="row">
         <div className="w-[30%]">
           <TextArea
