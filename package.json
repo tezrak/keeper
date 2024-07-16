@@ -9,8 +9,8 @@
     "check": "astro check --minimumSeverity warning",
     "preview": "astro preview",
     "astro": "astro",
-    "alpha": "netlify build && netlify deploy --prebuilt",
-    "prod": "netlify build && netlify deploy --prebuilt --prod",
+    "alpha": "netlify build && netlify deploy",
+    "prod": "netlify build && netlify deploy --prod",
     "content": "bun ./scripts/content.ts"
   },
   "dependencies": {
