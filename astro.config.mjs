@@ -12,7 +12,7 @@ export default defineConfig({
   output: "hybrid",
 
   site: constants.site({
-    localhost: false,
+    localhost: process.env.NODE_ENV === "development",
   }),
   integrations: [
     starlight({
