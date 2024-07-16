@@ -2,7 +2,6 @@ import { grayDark } from "@radix-ui/colors";
 import { ImageResponse } from "@vercel/og";
 import truncate from "lodash/truncate";
 import fs from "node:fs/promises";
-import path from "node:path";
 import { renderToString } from "react-dom/server";
 import { Graphic } from "../../components/client/Graphic/Graphic";
 import { Colors, type ColorType } from "../colors/colors";
@@ -16,11 +15,11 @@ export async function renderOgImage(props: {
   footerItems?: Array<string>;
 }) {
   const interRegularFontData = await fs.readFile(
-    path.join(process.cwd(), "./public/fonts/inter/Inter-Regular.ttf"),
+    "../../../public/fonts/inter/Inter-Regular.ttf",
   );
 
   const interBoldFontData = await fs.readFile(
-    path.join(process.cwd(), "./public/fonts/inter/Inter-Bold.ttf"),
+    "../../../public/fonts/inter/Inter-Bold.ttf",
   );
 
   if (debug) {
