@@ -1,5 +1,4 @@
 ---
-import { Flex } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
@@ -7,6 +6,7 @@ import type {
 } from "astro";
 import { Image } from "astro:assets";
 import { getMdxComponents } from "../../../../components/client/MDX/MDX";
+import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { DocParser } from "../../../../domains/document/DocParser";
 import { getTheme } from "../../../../domains/utils/getTheme";
@@ -65,33 +65,36 @@ export async function getStaticPaths() {
   description={resource.data.description}
   theme={theme}
 >
-  <Flex direction="column" gap="5">
-    <Page
-      client:load
-      creator={creator!}
-      resource={resource}
-      theme={theme}
-      doc={doc}
-      pathname={Astro.url.pathname}
-    >
-      {
-        resource.data.image && (
-          <Image
-            src={resource.data.image}
-            alt={resource.data.name}
-            slot="image"
-          />
-        )
-      }
-      {
-        MDXContent && (
-          <MDXContent
-            components={{
-              ...getMdxComponents({}),
-            }}
-          />
-        )
-      }
-    </Page>
-  </Flex>
+  <Page
+    client:load
+    creator={creator!}
+    resource={resource}
+    theme={theme}
+    doc={doc}
+    pathname={Astro.url.pathname}
+  >
+    {
+      resource.data.image && (
+        <Banner src={resource.data.image} alt={resource.data.name} />
+      )
+    }
+    {
+      resource.data.image && (
+        <Image
+          src={resource.data.image}
+          alt={resource.data.name}
+          slot="image"
+        />
+      )
+    }
+    {
+      MDXContent && (
+        <MDXContent
+          components={{
+            ...getMdxComponents({}),
+          }}
+        />
+      )
+    }
+  </Page>
 </Layout>

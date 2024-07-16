@@ -1,6 +1,7 @@
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import {
   Box,
+  Button,
   Dialog,
   Flex,
   Heading,
@@ -39,14 +40,16 @@ export function Page(props: {
       <div className="flex gap-9">
         <div className="hidden flex-shrink-0 flex-grow basis-[300px] lg:flex">
           <Box
-            className="sticky top-6 max-h-[calc(81.5vh)] overflow-y-auto px-4"
+            className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto"
             style={
               {
                 // ...getSurfaceStyle(),
               }
             }
           >
-            {renderSidebar({})}
+            {renderSidebar({
+              withImage: true,
+            })}
           </Box>
         </div>
         <div className="block">
@@ -69,15 +72,30 @@ export function Page(props: {
         >
           <IconButton
             color="gray"
-            variant="surface"
+            variant="solid"
             size="4"
-            className="fixed bottom-9 right-9"
+            className="fixed bottom-9 right-9 lg:hidden"
           >
             <HamburgerMenuIcon></HamburgerMenuIcon>
           </IconButton>
         </Dialog.Trigger>
 
-        <Dialog.Content size={"3"}>{renderSidebar({})}</Dialog.Content>
+        <Dialog.Content size={"3"}>
+          {renderSidebar({})}
+          <Flex gap="3" justify="end">
+            <Dialog.Close>
+              <Button
+                variant="soft"
+                color="gray"
+                onClick={() => {
+                  return setOpen((prev) => !prev);
+                }}
+              >
+                Close
+              </Button>
+            </Dialog.Close>
+          </Flex>
+        </Dialog.Content>
       </Dialog.Root>
     </Theme>
   );
@@ -137,9 +155,11 @@ export function Page(props: {
     return (
       <Flex direction="column">
         {props.image && p.withImage && (
-          <Inset clip="padding-box" side="top" pb="current">
-            {props.image}
-          </Inset>
+          <Box className="pb-5">
+            <Inset clip="padding-box" side="top" pb="current">
+              {props.image}
+            </Inset>
+          </Box>
         )}
         {Object.keys(props.doc.sidebar.categories).map((category) => {
           return (
@@ -161,7 +181,7 @@ export function Page(props: {
                 const isCurrent = itemPatname === props.pathname;
 
                 return (
-                  <>
+                  <React.Fragment key={item.id}>
                     {renderLink({
                       isCurrent,
                       href: itemPatname,
@@ -184,7 +204,7 @@ export function Page(props: {
                         })}
                       </>
                     )}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </React.Fragment>

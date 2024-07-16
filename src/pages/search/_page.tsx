@@ -138,6 +138,7 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
             {Object.keys(searchTypes).map((key) => {
               return (
                 <SegmentedControl.Item
+                  key={key}
                   value={key}
                   onClick={() => setType(key as SearchType)}
                 >
