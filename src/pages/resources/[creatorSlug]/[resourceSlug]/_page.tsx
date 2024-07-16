@@ -172,14 +172,14 @@ export function Page(props: {
                         {/* TOC */}
                         {props.doc.currentPage.toc.map((toc) => {
                           return (
-                            <>
+                            <React.Fragment key={toc.id}>
                               {renderLink({
                                 href: `#${toc.id}`,
                                 title: toc.title,
                                 isCurrent: false,
                                 level: toc.level,
                               })}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </>
@@ -192,7 +192,7 @@ export function Page(props: {
         })}
         {props.doc.sidebar.root.map((item) => {
           return (
-            <Flex direction="column">
+            <Flex key={item.id} direction="column">
               {renderLink({
                 isCurrent: item.id === props.pathname,
                 href: AppUrl.resourcePage({

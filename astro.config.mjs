@@ -5,7 +5,7 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import { constants } from "./src/domains/utils/constants";
 
-import vercel from "@astrojs/vercel/serverless";
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
@@ -38,5 +38,5 @@ export default defineConfig({
     // contentCollectionJsonSchema: true,
     // contentCollectionCache: true,
   },
-  adapter: vercel(),
+  adapter: netlify(),
 });
