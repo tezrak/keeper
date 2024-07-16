@@ -33,6 +33,7 @@ const parser = new DocParser({
   markdown: resource.body,
   currentChapterId: params.pageSlug,
 });
+
 const doc = parser.getDoc();
 
 const MDXContent = await parser.getMDXContent();

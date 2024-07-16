@@ -38,7 +38,8 @@ export type SearchIndexType = {
           | "svg"
           | "avif";
       }
-    | undefined;
+    | undefined
+    | null;
   imageSrc: string;
   type: SearchType;
   href: string;
