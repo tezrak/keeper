@@ -67,6 +67,7 @@ export async function getStaticPaths() {
 >
   <Flex direction="column" gap="5">
     <Page
+      client:load
       creator={creator!}
       resource={resource}
       theme={theme}

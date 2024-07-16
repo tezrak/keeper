@@ -36,8 +36,8 @@ export function Page(props: {
     <Theme {...props.theme} hasBackground={false}>
       <CampaignContext.Provider value={campaignManager}>
         <Flex direction="column" gap="4">
-          <MDXH1 size="9">{props.currentAsset?.data.name}</MDXH1>
-          <MDXH2 size="6" className="mt-[-0.5rem]">
+          <MDXH1>{props.currentAsset?.data.name}</MDXH1>
+          <MDXH2 className="mt-[-0.5rem]">
             <Link
               href={AppUrl.game({
                 slug: props.game.slug,

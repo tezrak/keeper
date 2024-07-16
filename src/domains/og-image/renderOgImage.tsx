@@ -160,9 +160,9 @@ function OGImage(props: {
       >
         {false && (
           <>
-            {/* https://github.com/withastro/astro/issues/11363 */}
+            {/* https://github.com/withastro/astro/issues/11363 OR https://github.com/withastro/roadmap/discussions/975*/}
             <img
-              src={props.src}
+              src={import.meta.env.SITE + props.src}
               alt={props.title}
               style={{
                 width: "100%",

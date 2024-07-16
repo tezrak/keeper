@@ -15,6 +15,9 @@ import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 import Patreon from "./Patreon.astro";
 import { StoriedNameLogo } from "./Storied";
 import ThemeToggle from "./ThemeToggle.astro";
+
+const fontFamily =
+  "-apple-system, BlinkMacSystemFont, 'Segoe UI (Custom)', Roboto, 'Helvetica Neue', 'Open Sans (Custom)', system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'";
 ---
 
 <Grid
@@ -40,7 +43,14 @@ import ThemeToggle from "./ThemeToggle.astro";
             <StoriedNameLogo className="h-[1.5rem] fill-[currentColor]" />
           )
         }
-        <Text className="text-[1.5rem] font-bold"> STORIED </Text>
+        <Text
+          className="text-[1.2rem] font-bold"
+          style={{
+            fontFamily,
+          }}
+        >
+          STORIED
+        </Text>
       </Button>
     </a>
   </Flex>
@@ -54,7 +64,12 @@ import ThemeToggle from "./ThemeToggle.astro";
       >
         <SquareLibrary />
 
-        <span class="hidden lg:inline-block">My Campaigns</span>
+        <span
+          class="hidden lg:inline-block"
+          style={{
+            fontFamily,
+          }}>My Campaigns</span
+        >
         <VisuallyHidden> My Campaigns </VisuallyHidden>
       </Button>
     </a>
@@ -73,6 +88,9 @@ import ThemeToggle from "./ThemeToggle.astro";
         size="3"
         variant="ghost"
         className="m-0 hidden cursor-pointer md:inline-block"
+        style={{
+          fontFamily,
+        }}
       >
         Docs
       </Button>
@@ -102,7 +120,12 @@ import ThemeToggle from "./ThemeToggle.astro";
         className="m-0 cursor-pointer"
       >
         <Patreon />
-        <span class="hidden lg:inline-block">Become a member</span>
+        <span
+          class="hidden lg:inline-block"
+          style={{
+            fontFamily,
+          }}>Become a member</span
+        >
       </Button>
     </a>
     {false && <ThemeToggle />}

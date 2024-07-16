@@ -14,7 +14,7 @@ export function Graphic(props: {
         top: 0,
         width: "100%",
         height: "auto",
-
+        maskImage: `linear-gradient(180deg, ${Colors.getDarkColor(accentColor, 1)} 60%, transparent)`,
         ...props.style,
       }}
     >
