@@ -52,7 +52,6 @@ export class DocParser {
       mdx: this.#currentPage.content,
     });
 
-    result;
     return result;
   }
 

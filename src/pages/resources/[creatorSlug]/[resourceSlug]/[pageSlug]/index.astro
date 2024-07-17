@@ -73,9 +73,10 @@ export async function getStaticPaths() {
 ---
 
 <Layout
-  title={[resource.data.name]}
-  description={resource.data.description}
+  title={[doc.currentPage.title, resource.data.name]}
+  description={doc.currentPage.content}
   theme={theme}
+  withOgImage
 >
   <Page
     client:load

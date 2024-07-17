@@ -60,6 +60,11 @@ await Promise.all(
 );
 ---
 
-<Layout title={undefined} description={undefined} withDefaultBanner>
+<Layout
+  title={["Search"]}
+  description={"Games, resources, and more..."}
+  withDefaultBanner
+  withOgImage
+>
   <Page client:only indexes={indexes} />
 </Layout>
