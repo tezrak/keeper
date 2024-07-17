@@ -46,43 +46,48 @@ export type SearchIndexType = {
 };
 
 export function Page(props: { indexes: Array<SearchIndexType> }) {
-  const [type, setType] = useState<SearchType>("all");
-  const [query, setQuery] = useState<string>("");
+  const queryString = new URLSearchParams(window.location.search);
+  const queryParam = queryString?.get("query") as string;
+  const typeParam = queryString?.get("type") as SearchType;
+  const shouldSetTypeParma =
+    typeParam && Object.keys(searchTypes).includes(typeParam);
+
+  const [query, setQuery] = useState<string>(queryParam || "");
+  const [type, setType] = useState<SearchType>(
+    shouldSetTypeParma ? typeParam : "all",
+  );
+
   const [results, setResults] = useState<Array<SearchIndexType>>([]);
   const [searching, setSearching] = useState<boolean | null>(null);
   const timeout = useRef<Timer | null>(null);
-  const isSearchPredetermined = query === "*";
+  const shouldDisplayFilters = !typeParam;
 
   useEffect(() => {
     if (timeout.current) {
       clearTimeout(timeout.current);
     }
 
-    if (query !== "") {
-      setSearching(true);
-      timeout.current = setTimeout(() => {
-        const newResults = props.indexes.filter((index) => {
-          const joinedSegments = index.segments.join(" ").toLowerCase();
-          const queryMatch = joinedSegments.includes(query.toLowerCase());
-          const typeMatch = type === "all" || index.type === type;
+    const timeOutTime = searching === null ? 0 : 200;
+    setSearching(true);
+    timeout.current = setTimeout(() => {
+      const newResults = props.indexes.filter((index) => {
+        const joinedSegments = index.segments.join(" ").toLowerCase();
+        const queryMatch = joinedSegments.includes(query.toLowerCase());
+        const typeMatch = type === "all" || index.type === type;
 
-          if (query === "*") {
-            return typeMatch;
-          }
+        if (type === "all") {
+          return queryMatch;
+        }
 
-          if (type === "all") {
-            return queryMatch;
-          }
+        if (query === "") {
+          return typeMatch;
+        }
 
-          return queryMatch && typeMatch;
-        });
-        setResults(newResults);
-        setSearching(false);
-      }, 500);
-    } else {
-      setResults(props.indexes);
+        return queryMatch && typeMatch;
+      });
+      setResults(newResults);
       setSearching(false);
-    }
+    }, timeOutTime);
 
     return () => {
       if (timeout.current) {
@@ -91,43 +96,30 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
     };
   }, [query, type]);
 
-  useEffect(() => {
-    const queryString = new URLSearchParams(window.location.search);
-    const queryParam = queryString?.get("query") as string;
-
-    if (queryParam) {
-      setQuery(queryParam);
-    }
-
-    const typeParam = queryString?.get("type") as SearchType;
-    if (typeParam && Object.keys(searchTypes).includes(typeParam)) {
-      setType(typeParam);
-    }
-  }, []);
-
   return (
     <>
       <MDXH1>
-        {!isSearchPredetermined && <>Search</>}
+        {<>Search</>}
         {type === "all" ? "" : ` ${searchTypes[type]}`}
       </MDXH1>
 
-      {!isSearchPredetermined && (
-        <Flex direction={{ initial: "column", sm: "row" }} gap="4">
-          <TextField.Root
-            placeholder="Search for games, resources, and more..."
-            size="3"
-            color="gray"
-            variant="soft"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            autoComplete="off"
-            className="w-full"
-          >
-            <TextField.Slot>
-              <MagnifyingGlassIcon height="16" width="16" />
-            </TextField.Slot>
-          </TextField.Root>
+      <Flex direction={{ initial: "column", sm: "row" }} gap="4">
+        <TextField.Root
+          placeholder="Search..."
+          size="3"
+          color="gray"
+          variant="soft"
+          autoFocus
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          autoComplete="off"
+          className="w-full"
+        >
+          <TextField.Slot>
+            <MagnifyingGlassIcon height="16" width="16" />
+          </TextField.Slot>
+        </TextField.Root>
+        {shouldDisplayFilters && (
           <SegmentedControl.Root
             value={type}
             size={{
@@ -140,15 +132,24 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
                 <SegmentedControl.Item
                   key={key}
                   value={key}
-                  onClick={() => setType(key as SearchType)}
+                  onClick={() => {
+                    setQuery((prev) => {
+                      console.log("'" + prev + "'");
+                      // if (prev === "") {
+                      //   return "*";
+                      // }
+                      return prev;
+                    });
+                    return setType(key as SearchType);
+                  }}
                 >
                   {(searchTypes as any)[key]}
                 </SegmentedControl.Item>
               );
             })}
           </SegmentedControl.Root>
-        </Flex>
-      )}
+        )}
+      </Flex>
       {searching !== null && (
         <Skeleton loading={searching} height={"30vh"}></Skeleton>
       )}

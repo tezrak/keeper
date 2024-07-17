@@ -38,7 +38,14 @@ export const AppUrl = {
   asset(props: { slug: CollectionEntry<"assets">["slug"] }) {
     return `/games/${props.slug}`;
   },
-  search(props: { query: string; type: SearchType }) {
-    return `/search?query=${props.query}&type=${props.type}`;
+  search(props: { query?: string; type?: SearchType }) {
+    const searchParams = new URLSearchParams();
+    if (props.query) {
+      searchParams.set("query", props.query);
+    }
+    if (props.type) {
+      searchParams.set("type", props.type);
+    }
+    return `/search?${searchParams.toString()}`;
   },
 };

@@ -5,7 +5,6 @@ import {
   Dialog,
   Flex,
   Heading,
-  IconButton,
   Inset,
   Link,
   Text,
@@ -40,12 +39,10 @@ export function Page(props: {
       <div className="flex gap-9">
         <div className="hidden flex-shrink-0 flex-grow basis-[300px] lg:flex">
           <Box
-            className="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto"
-            style={
-              {
-                // ...getSurfaceStyle(),
-              }
-            }
+            className="sticky top-6 overflow-y-auto"
+            style={{
+              maxHeight: "calc(100vh - 32px)",
+            }}
           >
             {renderSidebar({
               withImage: true,
@@ -65,23 +62,30 @@ export function Page(props: {
         </div>
       </div>
       <Dialog.Root open={open}>
-        <Dialog.Trigger
-          onClick={() => {
-            return setOpen((prev) => !prev);
-          }}
-        >
-          <IconButton
-            color="gray"
-            variant="solid"
-            size="4"
-            className="fixed bottom-9 right-9 lg:hidden"
+        <Box className="fixed bottom-0 left-0 right-0 w-full bg-black lg:hidden">
+          <Dialog.Trigger
+            onClick={() => {
+              return setOpen((prev) => !prev);
+            }}
           >
-            <HamburgerMenuIcon></HamburgerMenuIcon>
-          </IconButton>
-        </Dialog.Trigger>
+            <Button
+              variant="solid"
+              size="4"
+              radius="none"
+              className="fixed bottom-0 left-0 right-0 w-full lg:hidden"
+            >
+              <HamburgerMenuIcon
+                width={"1.5rem"}
+                height={"1.5rem"}
+              ></HamburgerMenuIcon>
+            </Button>
+          </Dialog.Trigger>
+        </Box>
 
         <Dialog.Content size={"3"}>
-          {renderSidebar({})}
+          {renderSidebar({
+            withImage: false,
+          })}
           <Flex gap="3" justify="end">
             <Dialog.Close>
               <Button
@@ -105,6 +109,7 @@ export function Page(props: {
       <Flex
         gap="3"
         className="mt-[3rem]"
+        direction={{ initial: "column", sm: "row" }}
         justify={
           props.doc.previousPage && props.doc.nextPage
             ? "between"
@@ -114,38 +119,56 @@ export function Page(props: {
         }
       >
         {props.doc.previousPage && (
-          <Flex gap="2" direction="column">
-            <Text size="2" color="gray">
-              Previous
-            </Text>
-
-            <Link
-              href={AppUrl.resourcePage({
-                slug: props.resource.slug,
-                page: props.doc.previousPage.id,
-              })}
-              size="4"
+          <Link
+            href={AppUrl.resourcePage({
+              slug: props.resource.slug,
+              page: props.doc.previousPage.id,
+            })}
+            size="4"
+          >
+            <Flex
+              gap="2"
+              direction="column"
+              className="rounded-md border border-[--border] p-4"
+              style={
+                {
+                  "--border": Colors.getDarkColor(props.theme.accentColor, 7),
+                } as React.CSSProperties
+              }
             >
+              <Text size="2" color="gray" className="no-underline">
+                Previous
+              </Text>
+
               {props.doc.previousPage.title}
-            </Link>
-          </Flex>
+            </Flex>
+          </Link>
         )}
         {props.doc.nextPage && (
-          <Flex gap="2" direction="column">
-            <Text size="2" color="gray">
-              Next
-            </Text>
-
-            <Link
-              href={AppUrl.resourcePage({
-                slug: props.resource.slug,
-                page: props.doc.nextPage.id,
-              })}
-              size="4"
+          <Link
+            href={AppUrl.resourcePage({
+              slug: props.resource.slug,
+              page: props.doc.nextPage.id,
+            })}
+            size="4"
+          >
+            <Flex
+              gap="2"
+              direction="column"
+              className="rounded-md border border-[--border] p-4"
+              style={
+                {
+                  "--border": Colors.getDarkColor(props.theme.accentColor, 7),
+                } as React.CSSProperties
+              }
             >
+              <Text size="2" color="gray">
+                Next
+              </Text>
+
               {props.doc.nextPage.title}
-            </Link>
-          </Flex>
+            </Flex>
+          </Link>
         )}
       </Flex>
     );
@@ -153,7 +176,7 @@ export function Page(props: {
 
   function renderSidebar(p: { withImage?: boolean }) {
     return (
-      <Flex direction="column">
+      <Flex direction="column" mb="5">
         {props.image && p.withImage && (
           <Box className="pb-5">
             <Inset clip="padding-box" side="top" pb="current">
@@ -197,6 +220,7 @@ export function Page(props: {
                                 href: `#${toc.id}`,
                                 title: toc.title,
                                 isCurrent: false,
+                                isToc: true,
                                 level: toc.level,
                               })}
                             </React.Fragment>
@@ -232,11 +256,24 @@ export function Page(props: {
     href: string;
     title: string;
     isCurrent: boolean;
+    isToc?: boolean;
     level?: number;
   }) {
     return (
       <>
-        <Link href={p.href}>
+        <Link
+          href={p.href}
+          style={
+            {
+              color:
+                p.isCurrent && !p.isToc
+                  ? Colors.getDarkColor(props.theme.accentColor, 11)
+                  : p.isToc
+                    ? Colors.getDarkColor("gray", 11)
+                    : Colors.getDarkColor("gray", 12),
+            } as React.CSSProperties
+          }
+        >
           <Box
             pl={p.level ? (p.level + 2).toString() : "2"}
             className={clsx(
@@ -251,18 +288,14 @@ export function Page(props: {
                   props.theme.accentColor,
                   9,
                 ),
-                "--border-item": p.isCurrent
-                  ? Colors.getDarkColor(props.theme.accentColor, 9)
-                  : Colors.getDarkColor("gray", 9),
+                "--border-item":
+                  p.isCurrent || p.isToc
+                    ? Colors.getDarkColor(props.theme.accentColor, 9)
+                    : Colors.getDarkColor("gray", 6),
               } as React.CSSProperties
             }
           >
-            <Text
-              className={clsx({ "font-medium": p.isCurrent })}
-              highContrast={!p.isCurrent && p.level === undefined}
-              size="2"
-              color={p.isCurrent ? props.theme.accentColor : "gray"}
-            >
+            <Text className={clsx({ "font-bold": p.isCurrent })} size="2">
               {p.title}
             </Text>
           </Box>
