@@ -1,4 +1,4 @@
-import kebabCase from "lodash/kebabCase";
+import GithubSlugger from "github-slugger";
 import { evaluateMdx } from "../mdx/evaluateMdx";
 
 export type DocType = ReturnType<InstanceType<typeof DocParser>["getDoc"]>;
@@ -11,7 +11,7 @@ export class DocParser {
   #nextPage: IPageElement | undefined;
   #previousPage: IPageElement | undefined;
   #sidebar: ISidebar;
-
+  #slugger = new GithubSlugger();
   constructor(
     private options: {
       currentChapterId?: string;
@@ -65,7 +65,6 @@ export class DocParser {
     };
     const lines = this.options.markdown.split("\n");
     let currentPage: IPageElement | null = null;
-    const idsRecordCounter: Record<string, number> = {};
 
     for (const line of lines) {
       // handle page
@@ -75,12 +74,10 @@ export class DocParser {
         }
 
         // handle id generation
-        const newIdPrefix = DocParser.makeSectionId(line);
-        const pageIdCount = idsRecordCounter[newIdPrefix] ?? 0;
-        idsRecordCounter[newIdPrefix] = pageIdCount + 1;
-        const currentPageId =
-          pageIdCount === 0 ? newIdPrefix : `${newIdPrefix}-${pageIdCount}`;
-
+        const newIdPrefix = this.makeId({
+          line,
+        });
+        const currentPageId = newIdPrefix;
         // trim title and category
         const [title, category] = line.split("|");
         const trimmedTitle = title.split("#").join("").trim();
@@ -105,6 +102,7 @@ export class DocParser {
 
         currentPage = {
           id: currentPageId,
+          gitHubId: this.makeGitHubId({ line }),
           title: trimmedTitle,
           content: "",
           toc: [],
@@ -122,12 +120,14 @@ export class DocParser {
         const level = line.startsWith("## ") ? 2 : 3;
         const title = line.split("#").join("").trim();
         currentPage?.toc.push({
-          id: DocParser.makeSectionId(line),
+          id: this.makeId({ line }),
+          gitHubId: this.makeGitHubId({ line }),
           title: title,
           level: level,
         });
       }
     }
+
     // adds last page
     if (currentPage) {
       pages.push(currentPage);
@@ -138,9 +138,6 @@ export class DocParser {
 
     // add indexes to all pages
     for (const page of pages) {
-      // const _pageMarkdownPreviewWithoutAnyMarkdown = page.content
-      //   .split("\n")
-      //   .map((line) => line.split("#").join("").trim());
       page.indexes.push({
         pageId: page.id,
         pageTitle: page.title,
@@ -162,10 +159,16 @@ export class DocParser {
     return { pages, toc, sidebar, currentPage, indexes };
   }
 
-  private static makeSectionId(line: string): string {
-    const lineWithoutHash = line.replace("# ", "");
+  private makeId(p: { line: string }) {
+    const lineWithoutHash = p.line.replace("# ", "");
     const lineWithoutDividerSuffix = lineWithoutHash.split("|")[0].trim();
-    const lineKebabCase = kebabCase(lineWithoutDividerSuffix);
+    const lineKebabCase = this.#slugger.slug(lineWithoutDividerSuffix);
+    return lineKebabCase;
+  }
+
+  private makeGitHubId(p: { line: string }) {
+    const lineWithoutHash = p.line.replace("# ", "");
+    const lineKebabCase = this.#slugger.slug(lineWithoutHash);
     return lineKebabCase;
   }
 }
@@ -187,6 +190,7 @@ type ISearchIndex = {
 
 export type IPageElement = {
   id: string;
+  gitHubId: string;
   title: string;
   content: string;
   toc: Array<ITocElement>;
@@ -194,6 +198,7 @@ export type IPageElement = {
 };
 export type ITocElement = {
   id: string;
+  gitHubId: string;
   title: string;
   level: number;
 };

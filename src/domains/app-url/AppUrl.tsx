@@ -48,4 +48,10 @@ export const AppUrl = {
     }
     return `/search?${searchParams.toString()}`;
   },
+  githubResource(props: {
+    slug: CollectionEntry<"resources">["slug"];
+    page: string;
+  }) {
+    return `https://github.com/farirpgs/storied/tree/main/src/content/resources/${props.slug}/index.mdx#${props.page}`;
+  },
 };

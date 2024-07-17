@@ -12,6 +12,7 @@ import {
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import type React from "react";
+import { getSurfaceStyle } from "../Surface/getSurfaceStyle";
 import { MDXCheckboxField } from "./mdx-components/state/MDXCheckboxField";
 import { MDXList } from "./mdx-components/state/MDXList";
 import { MDXNumberField } from "./mdx-components/state/MDXNumberField";
@@ -183,7 +184,18 @@ export function MDXA(props: any) {
 }
 
 export function MDXBlockquote(props: any) {
-  return <Blockquote data-mdx-type="blockquote" {...props} />;
+  return (
+    <Blockquote
+      data-mdx-type="blockquote"
+      style={{
+        ...getSurfaceStyle(),
+        padding: "1rem",
+      }}
+      {...props}
+    >
+      <MDXWrapper>{props.children}</MDXWrapper>
+    </Blockquote>
+  );
 }
 
 export function MDXEm(props: any) {

@@ -1,4 +1,4 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { GitHubLogoIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import {
   Box,
   Button,
@@ -49,15 +49,16 @@ export function Page(props: {
             })}
           </Box>
         </div>
-        <div className="block">
+        <div className="block w-full">
           <MDXWrapper>
-            <MDXH1>{props.doc.currentPage.title}</MDXH1>
-            <MDXH2 color="gray" className="mt-[-.5rem]" size="6">
+            <MDXH1 mb="1">{props.doc.currentPage.title}</MDXH1>
+            <MDXH2 color="gray" className="mt-[-.5rem]" size="6" mb="4">
               {props.resource.data.name}
             </MDXH2>
             {props.children}
 
             {renderPreviousAndNextButtons()}
+            {renderEditButton()}
           </MDXWrapper>
         </div>
       </div>
@@ -174,6 +175,29 @@ export function Page(props: {
     );
   }
 
+  function renderEditButton() {
+    return (
+      <Box mt="5">
+        <Flex justify={"end"}>
+          <Link
+            href={AppUrl.githubResource({
+              slug: props.resource.slug,
+              page: props.doc.currentPage.gitHubId,
+            })}
+          >
+            <Button variant="ghost" color="gray" size="4" className="m-0">
+              <GitHubLogoIcon
+                width={"1.5rem"}
+                height={"1.5rem"}
+              ></GitHubLogoIcon>
+              Edit this page on GitHub
+            </Button>
+          </Link>
+        </Flex>
+      </Box>
+    );
+  }
+
   function renderSidebar(p: { withImage?: boolean }) {
     return (
       <Flex direction="column" mb="5">
@@ -201,6 +225,7 @@ export function Page(props: {
                   slug: props.resource.slug,
                   page: item.id,
                 });
+
                 const isCurrent = itemPatname === props.pathname;
 
                 return (
@@ -210,24 +235,7 @@ export function Page(props: {
                       href: itemPatname,
                       title: item.title,
                     })}
-                    {isCurrent && (
-                      <>
-                        {/* TOC */}
-                        {props.doc.currentPage.toc.map((toc) => {
-                          return (
-                            <React.Fragment key={toc.id}>
-                              {renderLink({
-                                href: `#${toc.id}`,
-                                title: toc.title,
-                                isCurrent: false,
-                                isToc: true,
-                                level: toc.level,
-                              })}
-                            </React.Fragment>
-                          );
-                        })}
-                      </>
-                    )}
+                    {isCurrent && renderToc()}
                   </React.Fragment>
                 );
               })}
@@ -235,20 +243,44 @@ export function Page(props: {
           );
         })}
         {props.doc.sidebar.root.map((item) => {
+          const itemPatname = AppUrl.resourcePage({
+            slug: props.resource.slug,
+            page: item.id,
+          });
+
+          const isCurrent = itemPatname === props.pathname;
           return (
             <Flex key={item.id} direction="column">
               {renderLink({
-                isCurrent: item.id === props.pathname,
-                href: AppUrl.resourcePage({
-                  slug: props.resource.slug,
-                  page: item.id,
-                }),
+                isCurrent: isCurrent,
+                href: itemPatname,
                 title: item.title,
               })}
+              {isCurrent && renderToc()}
             </Flex>
           );
         })}
       </Flex>
+    );
+  }
+
+  function renderToc() {
+    return (
+      <>
+        {props.doc.currentPage.toc.map((toc) => {
+          return (
+            <React.Fragment key={toc.id}>
+              {renderLink({
+                href: `#${toc.id}`,
+                title: toc.title,
+                isCurrent: false,
+                isToc: true,
+                level: toc.level,
+              })}
+            </React.Fragment>
+          );
+        })}
+      </>
     );
   }
 
