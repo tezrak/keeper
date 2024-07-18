@@ -3,11 +3,13 @@ import { Box, Button, Container, Flex, Grid, Text } from "@radix-ui/themes";
 import { Image } from "astro:assets";
 import { Card } from "../components/client/Card/Card";
 import { MDXH1, MDXH2 } from "../components/client/MDX/MDX";
+import { StoriedLogoPngSrc } from "../components/server/Header/Storied";
 import { AppUrl } from "../domains/app-url/AppUrl";
 import { Colors, type ColorType } from "../domains/colors/colors";
 import { DLAstro } from "../domains/dl/DLAstro";
 import { getRandomElement } from "../domains/utils/random";
 import Layout from "../layouts/Layout.astro";
+import { Blinker } from "./Blinker";
 
 const { games } = await DLAstro.getAllGamesWithCreator({});
 const topGames = games.slice(0, 9);
@@ -16,51 +18,66 @@ const topResources = resources.slice(0, 9);
 ---
 
 <Layout withOgImage title={undefined} description={undefined} withDefaultBanner>
-  <Container size="1" maxWidth={"768px"}>
+  <Container size="4">
     <Flex
-      align="center"
-      justify="center"
-      gap="4"
-      direction={"column"}
-      className="md:mb-[10vh] md:mt-[10vh]"
+      direction={{
+        initial: "column",
+        md: "row",
+      }}
+      gap="3"
+      className="my-9"
+      align={"center"}
     >
-      <MDXH1
-        size={{
-          initial: "8",
-          md: "9",
+      <Box
+        width={{
+          initial: "100%",
+          md: "70%",
         }}
-        align={"center"}
-        className="font-bold leading-[normal]"
       >
-        The best way to play<br /> your favorite TTRPGs
-      </MDXH1>
+        <Flex align="start" justify="center" gap="4" direction={"column"}>
+          <MDXH1 className="text-[4rem] leading-[normal]">
+            The best TTRPG<br />
+            <Blinker
+              client:load
+              texts={[
+                "character keeper",
+                "resource compendium",
+                "dice roller",
+                "game finder",
+              ]}
+            />
+          </MDXH1>
 
-      <Text
-        color="gray"
-        size={{
-          initial: "3",
-          md: "4",
-        }}
-        mb="5"
-        align={"center"}
+          <Text
+            color="gray"
+            size={{
+              initial: "3",
+              md: "4",
+            }}
+            mb="5"
+          >
+            Hundreds of games you can play right here in your browser. <br /> Accessible,
+            fast, and free.
+          </Text>
+          <Flex direction="row" gap="4">
+            <a href="#get-started">
+              <Button size="3" radius="full"> Get Started</Button>
+            </a>
+            <a href={AppUrl.search({})}>
+              <Button size="3" radius="full" variant="outline">
+                Search for content
+              </Button>
+            </a>
+          </Flex>
+        </Flex></Box
       >
-        Hundreds of games you can play right here in your browser. <br /> Accessible,
-        fast, and free.
-      </Text>
-      <Flex direction="row" gap="4">
-        <a href="#get-started">
-          <Button size="3" radius="full"> Get Started</Button>
-        </a>
-        <a
-          href={AppUrl.search({
-            type: "all",
-            query: "",
-          })}
-        >
-          <Button size="3" radius="full" variant="outline">
-            Search for content
-          </Button>
-        </a>
+      <Flex
+        width={"40%"}
+        justify="center"
+        align={"center"}
+        className="initial:hidden md:flex"
+      >
+        <Image src={StoriedLogoPngSrc} alt="Storied" width={1000} />
       </Flex>
     </Flex>
   </Container>

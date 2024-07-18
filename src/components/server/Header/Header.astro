@@ -5,7 +5,7 @@ import {
   Button,
   Flex,
   Grid,
-  Text,
+  Link,
   VisuallyHidden,
 } from "@radix-ui/themes";
 import { SquareLibrary } from "lucide-react";
@@ -30,29 +30,9 @@ const fontFamily =
   }}
 >
   <Flex justify={"start"}>
-    <a href={AppUrl.home()}>
-      <Button
-        highContrast
-        radius="full"
-        size="4"
-        variant="ghost"
-        className="my-0 cursor-pointer"
-      >
-        {
-          false && (
-            <StoriedNameLogo className="h-[1.5rem] fill-[currentColor]" />
-          )
-        }
-        <Text
-          className="text-[1.2rem] font-bold"
-          style={{
-            fontFamily,
-          }}
-        >
-          STORIED
-        </Text>
-      </Button>
-    </a>
+    <Link href={AppUrl.home()} highContrast>
+      <StoriedNameLogo className="h-[1.25rem] fill-[currentColor]" />
+    </Link>
   </Flex>
   <Flex gap="4" justify="center">
     <a href={AppUrl.campaigns()}>
