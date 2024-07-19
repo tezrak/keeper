@@ -3,6 +3,7 @@ export default {
   darkMode: "selector",
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   important: true,
+
   theme: {
     spacing: {
       0: "0px",
@@ -28,7 +29,17 @@ export default {
       "3xl": "2560px",
       "4xl": "3840px",
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        blur: {
+          "0%": { filter: "blur(48px)" },
+          "100%": { filter: "blur(128px)" },
+        },
+      },
+      animation: {
+        blur: "blur 2s linear alternate infinite",
+      },
+    },
   },
   plugins: [require("@tailwindcss/typography")],
 };

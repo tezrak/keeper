@@ -75,9 +75,21 @@ const topResources = resources.slice(0, 9);
         width={"40%"}
         justify="center"
         align={"center"}
-        className="initial:hidden md:flex"
+        className="relative initial:hidden md:flex"
       >
-        <Image src={StoriedLogoPngSrc} alt="Storied" width={1000} />
+        <Box
+          className="animate-blur absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] rounded-lg"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right top, var(--jade-10), var(--jade-7), var(--jade-8), var(--jade-9), var(--jade-11))",
+          }}
+        />
+        <Image
+          src={StoriedLogoPngSrc}
+          alt="Storied"
+          width={1000}
+          class={"rounded-lg"}
+        />
       </Flex>
     </Flex>
   </Container>
