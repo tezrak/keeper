@@ -3,6 +3,7 @@ import { ImageResponse } from "@vercel/og";
 import truncate from "lodash/truncate";
 import { renderToString } from "react-dom/server";
 import { Graphic } from "../../components/client/Graphic/Graphic";
+import { StoriedNameLogo } from "../../components/server/Header/Storied";
 import { Colors, type ColorType } from "../colors/colors";
 
 const debug = false;
@@ -398,11 +399,16 @@ function OGImage(props: {
     return (
       <div
         style={{
-          fontSize: "1.5em",
-          textTransform: "uppercase",
+          display: "flex",
         }}
       >
-        Storied
+        <StoriedNameLogo
+          color="#fff"
+          style={{
+            width: 4000 / 30,
+            height: 796 / 30,
+          }}
+        ></StoriedNameLogo>
       </div>
     );
   }
