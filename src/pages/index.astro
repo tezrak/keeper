@@ -78,13 +78,14 @@ const topResources = resources.slice(0, 9);
         className="relative initial:hidden md:flex"
       >
         <Box
-          className="animate-blur absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] rounded-lg"
+          className="animate-blur absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] rounded-lg opacity-60"
           style={{
             backgroundImage:
               "linear-gradient(to right top, var(--jade-10), var(--jade-7), var(--jade-8), var(--jade-9), var(--jade-11))",
           }}
         />
         <Image
+          loading={"eager"}
           src={StoriedLogoPngSrc}
           alt="Storied"
           width={1000}
