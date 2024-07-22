@@ -9,17 +9,18 @@ import {
 import "@radix-ui/themes/styles.css";
 import { ViewTransitions, fade } from "astro:transitions";
 
-import Banner from "../components/server/Banner/Banner.astro";
-import Header from "../components/server/Header/Header.astro";
-import { getTheme, type ThemeType } from "../domains/utils/getTheme";
-
+import { getImage } from "astro:assets";
 import { Debug } from "astro:components";
 import { getEntry } from "astro:content";
 import { Graphic } from "../components/client/Graphic/Graphic";
 import { MDXColumns } from "../components/client/MDX/mdx-components/ui/MDXColumns";
 import { MDXDivider } from "../components/client/MDX/mdx-components/ui/MDXDivider";
+import Banner from "../components/server/Banner/Banner.astro";
 import Footer from "../components/server/Footer/Footer.astro";
+import Header from "../components/server/Header/Header.astro";
+import LogoSrc from "../components/server/Header/logo.png";
 import { Colors } from "../domains/colors/colors";
+import { getTheme, type ThemeType } from "../domains/utils/getTheme";
 import "./index.css";
 
 type Props = {
@@ -58,6 +59,9 @@ const themeProps = getTheme({
   theme: props.theme,
 });
 
+const favicon = await getImage({
+  src: LogoSrc,
+});
 const googleFontUrl =
   fontsAsString &&
   encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
@@ -82,7 +86,7 @@ const ogImageUrl = props.withOgImage
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <meta name="generator" content={Astro.generator} />
 
     <meta

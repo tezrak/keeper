@@ -1,5 +1,7 @@
 # Storied
 
+<a href="https://www.netlify.com"> <img src="https://www.netlify.com/v3/img/components/netlify-color-accent.svg" alt="Deploys by Netlify" /> </a>
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/94f57852-8fc1-43e6-9999-dd701a7a09fc/deploy-status)](https://app.netlify.com/sites/storied-farirpgs/deploys)
 
 This is the home of Storied, a VTT and compdiuem of free resources for TTRPG players and designers.
