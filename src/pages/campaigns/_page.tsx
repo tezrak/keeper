@@ -100,6 +100,7 @@ function GameCard(props: {
   onDelete: (id: string) => void;
 }) {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [gameWithCreator, setGameWithCreator] = useState<{
     game: CollectionEntry<"games">;
     creator: CollectionEntry<"creators">;
@@ -133,6 +134,7 @@ function GameCard(props: {
         if (ignore) {
           return;
         }
+        setError(true);
         logger.error("Failed to get game", { error });
       } finally {
         if (ignore) {
@@ -149,7 +151,7 @@ function GameCard(props: {
 
   return (
     <Skeleton loading={loading}>
-      {gameWithCreator ? (
+      {!error && gameWithCreator ? (
         <Card
           href={`/play/${props.slug}?id=${props.id}`}
           title={props.name || gameWithCreator.game.data.name}

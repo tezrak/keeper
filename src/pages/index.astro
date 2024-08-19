@@ -9,7 +9,7 @@ import { Colors, type ColorType } from "../domains/colors/colors";
 import { DLAstro } from "../domains/dl/DLAstro";
 import { getRandomElement } from "../domains/utils/random";
 import Layout from "../layouts/Layout.astro";
-import { Blinker } from "./Blinker";
+import { Blinker } from "./_Blinker";
 
 const { games } = await DLAstro.getAllGamesWithCreator({});
 const topGames = games.slice(0, 9);
@@ -78,7 +78,7 @@ const topResources = resources.slice(0, 9);
         className="relative initial:hidden md:flex"
       >
         <Box
-          className="animate-blur absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] rounded-lg opacity-60"
+          className="absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] animate-blur rounded-lg opacity-60"
           style={{
             backgroundImage:
               "linear-gradient(to right top, var(--jade-10), var(--jade-7), var(--jade-8), var(--jade-9), var(--jade-11))",

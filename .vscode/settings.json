@@ -5,7 +5,7 @@
     "source.fixAll": "always",
     "source.organizeImports": "always"
   },
-
+  "astro.content-intellisense": true,
   "yaml.schemas": {
     "./.astro/collections/creators.schema.json": "/src/content/creators/**",
     "./.astro/collections/games.schema.json": "/src/content/games/**"

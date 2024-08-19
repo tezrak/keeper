@@ -36,8 +36,9 @@ export default defineConfig({
     mdx(),
   ],
   experimental: {
-    // contentCollectionJsonSchema: true,
-    // contentCollectionCache: true,
+    contentCollectionCache: true,
+    contentIntellisense: true,
+    contentLayer: true,
   },
   adapter: netlify(),
 });
