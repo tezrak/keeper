@@ -160,7 +160,7 @@ function Game(props: {
             <TextField.Root
               size="3"
               color="gray"
-              placeholder={"Campaign name"}
+              placeholder={"Enter campaign name..."}
               className={clsx(
                 "h-[4rem] w-full text-[2rem] shadow-none",
                 "[&>input]:h-[4rem]",
@@ -208,11 +208,16 @@ function Game(props: {
                 <Tabs.List size="2" justify={"center"}>
                   <Tabs.Trigger
                     value="library"
+                    className="cursor-pointer"
                     onClick={() => setTab("library")}
                   >
                     Library
                   </Tabs.Trigger>
-                  <Tabs.Trigger value="assets" onClick={() => setTab("assets")}>
+                  <Tabs.Trigger
+                    value="assets"
+                    className="cursor-pointer"
+                    onClick={() => setTab("assets")}
+                  >
                     My Assets
                   </Tabs.Trigger>
                 </Tabs.List>
@@ -232,7 +237,7 @@ function Game(props: {
                                 loading={isAdding}
                                 color="gray"
                                 variant="outline"
-                                className="w-full text-left"
+                                className="w-full cursor-pointer text-left"
                                 onClick={() => {
                                   handleAddAsset({ asset: asset });
                                 }}
@@ -283,7 +288,7 @@ function Game(props: {
                               size="2"
                               color={isSelected ? undefined : "gray"}
                               variant={"soft"}
-                              className="w-full justify-start text-left"
+                              className="w-full cursor-pointer justify-start text-left"
                               loading={selectAssetId === assetId}
                               onClick={() => {
                                 handleLoadAsset({ id: assetId });
@@ -298,7 +303,7 @@ function Game(props: {
                                   <Button
                                     asChild
                                     variant="ghost"
-                                    className="transition-all duration-75"
+                                    className="cursor-auto transition-all duration-75"
                                   >
                                     <span>
                                       <HamburgerMenuIcon />

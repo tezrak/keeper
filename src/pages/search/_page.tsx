@@ -132,9 +132,9 @@ export function Page(props: { indexes: Array<SearchIndexType> }) {
                 <SegmentedControl.Item
                   key={key}
                   value={key}
+                  className="cursor-pointer"
                   onClick={() => {
                     setQuery((prev) => {
-                      console.log("'" + prev + "'");
                       // if (prev === "") {
                       //   return "*";
                       // }

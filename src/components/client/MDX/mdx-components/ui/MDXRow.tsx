@@ -4,6 +4,10 @@ import { parseProps } from "../../../../../domains/utils/parseProps";
 
 const propsSchema = z.object({
   children: z.any().optional(),
+  align: z
+    .enum(["start", "center", "end", "baseline", "stretch"])
+    .optional()
+    .default("center"),
 });
 
 export type Props = z.input<typeof propsSchema>;
@@ -16,7 +20,7 @@ export function MDXRow(p: Props) {
   });
 
   return (
-    <Flex data-mdx-type="row" gap="4" width={"100%"} align={"start"}>
+    <Flex data-mdx-type="row" gap="4" width={"100%"} align={props.align}>
       {props.children}
     </Flex>
   );

@@ -11,6 +11,7 @@ import { useName } from "./MDXList";
 
 const propsSchema = z.object({
   name: z.string(),
+  placeholder: z.string().optional(),
   children: z.any().optional(),
   tooltip: z.string().optional(),
 });
@@ -38,11 +39,21 @@ export function MDXTextField(p: Props) {
           <Tooltip content={props.tooltip}>{children}</Tooltip>
         )}
       >
+        {props.children && (
+          <Flex>
+            <MDXDetail>{props.children}</MDXDetail>
+          </Flex>
+        )}
         <TextField.Root
           size="3"
           color="gray"
           variant="soft"
           value={value}
+          placeholder={getDefaultPlaceholder({
+            children: props.children,
+            placeholder: props.placeholder,
+          })}
+          disabled={campaignManager.readonly}
           onChange={(e) => {
             if (campaignManager.readonly) {
               return;
@@ -53,12 +64,22 @@ export function MDXTextField(p: Props) {
         />
       </ConditionalWrapper>
 
-      {props.children && (
-        <Flex>
-          <MDXDetail>{props.children}</MDXDetail>
-        </Flex>
-      )}
       <CampaignState name={name} value={value}></CampaignState>
     </Flex>
   );
+}
+
+export function getDefaultPlaceholder(p: {
+  children: string;
+  placeholder?: string;
+}) {
+  if (p.placeholder) {
+    return p.placeholder;
+  }
+
+  if (p.children) {
+    return `${p.children.toString()}...`;
+  }
+
+  return "";
 }

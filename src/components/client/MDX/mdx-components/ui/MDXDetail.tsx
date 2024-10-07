@@ -6,6 +6,8 @@ import { TEXT_CLASSES } from "../../MDX";
 
 const propsSchema = z.object({
   children: z.any().optional(),
+
+  fullWidth: z.boolean().optional(),
 });
 
 export type Props = z.input<typeof propsSchema>;
@@ -18,7 +20,16 @@ export function MDXDetail(p: Props) {
   });
 
   return (
-    <Text as="span" color="gray" className={clsx("w-full", TEXT_CLASSES)}>
+    <Text
+      as="span"
+      color="gray"
+      className={clsx(
+        {
+          "w-full": props.fullWidth,
+        },
+        TEXT_CLASSES,
+      )}
+    >
       {props.children}
     </Text>
   );

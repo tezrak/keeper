@@ -2,7 +2,7 @@ import { Box, Button, Card, Flex, Link, Text, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import {
   MDXH1,
-  MDXH2,
+  MDXH4,
   MDXWrapper,
 } from "../../../../components/client/MDX/MDX";
 import {
@@ -49,7 +49,7 @@ export function Page(props: {
             >
               <Flex direction="column" gap="4">
                 <MDXH1>{props.game.data.name}</MDXH1>
-                <MDXH2 className="mt-[-.5rem]">
+                <MDXH4 className="mt-[-.5rem]">
                   <Link
                     href={AppUrl.creator({
                       slug: props.creator.slug,
@@ -59,7 +59,7 @@ export function Page(props: {
                   >
                     By {props.creator.data.name}
                   </Link>
-                </MDXH2>
+                </MDXH4>
 
                 <MDXWrapper>{props.children}</MDXWrapper>
               </Flex>
@@ -103,6 +103,7 @@ export function Page(props: {
                                   <Button
                                     size="2"
                                     className={clsx(
+                                      "cursor-pointer",
                                       "font-bold",
                                       "transition-all",
                                     )}

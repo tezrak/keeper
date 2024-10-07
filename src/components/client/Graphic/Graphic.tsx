@@ -7,6 +7,7 @@ export function Graphic(props: {
   const accentColor = props.accentColor ?? "gold";
   return (
     <div
+      className="invisible dark:visible"
       style={{
         display: "flex",
         position: "absolute",

@@ -1,5 +1,4 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Button, Card, DropdownMenu, Flex } from "@radix-ui/themes";
+import { Card, ContextMenu, Flex, Tooltip } from "@radix-ui/themes";
 import React, { useContext, useEffect, useState } from "react";
 import { z } from "zod";
 import { CampaignContext } from "../../../../../domains/campaign/useCampaign";
@@ -126,56 +125,57 @@ export function MDXList(p: Props) {
             value={{
               name: props.name,
               id,
-            }}
+            }} 
             key={id}
           >
-            <Card size="2">
-              <Flex gap="4" align={"start"}>
-                <Flex flexGrow={"1"}>{props.children}</Flex>
-                <Flex>
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger>
-                      <Button variant="soft" size="3" color="gray">
-                        <HamburgerMenuIcon />
-                      </Button>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content color="gray">
-                      <DropdownMenu.Item onClick={() => handleAddBelow(id)}>
-                        Add Below
-                      </DropdownMenu.Item>
-                      {shouldRenderMoveButtons && (
-                        <>
-                          <DropdownMenu.Separator />
-                          {!isFirst && (
-                            <DropdownMenu.Item onClick={() => handleMoveUp(id)}>
-                              Move Up
-                            </DropdownMenu.Item>
-                          )}
-                          {!isLast && (
-                            <DropdownMenu.Item
-                              onClick={() => handleMoveDown(id)}
+            <ContextMenu.Root>
+              <Tooltip
+                content={"Right click the card's background for options..."}
+              >
+                <ContextMenu.Trigger>
+                  <Card size="2" className={""}>
+                    <Flex gap="4" align={"start"}>
+                      <Flex flexGrow={"1"}>{props.children}</Flex>
+                      <ContextMenu.Content color="gray">
+                        <ContextMenu.Item onClick={() => handleAddBelow(id)}>
+                          Add Below
+                        </ContextMenu.Item>
+                        {shouldRenderMoveButtons && (
+                          <>
+                            <ContextMenu.Separator />
+                            {!isFirst && (
+                              <ContextMenu.Item
+                                onClick={() => handleMoveUp(id)}
+                              >
+                                Move Up
+                              </ContextMenu.Item>
+                            )}
+                            {!isLast && (
+                              <ContextMenu.Item
+                                onClick={() => handleMoveDown(id)}
+                              >
+                                Move Down
+                              </ContextMenu.Item>
+                            )}
+                          </>
+                        )}
+                        {shouldRenderDeleteButton && (
+                          <>
+                            <ContextMenu.Separator />
+                            <ContextMenu.Item
+                              color="red"
+                              onClick={() => handleDelete(id)}
                             >
-                              Move Down
-                            </DropdownMenu.Item>
-                          )}
-                        </>
-                      )}
-                      {shouldRenderDeleteButton && (
-                        <>
-                          <DropdownMenu.Separator />
-                          <DropdownMenu.Item
-                            color="red"
-                            onClick={() => handleDelete(id)}
-                          >
-                            Delete
-                          </DropdownMenu.Item>
-                        </>
-                      )}
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
-                </Flex>
-              </Flex>
-            </Card>
+                              Delete
+                            </ContextMenu.Item>
+                          </>
+                        )}
+                      </ContextMenu.Content>
+                    </Flex>
+                  </Card>
+                </ContextMenu.Trigger>
+              </Tooltip>
+            </ContextMenu.Root>
           </ListContext.Provider>
         );
       })}

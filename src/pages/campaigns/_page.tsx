@@ -148,46 +148,51 @@ function GameCard(props: {
       ignore = true;
     };
   }, [props.id, props.slug]);
+  console.log("loading", loading);
 
   return (
     <Skeleton loading={loading}>
-      {!error && gameWithCreator ? (
-        <Card
-          href={`/play/${props.slug}?id=${props.id}`}
-          title={props.name || gameWithCreator.game.data.name}
-          menu={
-            <>
-              <DropdownMenu.Item color="red" onClick={handleDelete}>
-                Delete
-              </DropdownMenu.Item>
-            </>
-          }
-        >
-          <img
-            loading="eager"
-            src={props.gameImages[gameWithCreator.game.slug]}
-            alt={gameWithCreator.game.data.name}
-            style={{
-              position: "absolute",
-              objectFit: "cover",
-              objectPosition: "left",
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        </Card>
-      ) : (
-        <Card
-          title={props.slug}
-          error="(Not found)"
-          menu={
-            <>
-              <DropdownMenu.Item color="red" onClick={handleDelete}>
-                Delete
-              </DropdownMenu.Item>
-            </>
-          }
-        ></Card>
+      {!loading && (
+        <>
+          {!error && gameWithCreator ? (
+            <Card
+              href={`/play/${props.slug}?id=${props.id}`}
+              title={props.name || gameWithCreator.game.data.name}
+              menu={
+                <>
+                  <DropdownMenu.Item color="red" onClick={handleDelete}>
+                    Delete
+                  </DropdownMenu.Item>
+                </>
+              }
+            >
+              <img
+                loading="eager"
+                src={props.gameImages[gameWithCreator.game.slug]}
+                alt={gameWithCreator.game.data.name}
+                style={{
+                  position: "absolute",
+                  objectFit: "cover",
+                  objectPosition: "left",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            </Card>
+          ) : (
+            <Card
+              title={props.slug}
+              error="(Not found)"
+              menu={
+                <>
+                  <DropdownMenu.Item color="red" onClick={handleDelete}>
+                    Delete
+                  </DropdownMenu.Item>
+                </>
+              }
+            ></Card>
+          )}
+        </>
       )}
     </Skeleton>
   );

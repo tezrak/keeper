@@ -46,7 +46,7 @@ game: fari-rpgs/stoneburner
   </Stack>
   <Stack>
     <Heading>Vision of Glory</Heading>
-    <TextAreaField name="visionOfGlory" />
+    <TextAreaField name="visionOfGlory" placeholder="Vision of glory..." />
 
     <Heading>Resilience</Heading>
     <Row>
@@ -63,31 +63,42 @@ game: fari-rpgs/stoneburner
 
 <Heading>Items</Heading>
 <List max={5} name="items">
-  <Row>
-    <CheckboxField name="checked" />
-    <SelectField name="initial" options={["d4", "d6", "d8", "d10", "d12"]}>
-      Initial
-    </SelectField>
-    <SelectField name="current" options={["d4", "d6", "d8", "d10", "d12"]}>
-      Current
-    </SelectField>
-  </Row>
+  <Stack>
+    <Row>
+      <TextField name="name" placeholder="Item name...">
+        Item
+      </TextField>
+      <SelectField name="initial" options={["d4", "d6", "d8", "d10", "d12"]}>
+        Initial rating
+      </SelectField>
+      <SelectField name="current" options={["d4", "d6", "d8", "d10", "d12"]}>
+        Current rating
+      </SelectField>
+    </Row>
+  </Stack>
 </List>
 <Heading>Hindrances</Heading>
 <List name="hindrances">
-  <Row>
-    <TextField name="name" />
-    <CheckboxField name="minor.checked">Minor</CheckboxField>
-    <CheckboxField name="major.checked">Major</CheckboxField>
-  </Row>
+  <Stack>
+    <Row>
+      <TextField name="name" placeholder="Hindrance description...">
+        Hindrance
+      </TextField>
+    </Row>
+    <Row>
+      <Detail>Type</Detail>{" "}
+      <CheckboxField name="minor.checked">Minor</CheckboxField>
+      <CheckboxField name="major.checked">Major</CheckboxField>
+    </Row>
+  </Stack>
 </List>
 
  <Heading>Abilities</Heading>
     <List  max={5} name="abilities">
     <Stack>
-      <Row><TextField name="name" >Description</TextField></Row>
-      <Row>
-        <NumberField name="cost">Cost</NumberField>
+      <Row align='start'>
+      <TextAreaField name="name" placeholder="Ability description...">Description</TextAreaField>
+      <NumberField name="cost">Cost</NumberField>
       </Row>
     </Stack>
 
@@ -95,13 +106,17 @@ game: fari-rpgs/stoneburner
 
     <Heading>Projects</Heading>
     <List  max={3} name="projects">
-      <Row>
-          <TextField name="name" />
-          <SelectField name="current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current</SelectField>
+     <Stack>
+         <Row>
+          <TextField name="name" placeholder="Project description...">Description</TextField>
+          <SelectField name="current" options={['d4', 'd6',  'd8', 'd10', 'd12']} defaultValue="d4">Current rating</SelectField>
       </Row>
+    </Stack>
+
+
     </List>
 
 ---
 
 <Heading>Advancements</Heading>
-<TextField name="advancements" />
+<TextField name="advancements" placeholder="Record your advancements..." />

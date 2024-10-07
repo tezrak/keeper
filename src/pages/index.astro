@@ -39,12 +39,7 @@ const topResources = resources.slice(0, 9);
             The best TTRPG<br />
             <Blinker
               client:load
-              texts={[
-                "character keeper",
-                "resource compendium",
-                "dice roller",
-                "game finder",
-              ]}
+              texts={["character keeper", "resource compendium", "dice roller"]}
             />
           </MDXH1>
 
@@ -61,10 +56,17 @@ const topResources = resources.slice(0, 9);
           </Text>
           <Flex direction="row" gap="4">
             <a href="#get-started">
-              <Button size="3" radius="full"> Get Started</Button>
+              <Button size="3" radius="full" className="cursor-pointer">
+                Get Started</Button
+              >
             </a>
             <a href={AppUrl.search({})}>
-              <Button size="3" radius="full" variant="outline">
+              <Button
+                size="3"
+                radius="full"
+                variant="outline"
+                className="cursor-pointer"
+              >
                 Search for content
               </Button>
             </a>
@@ -151,7 +153,7 @@ const topResources = resources.slice(0, 9);
     })}
     class="flex cursor-pointer justify-center align-middle"
   >
-    <Button size="4" color="gray"> View all </Button>
+    <Button size="4" color="gray" className="cursor-pointer"> View all </Button>
   </a>
 
   <Box pt="4" id="get-started">
@@ -211,6 +213,6 @@ const topResources = resources.slice(0, 9);
     })}
     class="flex cursor-pointer justify-center align-middle"
   >
-    <Button size="4" color="gray"> View all </Button>
+    <Button size="4" color="gray" className="cursor-pointer"> View all </Button>
   </a>
 </Layout>

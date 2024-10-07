@@ -110,13 +110,26 @@ export function Card(props: {
                       {props.error}
                     </Badge>
                   )}
-                  <Text as="div" size="6" weight="bold" truncate>
+                  <Text
+                    as="div"
+                    size="6"
+                    weight="bold"
+                    truncate
+                    color="gray"
+                    className="dark text-[--accent-a12]"
+                  >
                     {props.title}
                   </Text>
                 </Flex>
 
                 {props.subtitle && (
-                  <Text as="div" size="5" color="gray" truncate>
+                  <Text
+                    as="div"
+                    size="5"
+                    color="gray"
+                    truncate
+                    className="dark text-[--accent-a11]"
+                  >
                     {props.subtitle}
                   </Text>
                 )}

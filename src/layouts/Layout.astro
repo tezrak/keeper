@@ -81,7 +81,7 @@ const ogImageUrl = props.withOgImage
 <html
   lang="en"
   transition:animate={fade({ duration: ".150s" })}
-  class="dark mb-[10rem]"
+  class="mb-[10rem]"
 >
   <head>
     <meta charset="UTF-8" />
@@ -124,7 +124,7 @@ const ogImageUrl = props.withOgImage
     <ViewTransitions />
   </head>
   <Theme {...themeProps}>
-    <body class="dark">
+    <body>
       <Container
         px={{
           initial: "6",
@@ -144,11 +144,7 @@ const ogImageUrl = props.withOgImage
         <Header />
         {
           props.withDefaultBanner && (
-            <Banner
-              src={songsAndSagas.data.image!}
-              alt={"Background"}
-              alt="Storied"
-            />
+            <Banner src={songsAndSagas.data.image!} alt={"Background"} />
           )
         }
       </Container>

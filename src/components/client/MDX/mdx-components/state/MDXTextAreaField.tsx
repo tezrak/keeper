@@ -8,9 +8,11 @@ import {
 import { ConditionalWrapper } from "../../../ConditionalWrapper/ConditionalWrapper";
 import { MDXDetail } from "../ui/MDXDetail";
 import { useName } from "./MDXList";
+import { getDefaultPlaceholder } from "./MDXTextField";
 
 const propsSchema = z.object({
   name: z.string(),
+  placeholder: z.string().optional(),
   rows: z.number().optional().default(3),
   children: z.any().optional(),
   tooltip: z.string().optional(),
@@ -39,6 +41,12 @@ export function MDXTextAreaField(p: Props) {
           <Tooltip content={props.tooltip}>{children}</Tooltip>
         )}
       >
+        {props.children && (
+          <Flex>
+            <MDXDetail>{props.children}</MDXDetail>
+          </Flex>
+        )}
+
         <TextArea
           size="3"
           variant="soft"
@@ -47,6 +55,11 @@ export function MDXTextAreaField(p: Props) {
           autoComplete="off"
           resize="vertical"
           value={value}
+          disabled={campaignManager.readonly}
+          placeholder={getDefaultPlaceholder({
+            children: props.children,
+            placeholder: props.placeholder,
+          })}
           onChange={(e) => {
             if (campaignManager.readonly) {
               return;
@@ -55,12 +68,6 @@ export function MDXTextAreaField(p: Props) {
           }}
         />
       </ConditionalWrapper>
-
-      {props.children && (
-        <Flex>
-          <MDXDetail>{props.children}</MDXDetail>
-        </Flex>
-      )}
 
       <CampaignState name={name} value={value}></CampaignState>
     </Flex>

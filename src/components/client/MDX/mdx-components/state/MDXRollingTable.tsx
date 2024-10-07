@@ -93,6 +93,7 @@ export function MDXRollingTable(p: Props) {
           <Flex gap="2" align="center">
             <IconButton
               variant="outline"
+              className="cursor-pointer"
               loading={rolling}
               onClick={() => {
                 handleRollOnTable();

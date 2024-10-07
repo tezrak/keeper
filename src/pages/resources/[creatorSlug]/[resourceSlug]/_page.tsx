@@ -15,7 +15,7 @@ import clsx from "clsx";
 import React from "react";
 import {
   MDXH1,
-  MDXH2,
+  MDXH4,
   MDXWrapper,
 } from "../../../../components/client/MDX/MDX";
 import { AppUrl } from "../../../../domains/app-url/AppUrl";
@@ -52,9 +52,9 @@ export function Page(props: {
         <div className="block w-full">
           <MDXWrapper>
             <MDXH1 mb="1">{props.doc.currentPage.title}</MDXH1>
-            <MDXH2 color="gray" className="mt-[-.5rem]" size="6" mb="4">
+            <MDXH4 color="gray" className="mt-[-.5rem]" size="6" mb="4">
               {props.resource.data.name}
-            </MDXH2>
+            </MDXH4>
             {props.children}
 
             {renderPreviousAndNextButtons()}
@@ -291,18 +291,19 @@ export function Page(props: {
     isToc?: boolean;
     level?: number;
   }) {
+    const linkColor =
+      p.isCurrent && !p.isToc
+        ? "var(--accent-11)"
+        : p.isToc
+          ? "var(--gray-11)"
+          : "var(--gray-12)";
     return (
       <>
         <Link
           href={p.href}
           style={
             {
-              color:
-                p.isCurrent && !p.isToc
-                  ? Colors.getDarkColor(props.theme.accentColor, 11)
-                  : p.isToc
-                    ? Colors.getDarkColor("gray", 11)
-                    : Colors.getDarkColor("gray", 12),
+              color: linkColor,
             } as React.CSSProperties
           }
         >

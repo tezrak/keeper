@@ -11,6 +11,7 @@ import { useName } from "./MDXList";
 
 const propsSchema = z.object({
   name: z.string(),
+  placeholder: z.string().optional(),
   defaultValue: z.string().optional(),
   options: z.array(z.string()),
   children: z.any().optional(),
@@ -51,7 +52,16 @@ export function MDXSelectField(p: Props) {
             <Tooltip content={props.tooltip}>{children}</Tooltip>
           )}
         >
-          <Select.Trigger variant="soft" color="gray"></Select.Trigger>
+          {props.children && (
+            <Flex>
+              <MDXDetail>{props.children}</MDXDetail>
+            </Flex>
+          )}
+          <Select.Trigger
+            variant="soft"
+            color="gray"
+            placeholder={props.placeholder || "—"}
+          ></Select.Trigger>
         </ConditionalWrapper>
 
         <Select.Content color="gray">
@@ -62,12 +72,6 @@ export function MDXSelectField(p: Props) {
           ))}
         </Select.Content>
       </Select.Root>
-
-      {props.children && (
-        <Flex>
-          <MDXDetail>{props.children}</MDXDetail>
-        </Flex>
-      )}
 
       <CampaignState name={name} value={value}></CampaignState>
     </Flex>

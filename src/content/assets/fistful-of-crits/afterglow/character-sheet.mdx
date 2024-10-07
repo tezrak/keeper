@@ -11,13 +11,13 @@ game: fistful-of-crits/afterglow
 
 <Label>Appearance</Label>
 
-<TextAreaField name="appearance" rows={2}/>
+<TextAreaField name="appearance" rows={2} placeholder="Appearance..." />
 </Stack>
 <Stack>
 
 <Label>Ritual Artifacts</Label>
 <List name="ritual-artifacts" min={1} max={5}>
-    <TextField name="name"/>
+    <TextField name="name" placeholder="Ritual Artifact name..."/>
 </List>
 </Stack>
 </Columns>
@@ -39,10 +39,10 @@ game: fistful-of-crits/afterglow
 
 <Label>Skills</Label>
 
-<TextAreaField name="skills" rows={3} />
+<TextAreaField name="skills" rows={3} placeholder="Skills..." />
 <Label>Offerings</Label>
 
-<TextAreaField name="offerings" rows={3} />
+<TextAreaField name="offerings" rows={3} placeholder="Offerings..." />
 
 <Label>Fatigue</Label>
 

@@ -46,10 +46,17 @@ export function MDXNumberField(p: Props) {
           <Tooltip content={props.tooltip}>{children}</Tooltip>
         )}
       >
+        {props.children && (
+          <Flex>
+            <MDXDetail>{props.children}</MDXDetail>
+          </Flex>
+        )}
         <TextField.Root
           size="3"
+          color="gray"
           variant="soft"
           value={value}
+          disabled={campaignManager.readonly}
           onChange={(e) => {
             if (campaignManager.readonly) {
               return;
@@ -64,12 +71,6 @@ export function MDXNumberField(p: Props) {
           className="w-full text-center text-[1.25rem] [&>input]:indent-0 [&>input]:font-semibold"
         ></TextField.Root>
       </ConditionalWrapper>
-
-      {props.children && (
-        <Flex>
-          <MDXDetail>{props.children}</MDXDetail>
-        </Flex>
-      )}
 
       <CampaignState name={name} value={value}></CampaignState>
     </Flex>

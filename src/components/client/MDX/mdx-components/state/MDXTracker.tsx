@@ -49,7 +49,7 @@ export function MDXTracker(p: Props) {
             <Box key={i}>
               <IconButton
                 radius="full"
-                // color={value ? undefined : "gray"}
+                color="gray"
                 name={name + i.toString()}
                 variant={value ? "soft" : "soft"}
                 className={clsx(
@@ -60,7 +60,8 @@ export function MDXTracker(p: Props) {
                   "hover:bg-[--accent-5]",
                 )}
                 key={i}
-                onClick={() => {
+                disabled={campaignManager.readonly}
+                onClick={(e) => {
                   if (campaignManager.readonly) {
                     return;
                   }
