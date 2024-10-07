@@ -17,21 +17,19 @@ game: pandion-games/substratum-protocol
         <Label>Make</Label>
         <SelectField
           name="skills.make.max"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Max"
-        >
-
-        </SelectField>
+        ></SelectField>
         <SelectField
           name="skills.make.current"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Current"
         >
         </SelectField>
       </Row>
-            <Detail>Trap, Repair, Build</Detail>
+      <Detail>Trap, Repair, Build</Detail>
 
     </Box>
     <Box>
@@ -39,20 +37,16 @@ game: pandion-games/substratum-protocol
         <Label>Break</Label>
         <SelectField
           name="skills.break.max"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Max"
-        >
-
-        </SelectField>
+        ></SelectField>
         <SelectField
           name="skills.break.current"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Current"
-        >
-
-        </SelectField>
+        ></SelectField>
       </Row>
       <Detail>Pummel, Wreck ,Destroy</Detail>
     </Box>
@@ -61,20 +55,16 @@ game: pandion-games/substratum-protocol
         <Label>Dash</Label>
         <SelectField
           name="skills.dash.max"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Max"
-        >
-
-        </SelectField>
+        ></SelectField>
         <SelectField
           name="skills.dash.current"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Current"
-        >
-
-        </SelectField>
+        ></SelectField>
       </Row>
       <Detail>Run, Jump, Flee</Detail>
     </Box>
@@ -83,20 +73,16 @@ game: pandion-games/substratum-protocol
         <Label>Evade</Label>
         <SelectField
           name="skills.evade.max"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Max"
-        >
-
-        </SelectField>
+        ></SelectField>
         <SelectField
           name="skills.evade.current"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Current"
-        >
-
-        </SelectField>
+        ></SelectField>
       </Row>
       <Detail>Hide, Shield, Obscure</Detail>
     </Box>
@@ -105,20 +91,16 @@ game: pandion-games/substratum-protocol
         <Label>Think</Label>
         <SelectField
           name="skills.think.max"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Max"
-        >
-
-        </SelectField>
+        ></SelectField>
         <SelectField
           name="skills.think.current"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Current"
-        >
-
-        </SelectField>
+        ></SelectField>
       </Row>
       <Detail>Observe, Hypothesize, Analyze</Detail>
     </Box>
@@ -127,82 +109,81 @@ game: pandion-games/substratum-protocol
         <Label>Sway</Label>
         <SelectField
           name="skills.sway.max"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Max"
-        >
-
-        </SelectField>
+        ></SelectField>
         <SelectField
           name="skills.sway.current"
-          options={["d4", "d6", "d8", "d10", "d12"]}
+          options= {["d4" , "d6" , "d8" , "d10" , "d12" ]}
           defaultValue="d4"
           tooltip="Current"
-        >
-
-        </SelectField>
+        ></SelectField>
       </Row>
       <Detail>Charm, Manipulate, Intimidate</Detail>
     </Box>
 
   </Stack>
   <Stack>
-  <Row>
-    <Heading>Stress</Heading>
-    <Detail>Effects stack</Detail>
-  </Row>
+    <Row>
+      <Heading>Stress</Heading>
+      <Detail>Effects stack</Detail>
+    </Row>
 
     <Row>
-        <Label>Anomaly Resistant</Label>
-      <Tracker name="stress.1" min={2} max={2} />
+      <Label>Anomaly Resistant</Label>
+      <Tracker name="stress.1" min= {2} max= {2} />
     </Row>
     <Detail>No effects.</Detail>
     <Row>
-        <Label>Thrumming Whispers</Label>
-      <Tracker name="stress.1" min={2} max={2} />
+      <Label>Thrumming Whispers</Label>
+      <Tracker name="stress.1" min= {2} max= {2} />
     </Row>
-        <Detail>
-          Once between Deep Breaths, change one detail of a complication that arises. -1 to Skill Checks.
-        </Detail>
+    <Detail>
+      Once between Deep Breaths, change one detail of a complication that arises. -1 to Skill
+      Checks.
+    </Detail>
     <Row>
-        <Label>Fragile Laws</Label>
-      <Tracker name="stress.1" min={3} max={3} />
+      <Label>Fragile Laws</Label>
+      <Tracker name="stress.1" min= {3} max= {3} />
     </Row>
-        <Detail>
-          Once between Deep Breaths, choose an element or force and change its aspect. -1 to Skill Checks.
-        </Detail>
+    <Detail>
+      Once between Deep Breaths, choose an element or force and change its aspect. -1 to Skill
+      Checks.
+    </Detail>
     <Row>
-        <Label>Beyond the Horizon</Label>
-      <Tracker name="stress.1" min={4} max={4} />
+      <Label>Beyond the Horizon</Label>
+      <Tracker name="stress.1" min= {4} max= {4} />
     </Row>
-        <Detail>
-          Beyond the Horizon - Succeed all UNDERSTAND Actions. Collect all cards after Checks. Deep Breaths restore only 1 step. Skills can be reduced to d0
-        </Detail>
+    <Detail>
+      Beyond the Horizon - Succeed all UNDERSTAND Actions. Collect all cards after Checks. Deep
+      Breaths restore only 1 step. Skills can be reduced to d0
+    </Detail>
 
   </Stack>
 </Columns>
 ---
- <Heading>Storage Units</Heading>
-    <List min={3} max={3} name="storage">
-        <Row>
-            <TextField name="name">Name</TextField>
-            <SelectField
-                name="max"
-                options={["d4", "d6", "d8", "d10", "d12"]}
-                defaultValue="d4"
-                >
-                Max
-                </SelectField>
-                <SelectField
-                name="current"
-                options={["d4", "d6", "d8", "d10", "d12"]}
-                defaultValue="d4"
-                >
-                Current
-                </SelectField>
 
-        </Row>
-    </List>
+<Heading>Storage Units</Heading>
+<List min={3} max={3} name="storage">
+  <Row>
+    <TextField name="name">Name</TextField>
+    <SelectField
+      name="max"
+      options={["d4", "d6", "d8", "d10", "d12"]}
+      defaultValue="d4"
+    >
+      Max
+    </SelectField>
+    <SelectField
+      name="current"
+      options={["d4", "d6", "d8", "d10", "d12"]}
+      defaultValue="d4"
+    >
+      Current
+    </SelectField>
+  </Row>
+</List>
 
 ---
 

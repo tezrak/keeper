@@ -52,16 +52,18 @@ export function MDXSelectField(p: Props) {
             <Tooltip content={props.tooltip}>{children}</Tooltip>
           )}
         >
-          {props.children && (
-            <Flex>
-              <MDXDetail>{props.children}</MDXDetail>
-            </Flex>
-          )}
-          <Select.Trigger
-            variant="soft"
-            color="gray"
-            placeholder={props.placeholder || "—"}
-          ></Select.Trigger>
+          <>
+            {props.children && (
+              <Flex>
+                <MDXDetail>{props.children}</MDXDetail>
+              </Flex>
+            )}
+            <Select.Trigger
+              variant="soft"
+              color="gray"
+              placeholder={props.placeholder || "—"}
+            ></Select.Trigger>
+          </>
         </ConditionalWrapper>
 
         <Select.Content color="gray">

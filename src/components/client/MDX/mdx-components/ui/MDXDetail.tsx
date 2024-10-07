@@ -6,7 +6,6 @@ import { TEXT_CLASSES } from "../../MDX";
 
 const propsSchema = z.object({
   children: z.any().optional(),
-
   fullWidth: z.boolean().optional(),
 });
 

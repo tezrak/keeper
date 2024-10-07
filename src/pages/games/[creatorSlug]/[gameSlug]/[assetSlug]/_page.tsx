@@ -2,7 +2,7 @@ import { Container, Flex, Link, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import {
   MDXH1,
-  MDXH4,
+  MDXH5,
   MDXWrapper,
   getMdxComponents,
 } from "../../../../../components/client/MDX/MDX";
@@ -37,7 +37,7 @@ export function Page(props: {
       <CampaignContext.Provider value={campaignManager}>
         <Flex direction="column" gap="4">
           <MDXH1>{props.currentAsset?.data.name}</MDXH1>
-          <MDXH4 className="mt-[-0.5rem]">
+          <MDXH5 className="mt-[-0.5rem]">
             <Link
               href={AppUrl.game({
                 slug: props.game.slug,
@@ -47,7 +47,7 @@ export function Page(props: {
             >
               For {props.game.data.name}
             </Link>
-          </MDXH4>
+          </MDXH5>
           <Container size={"1"}>
             {MDXContent && (
               <MDXWrapper>
