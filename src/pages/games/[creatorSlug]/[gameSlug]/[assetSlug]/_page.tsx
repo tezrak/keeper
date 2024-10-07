@@ -1,4 +1,5 @@
-import { Container, Flex, Link, Theme } from "@radix-ui/themes";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { Callout, Container, Flex, Link, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import {
   MDXH1,
@@ -36,6 +37,15 @@ export function Page(props: {
     <Theme {...props.theme} hasBackground={false}>
       <CampaignContext.Provider value={campaignManager}>
         <Flex direction="column" gap="4">
+          <Callout.Root color="blue">
+            <Callout.Icon>
+              <InfoCircledIcon />
+            </Callout.Icon>
+            <Callout.Text>
+              This sheet is currently in <b>read-only mode</b>. If you want to
+              make changes, you can create a new campaign.
+            </Callout.Text>
+          </Callout.Root>
           <MDXH1>{props.currentAsset?.data.name}</MDXH1>
           <MDXH5 className="mt-[-0.5rem]">
             <Link

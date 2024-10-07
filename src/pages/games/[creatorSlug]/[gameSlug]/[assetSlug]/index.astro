@@ -61,7 +61,6 @@ export async function getStaticPaths() {
     props.game.data.name,
     props.creator.data.name,
   ]}
-  size="3"
   description={currentAsset!.data.description}
   headingFont={props.game.data.theme?.headingFont}
   bodyFont={props.game.data.theme?.bodyFont}
@@ -71,12 +70,14 @@ export async function getStaticPaths() {
       <Banner src={props.game.data.image} alt={props.game.data.name} />
     )
   }
-  <Page
-    client:load
-    theme={theme}
-    game={props.game}
-    creator={props.creator}
-    assets={props.assets}
-    currentAsset={currentAsset}
-  />
+  <div class="w-[800px]">
+    <Page
+      client:load
+      theme={theme}
+      game={props.game}
+      creator={props.creator}
+      assets={props.assets}
+      currentAsset={currentAsset}
+    />
+  </div>
 </Layout>

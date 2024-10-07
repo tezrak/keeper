@@ -27,6 +27,7 @@ export const collections = {
         creator: reference("creators"),
         image: ctx.image().optional(),
         theme: themeSchema,
+        weight: z.number().optional().default(0),
       }),
   }),
   assets: defineCollection({
@@ -54,6 +55,8 @@ export const collections = {
         links: z.record(z.string(), z.string()).nullable().default({}),
         image: ctx.image().nullable().optional(),
         theme: themeSchema,
+        weight: z.number().optional().default(0),
+        license: z.string().optional(),
       }),
   }),
   docs: defineCollection({ schema: docsSchema() }),
