@@ -6,22 +6,22 @@ export const AppUrl = {
     return "/";
   },
   campaigns() {
-    return "/campaigns";
+    return "/campaigns/";
   },
   docs() {
-    return "/docs";
+    return "/docs/";
   },
   patreon() {
     return "https://www.patreon.com/bePatron?u=43408921";
   },
   creator(props: { slug: CollectionEntry<"creators">["slug"] }) {
-    return `/creators/${props.slug}`;
+    return `/creators/${props.slug}/`;
   },
   game(props: { slug: CollectionEntry<"games">["slug"] }) {
-    return `/games/${props.slug}`;
+    return `/games/${props.slug}/`;
   },
   resource(props: { slug: CollectionEntry<"resources">["slug"] }) {
-    return `/resources/${props.slug}`;
+    return `/resources/${props.slug}/`;
   },
   resourcePage(props: {
     slug: CollectionEntry<"resources">["slug"];
@@ -31,12 +31,12 @@ export const AppUrl = {
       props.slug.split("/");
 
     if (languageSegment) {
-      return `/resources/${creatorSegment}/${resourceSegment}.${languageSegment}/${props.page}`;
+      return `/resources/${creatorSegment}/${resourceSegment}.${languageSegment}/${props.page}/`;
     }
-    return `/resources/${props.slug}/${props.page}`;
+    return `/resources/${props.slug}/${props.page}/`;
   },
   asset(props: { slug: CollectionEntry<"assets">["slug"] }) {
-    return `/games/${props.slug}`;
+    return `/games/${props.slug}/`;
   },
   search(props: { query?: string; type?: SearchType }) {
     const searchParams = new URLSearchParams();
@@ -46,12 +46,12 @@ export const AppUrl = {
     if (props.type) {
       searchParams.set("type", props.type);
     }
-    return `/search?${searchParams.toString()}`;
+    return `/search/?${searchParams.toString()}`;
   },
   githubResource(props: {
     slug: CollectionEntry<"resources">["slug"];
     page: string;
   }) {
-    return `https://github.com/farirpgs/storied/tree/main/src/content/resources/${props.slug}/index.mdx#${props.page}`;
+    return `https://github.com/farirpgs/storied/tree/main/src/content/resources/${props.slug}/index.mdx#${props.page}/`;
   },
 };
