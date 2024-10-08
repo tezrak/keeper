@@ -227,7 +227,11 @@ export function Page(props: {
                 });
 
                 const isCurrent = itemPatname === props.pathname;
-
+                console.log("CURRENT ", {
+                  isCurrent,
+                  itemPatname,
+                  pathname: props.pathname,
+                });
                 return (
                   <React.Fragment key={item.id}>
                     {renderLink({
@@ -249,6 +253,13 @@ export function Page(props: {
           });
 
           const isCurrent = itemPatname === props.pathname;
+          isCurrent &&
+            console.log("CURRENT ", {
+              toc: props.doc.currentPage.toc,
+              isCurrent,
+              itemPatname,
+              pathname: props.pathname,
+            });
           return (
             <Flex key={item.id} direction="column">
               {renderLink({
@@ -265,6 +276,7 @@ export function Page(props: {
   }
 
   function renderToc() {
+    console.log("CURRENTPAGE", props.doc.currentPage);
     return (
       <>
         {props.doc.currentPage.toc.map((toc) => {
