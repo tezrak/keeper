@@ -31,7 +31,7 @@ export function CreateNewCampaignButton(props: { gameSlug: string }) {
   return (
     <Button
       size="4"
-      className={clsx("cursor-pointer font-bold", "transition-all")}
+      className={clsx("font-bold", "transition-all")}
       variant="solid"
       disabled={!ready || adding}
       onClick={handleClick}

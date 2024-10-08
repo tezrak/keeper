@@ -103,7 +103,6 @@ export function Page(props: {
                                   <Button
                                     size="2"
                                     className={clsx(
-                                      "cursor-pointer",
                                       "font-bold",
                                       "transition-all",
                                     )}

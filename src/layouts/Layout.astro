@@ -141,7 +141,7 @@ const ogImageUrl = props.withOgImage
           }}
         />
 
-        <Header />
+        <Header theme={themeProps} />
         {
           props.withDefaultBanner && (
             <Banner src={songsAndSagas.data.image!} alt={"Background"} />
@@ -239,8 +239,8 @@ const ogImageUrl = props.withOgImage
       }}
     >
       .radix-themes {
+        /* FONT  */
         --default-font-family: var(--bodyFont); /* Your custom default font */
-
         --code-font-family: var(
           --bodyFont
         ); /* Your custom font for <Code> components */
@@ -253,6 +253,17 @@ const ogImageUrl = props.withOgImage
         --quote-font-family: var(
           --bodyFont
         ); /* Your custom font for <Quote> components */
+
+        /* CURSORS */
+        --cursor-button: pointer;
+        --cursor-checkbox: default;
+        --cursor-disabled: not-allowed;
+        --cursor-link: pointer;
+        --cursor-menu-item: default;
+        --cursor-radio: default;
+        --cursor-slider-thumb: default;
+        --cursor-slider-thumb-active: default;
+        --cursor-switch: default;
       }
     </style>
   </Theme>

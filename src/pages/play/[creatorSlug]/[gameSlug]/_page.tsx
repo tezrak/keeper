@@ -208,14 +208,14 @@ function Game(props: {
                 <Tabs.List size="2" justify={"center"}>
                   <Tabs.Trigger
                     value="library"
-                    className="cursor-pointer"
+                    className=""
                     onClick={() => setTab("library")}
                   >
                     Library
                   </Tabs.Trigger>
                   <Tabs.Trigger
                     value="assets"
-                    className="cursor-pointer"
+                    className=""
                     onClick={() => setTab("assets")}
                   >
                     My Assets
@@ -237,7 +237,7 @@ function Game(props: {
                                 loading={isAdding}
                                 color="gray"
                                 variant="outline"
-                                className="w-full cursor-pointer text-left"
+                                className="w-full text-left"
                                 onClick={() => {
                                   handleAddAsset({ asset: asset });
                                 }}
@@ -261,7 +261,7 @@ function Game(props: {
                                 You don't have any assets yet.{" "}
                                 <Link
                                   onClick={() => setTab("library")}
-                                  className="cursor-pointer"
+                                  className=""
                                 >
                                   Click here
                                 </Link>{" "}
@@ -288,7 +288,7 @@ function Game(props: {
                               size="2"
                               color={isSelected ? undefined : "gray"}
                               variant={"soft"}
-                              className="w-full cursor-pointer justify-start text-left"
+                              className="w-full justify-start text-left"
                               loading={selectAssetId === assetId}
                               onClick={() => {
                                 handleLoadAsset({ id: assetId });

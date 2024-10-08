@@ -72,6 +72,8 @@ export function Page(props: {
                 width="auto"
               >
                 {campaignList?.map((campaign) => {
+                  console.log("campaign", campaign);
+
                   return (
                     <GameCard
                       key={campaign.id}

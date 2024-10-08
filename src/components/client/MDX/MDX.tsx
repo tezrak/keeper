@@ -96,7 +96,11 @@ export function MDXH1(props: HeadingProps) {
       }}
       {...props}
       className={clsx("", props.className)}
-    />
+    >
+      <a href={props.id ? `#` + props.id : undefined} id={props.id}>
+        {props.children}
+      </a>
+    </Heading>
   );
 }
 
@@ -111,7 +115,11 @@ export function MDXH2(props: HeadingProps) {
       }}
       {...props}
       className={clsx("mt-4", props.className)}
-    />
+    >
+      <a href={props.id ? `#` + props.id : undefined} id={props.id}>
+        {props.children}
+      </a>
+    </Heading>
   );
 }
 
@@ -124,8 +132,11 @@ export function MDXH3(props: HeadingProps) {
         initial: "6",
         sm: "7",
       }}
-      {...props}
-    />
+    >
+      <a href={props.id ? `#` + props.id : undefined} id={props.id}>
+        {props.children}
+      </a>
+    </Heading>
   );
 }
 
@@ -138,8 +149,11 @@ export function MDXH4(props: HeadingProps) {
         initial: "5",
         sm: "6",
       }}
-      {...props}
-    />
+    >
+      <a href={props.id ? `#` + props.id : undefined} id={props.id}>
+        {props.children}
+      </a>
+    </Heading>
   );
 }
 
@@ -152,8 +166,11 @@ export function MDXH5(props: HeadingProps) {
         initial: "4",
         sm: "5",
       }}
-      {...props}
-    />
+    >
+      <a href={props.id ? `#` + props.id : undefined} id={props.id}>
+        {props.children}
+      </a>
+    </Heading>
   );
 }
 
@@ -166,8 +183,11 @@ export function MDXH6(props: HeadingProps) {
         initial: "3",
         sm: "4",
       }}
-      {...props}
-    />
+    >
+      <a href={props.id ? `#` + props.id : undefined} id={props.id}>
+        {props.children}
+      </a>
+    </Heading>
   );
 }
 
