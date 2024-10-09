@@ -1,9 +1,9 @@
 import {
   Badge,
+  Box,
   Button,
   Dialog,
   Flex,
-  Separator,
   Text,
   Theme,
 } from "@radix-ui/themes";
@@ -137,162 +137,212 @@ export function DiceRollerButton(props: { theme?: ThemeType }) {
         </Dialog.Trigger>
 
         <Dialog.Content size={"4"}>
-          <Flex direction={"column"} gap="5">
-            <Flex gap="3" justify="end">
-              <Dialog.Close>
-                <Button
-                  variant="ghost"
-                  color="gray"
-                  onClick={() => {
-                    handleCloseModal();
-                  }}
-                >
-                  <XIcon></XIcon>
-                </Button>
-              </Dialog.Close>
+          <Flex direction="column" gap="4">
+            <Flex justify={"end"} gap="4">
+              {renderCloseButton()}
             </Flex>
-            <Flex direction="row" gap="3" wrap={"wrap"} justify={"center"}>
-              {diceCommandList.map((diceCommand) => {
-                const Icon = DiceIcons[diceCommand];
-                return (
-                  <Button
-                    key={diceCommand}
-                    size={"1"}
-                    variant="soft"
-                    className="h-auto py-3"
-                    onClick={() => handleDiceClick(diceCommand)}
-                  >
-                    <Flex direction="column" gap="2" align="center">
-                      <Icon className="h-auto w-8"></Icon>
-                      <Text size="2">{DiceCommands[diceCommand].label}</Text>
-                    </Flex>
-                  </Button>
-                );
-              })}
-            </Flex>
-            <Separator size="4"></Separator>
-            <Flex gap="3" justify="center" align="center">
-              <Flex gap="2">
-                <Button
-                  variant="soft"
-                  color="gray"
-                  disabled={results.length === 0}
-                  onClick={() => {
-                    return handleReroll();
-                  }}
-                >
-                  Reroll all
-                </Button>
-                <Button
-                  variant="soft"
-                  color="gray"
-                  disabled={results.length === 0}
-                  onClick={() => {
-                    return handleClear();
-                  }}
-                >
-                  Clear all
-                </Button>
-              </Flex>
-            </Flex>
-
-            <Flex direction="row" gap="5" wrap={"wrap"} justify={"center"}>
-              {results.length === 0 && (
-                <Text color="gray">
-                  <CircleOff
-                    size="6rem"
-                    className="text-[--accent-5]"
-                  ></CircleOff>
-                </Text>
-              )}
-              {results.map((result, index) => {
-                const Icon = DiceIcons[result.command];
-                const selected = selectedResultIndexes.includes(index);
-                return (
-                  <Button
-                    key={index}
-                    size="3"
-                    className="flex h-auto flex-col items-center justify-center gap-2 p-4 font-mono"
-                    variant={selected ? "solid" : "outline"}
-                    color={selected ? undefined : "gray"}
-                    onClick={() => {
-                      handleRerollIndex(index);
-                    }}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      handleAddIndexSelectedResult(index);
-                    }}
-                  >
-                    <Text>
-                      <AnimatedResult
-                        watch={result}
-                        result={result.value}
-                        animate={true}
-                      ></AnimatedResult>
-                    </Text>
-                    <div>
-                      <Icon className="h-auto w-6"></Icon>
-                    </div>
-                  </Button>
-                );
-              })}
-            </Flex>
-            <Flex gap="3" justify="center" align="center">
-              <Flex gap="2">
-                <Badge
-                  size="2"
-                  className={clsx("transition-all", {
-                    "opacity-35": results.length === 0,
-                  })}
-                  color={selectedResultIndexes.length > 0 ? undefined : "gray"}
-                  variant={
-                    selectedResultIndexes.length > 0 ? "solid" : "outline"
-                  }
-                >
-                  Total: {totalResult === 0 ? "-" : totalResult}
-                </Badge>
-                <Badge
-                  size="2"
-                  className={clsx("transition-all", {
-                    "opacity-35": results.length === 0,
-                  })}
-                  color={selectedResultIndexes.length > 0 ? undefined : "gray"}
-                  variant={
-                    selectedResultIndexes.length > 0 ? "solid" : "outline"
-                  }
-                >
-                  Highest: {highestResult === -Infinity ? "-" : highestResult}
-                </Badge>
-                <Badge
-                  size="2"
-                  className={clsx("transition-all", {
-                    "opacity-35": results.length === 0,
-                  })}
-                  color={selectedResultIndexes.length > 0 ? undefined : "gray"}
-                  variant={
-                    selectedResultIndexes.length > 0 ? "solid" : "outline"
-                  }
-                >
-                  Lowest: {lowestResult === Infinity ? "-" : lowestResult}
-                </Badge>
-              </Flex>
-            </Flex>
-            <Flex gap="3" justify="center" align="center">
-              <Text
-                color="gray"
-                size={"1"}
-                className="text-center text-[--accent-11]"
+            <Flex direction={"column"} gap="8">
+              <Flex>{renderDice()}</Flex>
+              <Flex
+                direction={"column"}
+                gap="4"
+                align={"center"}
+                justify={"between"}
               >
-                Click on a result to reroll it.
-                <br />
-                Right click on a result to add it to highlight it.
-              </Text>
+                <Flex
+                  gap="2"
+                  justify="center"
+                  align="center"
+                  direction={"column"}
+                >
+                  {renderResultsStats()}
+                </Flex>
+                <Flex direction="row" gap="5" wrap={"wrap"} justify={"center"}>
+                  {renderResults()}
+                </Flex>
+                <Flex gap="2" justify="center" align="center">
+                  {renderResultsMenu()}
+                </Flex>
+                <Flex
+                  gap="2"
+                  justify="center"
+                  align="center"
+                  direction={"column"}
+                >
+                  {renderResultsText()}
+                </Flex>
+              </Flex>
             </Flex>
           </Flex>
         </Dialog.Content>
       </Dialog.Root>
     </Theme>
   );
+
+  function renderResults() {
+    return (
+      <Flex direction="row" gap="2" wrap={"wrap"} justify={"center"}>
+        {results.length === 0 && (
+          <Text color="gray">
+            <CircleOff size="6rem" className="text-[--accent-5]"></CircleOff>
+          </Text>
+        )}
+        {results.map((result, index) => {
+          const Icon = DiceIcons[result.command];
+          const selected = selectedResultIndexes.includes(index);
+          return (
+            <Button
+              key={index}
+              size="3"
+              className="flex h-auto flex-col items-center justify-center gap-2 p-4 font-mono"
+              variant={selected ? "surface" : "outline"}
+              color={selected ? undefined : "gray"}
+              onClick={() => {
+                handleRerollIndex(index);
+              }}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                handleAddIndexSelectedResult(index);
+              }}
+            >
+              <Text>
+                <AnimatedResult
+                  watch={result}
+                  result={result.value}
+                  animate={true}
+                ></AnimatedResult>
+              </Text>
+              <div>
+                <Icon className="h-auto w-6"></Icon>
+              </div>
+            </Button>
+          );
+        })}
+      </Flex>
+    );
+  }
+
+  function renderResultsText() {
+    return (
+      <Text color="gray" size={"1"} className="text-center text-[--accent-11]">
+        Click on a result to reroll it.
+        <br />
+        Right click on a result to add it to highlight it.
+      </Text>
+    );
+  }
+
+  function renderResultsStats() {
+    return (
+      <Flex gap="2">
+        <Badge
+          size="2"
+          className={clsx("transition-all", {
+            "opacity-35": results.length === 0,
+          })}
+          color={selectedResultIndexes.length > 0 ? undefined : "gray"}
+          variant={selectedResultIndexes.length > 0 ? "surface" : "outline"}
+        >
+          Total: {totalResult === 0 ? "-" : totalResult}
+        </Badge>
+        <Badge
+          size="2"
+          className={clsx("transition-all", {
+            "opacity-35": results.length === 0,
+          })}
+          color={selectedResultIndexes.length > 0 ? undefined : "gray"}
+          variant={selectedResultIndexes.length > 0 ? "surface" : "outline"}
+        >
+          Highest: {highestResult === -Infinity ? "-" : highestResult}
+        </Badge>
+        <Badge
+          size="2"
+          className={clsx("transition-all", {
+            "opacity-35": results.length === 0,
+          })}
+          color={selectedResultIndexes.length > 0 ? undefined : "gray"}
+          variant={selectedResultIndexes.length > 0 ? "surface" : "outline"}
+        >
+          Lowest: {lowestResult === Infinity ? "-" : lowestResult}
+        </Badge>
+      </Flex>
+    );
+  }
+
+  function renderResultsMenu() {
+    return (
+      <Flex gap="2">
+        <Button
+          variant="solid"
+          disabled={results.length === 0}
+          onClick={() => {
+            return handleReroll();
+          }}
+        >
+          Reroll all
+        </Button>
+        <Button
+          variant="soft"
+          disabled={results.length === 0}
+          onClick={() => {
+            return handleClear();
+          }}
+        >
+          Clear all
+        </Button>
+      </Flex>
+    );
+  }
+
+  function renderDice() {
+    return (
+      <Box>
+        <Flex
+          direction="row"
+          gap="3"
+          wrap={"wrap"}
+          justify={"center"}
+          align={"center"}
+        >
+          {diceCommandList.map((diceCommand) => {
+            const Icon = DiceIcons[diceCommand];
+            return (
+              <Button
+                key={diceCommand}
+                size={"1"}
+                variant="soft"
+                className="h-auto py-3"
+                onClick={() => handleDiceClick(diceCommand)}
+              >
+                <Flex direction="column" gap="2" align="center">
+                  <Icon className="h-auto w-8"></Icon>
+                  <Text size="2">{DiceCommands[diceCommand].label}</Text>
+                </Flex>
+              </Button>
+            );
+          })}
+        </Flex>
+      </Box>
+    );
+  }
+
+  function renderCloseButton() {
+    return (
+      <Flex gap="3" justify="end">
+        <Dialog.Close>
+          <Button
+            variant="ghost"
+            color="gray"
+            onClick={() => {
+              handleCloseModal();
+            }}
+          >
+            <XIcon></XIcon>
+          </Button>
+        </Dialog.Close>
+      </Flex>
+    );
+  }
 }
 
 export function AnimatedResult(props: {
