@@ -6,15 +6,26 @@ import { MDXH1, MDXH2 } from "../components/client/MDX/MDX";
 import { StoriedLogoPngSrc } from "../components/server/Header/Storied";
 import { AppUrl } from "../domains/app-url/AppUrl";
 import { Colors, type ColorType } from "../domains/colors/colors";
-import { DLAstro } from "../domains/dl/DLAstro";
+import { DLAstro, shuffleWithSeed } from "../domains/dl/DLAstro";
 import { getRandomElement } from "../domains/utils/random";
 import Layout from "../layouts/Layout.astro";
 import { Blinker } from "./_Blinker";
 
+const currentDateOfTheMonth = new Date().getDate();
+
 const { games } = await DLAstro.getAllGamesWithCreator({});
-const topGames = games.slice(0, 9);
+const shuffledGames = shuffleWithSeed(games, currentDateOfTheMonth);
+const sortedGame = shuffledGames.sort((a, b) => {
+  return b.game.data.weight - a.game.data.weight;
+});
+const topGames = sortedGame.slice(0, 9);
+
 const { resources } = await DLAstro.getAllResourcesWithCreator({});
-const topResources = resources.slice(0, 9);
+const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
+const sortedResources = shuffledResources.sort((a, b) => {
+  return b.resource.data.weight - a.resource.data.weight;
+});
+const topResources = sortedResources.slice(0, 9);
 ---
 
 <Layout withOgImage title={undefined} description={undefined} withDefaultBanner>

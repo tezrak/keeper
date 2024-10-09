@@ -15,7 +15,7 @@ import {
 } from "../../../components/client/MDX/MDX";
 import { AppUrl } from "../../../domains/app-url/AppUrl";
 import { Colors, type ColorType } from "../../../domains/colors/colors";
-import { DLAstro } from "../../../domains/dl/DLAstro";
+import { DLAstro, shuffleWithSeed } from "../../../domains/dl/DLAstro";
 import { getTheme } from "../../../domains/utils/getTheme";
 import { getRandomElement } from "../../../domains/utils/random";
 import Layout from "../../../layouts/Layout.astro";
@@ -30,6 +30,16 @@ const { creator, games, resources } = await DLAstro.getCreator({
   slug: props.creatorSlug,
   includeGames: true,
   includeResources: true,
+});
+
+const currentDateOfTheMonth = new Date().getDate();
+const shuffledGames = shuffleWithSeed(games, currentDateOfTheMonth);
+const sortedGame = shuffledGames.sort((a, b) => {
+  return b.data.weight - a.data.weight;
+});
+const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
+const sortedResources = shuffledResources.sort((a, b) => {
+  return b.data.weight - a.data.weight;
 });
 
 const { Content } = await creator.render();
@@ -70,7 +80,7 @@ export async function getStaticPaths() {
       />
     </MDXWrapper>
     {
-      games.length && (
+      sortedGame.length && (
         <>
           <MDXH2>Games</MDXH2>
 
@@ -82,7 +92,7 @@ export async function getStaticPaths() {
             gap="6"
             width="auto"
           >
-            {games.map((game) => {
+            {sortedGame.map((game) => {
               return (
                 <Card
                   client:idle
@@ -121,7 +131,7 @@ export async function getStaticPaths() {
       )
     }
     {
-      resources.length > 0 && (
+      sortedResources.length > 0 && (
         <>
           <MDXH2>Resources</MDXH2>
 
@@ -133,7 +143,7 @@ export async function getStaticPaths() {
             gap="6"
             width="auto"
           >
-            {resources.map((resource) => {
+            {sortedResources.map((resource) => {
               return (
                 <Card
                   client:idle
