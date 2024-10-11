@@ -10,7 +10,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Card } from "../../components/client/Card/Card";
 import { MDXH1, MDXH2 } from "../../components/client/MDX/MDX";
-import { shuffleWithSeed } from "../../domains/dl/DLAstro";
+import { shuffleWithSeed } from "../../domains/dl/shuffleWithSeed";
 
 export const searchTypes = {
   all: "All",

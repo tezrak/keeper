@@ -18,7 +18,8 @@ import {
 } from "./DiceCommands";
 import { DiceIcons } from "./DiceIcons";
 
-export function DiceRollerButton(props: { theme?: ThemeType }) {
+export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
+  const renderButton = props.button ?? true;
   const [open, setOpen] = useState(false);
   const [results, setResults] = useState<
     Array<{
@@ -125,59 +126,65 @@ export function DiceRollerButton(props: { theme?: ThemeType }) {
 
   return (
     <Theme {...props.theme} hasBackground={false} asChild>
-      <Dialog.Root open={open}>
-        <Dialog.Trigger
-          onClick={() => {
-            return setOpen(true);
-          }}
-        >
-          <Button radius="full" size="3" variant="ghost" className="m-0">
-            <Dices />
-          </Button>
-        </Dialog.Trigger>
+      {renderButton ? (
+        <>
+          <Dialog.Root open={open}>
+            <Dialog.Trigger
+              onClick={() => {
+                return setOpen(true);
+              }}
+            >
+              <Button radius="full" size="3" variant="ghost" className="m-0">
+                <Dices />
+              </Button>
+            </Dialog.Trigger>
 
-        <Dialog.Content size={"4"}>
-          <Flex direction="column" gap="4">
-            <Flex justify={"end"} gap="4">
-              {renderCloseButton()}
-            </Flex>
-            <Flex direction={"column"} gap="8">
-              <Flex>{renderDice()}</Flex>
-              <Flex
-                direction={"column"}
-                gap="4"
-                align={"center"}
-                justify={"between"}
-              >
-                <Flex
-                  gap="2"
-                  justify="center"
-                  align="center"
-                  direction={"column"}
-                >
-                  {renderResultsStats()}
-                </Flex>
-                <Flex direction="row" gap="5" wrap={"wrap"} justify={"center"}>
-                  {renderResults()}
-                </Flex>
-                <Flex gap="2" justify="center" align="center">
-                  {renderResultsMenu()}
-                </Flex>
-                <Flex
-                  gap="2"
-                  justify="center"
-                  align="center"
-                  direction={"column"}
-                >
-                  {renderResultsText()}
-                </Flex>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Dialog.Content>
-      </Dialog.Root>
+            <Dialog.Content size={"4"}>
+              <Dialog.Title className="relative">
+                Dice Roller {renderCloseButton()}
+              </Dialog.Title>
+              <Dialog.Description size="2" mb="4">
+                Click on a dice to roll it.
+              </Dialog.Description>
+
+              {renderDialogContent()}
+            </Dialog.Content>
+          </Dialog.Root>
+        </>
+      ) : (
+        <>{renderDialogContent()}</>
+      )}
     </Theme>
   );
+
+  function renderDialogContent() {
+    return (
+      <Flex direction="column" gap="4" align={"center"}>
+        <Flex direction={"column"} gap="8">
+          <Flex>{renderDice()}</Flex>
+          <Flex
+            direction={"column"}
+            gap="4"
+            align={"center"}
+            justify={"between"}
+          >
+            <Flex gap="2" justify="center" align="center" direction={"column"}>
+              {renderResultsStats()}
+            </Flex>
+            <Flex direction="row" gap="5" wrap={"wrap"} justify={"center"}>
+              {renderResults()}
+            </Flex>
+            <Flex gap="2" justify="center" align="center">
+              {renderResultsMenu()}
+            </Flex>
+            <Flex gap="2" justify="center" align="center" direction={"column"}>
+              {renderResultsText()}
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    );
+  }
 
   function renderResults() {
     return (
@@ -299,7 +306,7 @@ export function DiceRollerButton(props: { theme?: ThemeType }) {
       <Box>
         <Flex
           direction="row"
-          gap="3"
+          gap="2"
           wrap={"wrap"}
           justify={"center"}
           align={"center"}
@@ -328,7 +335,7 @@ export function DiceRollerButton(props: { theme?: ThemeType }) {
 
   function renderCloseButton() {
     return (
-      <Flex gap="3" justify="end">
+      <Flex gap="3" justify="end" className="absolute right-0 top-0">
         <Dialog.Close>
           <Button
             variant="ghost"

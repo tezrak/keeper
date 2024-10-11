@@ -21,7 +21,8 @@ export const GET: APIRoute = async (ctx) => {
   return await renderOgImage({
     title: game.data.name,
     src: game.data.image?.src,
-    description: game.data.description || `By ${creator.data.name}`,
+    description: game.data.description,
+    footerItems: [`By ${creator.data.name}`],
     accentColor: game.data.theme?.accentColor,
   });
 };

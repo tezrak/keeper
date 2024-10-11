@@ -221,8 +221,10 @@ export function ResourceRoute(props: {
                   slug: props.resource.slug,
                   page: item.id,
                 });
-
-                const isCurrent = itemPatname === props.pathname;
+                const isFirstPage =
+                  !props.doc.previousPage &&
+                  props.doc.currentPage.id === item.id;
+                const isCurrent = itemPatname === props.pathname || isFirstPage;
 
                 return (
                   <React.Fragment key={item.id}>
@@ -243,8 +245,9 @@ export function ResourceRoute(props: {
             slug: props.resource.slug,
             page: item.id,
           });
-
-          const isCurrent = itemPatname === props.pathname;
+          const isFirstPage =
+            !props.doc.previousPage && props.doc.currentPage.id === item.id;
+          const isCurrent = itemPatname === props.pathname || isFirstPage;
 
           return (
             <Flex key={item.id} direction="column">

@@ -15,7 +15,7 @@ import {
 } from "@radix-ui/themes";
 import { SquareLibrary, Book } from "lucide-react";
 import { AppUrl } from "../../../domains/app-url/AppUrl";
-import { DiceRollerButton } from "../../client/DiceRoller/DiceRoller";
+import { DiceRoller } from "../../client/DiceRoller/DiceRoller";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 import Patreon from "./Patreon.astro";
 import { NameLogo } from "./Logo";
@@ -60,7 +60,7 @@ const fontFamily =
   </Flex>
   <Flex justify={"end"} gap="2" align={"center"}>
     <Box className="hidden sm:inline-block">
-      <DiceRollerButton client:load theme={Astro.props.theme} />
+      <DiceRoller client:load theme={Astro.props.theme} />
     </Box>
     <a href={AppUrl.docs()}>
       <Button
