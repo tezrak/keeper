@@ -4,12 +4,12 @@
   "version": "0.0.1",
   "scripts": {
     "postinstall": "bun add -g netlify-cli",
-    "dev": "bunx --bun astro dev",
-    "start": "bunx --bun astro dev",
-    "build": "bun check && bunx --bun astro build",
-    "check": "bunx --bun astro check --minimumSeverity warning",
-    "preview": "bunx --bun astro preview",
-    "astro": "bunx --bun astro",
+    "dev": "bun x --bun astro dev",
+    "start": "bun x --bun astro dev",
+    "build": "bun check && bun x --bun astro build",
+    "check": "bun x --bun astro check --minimumSeverity warning",
+    "preview": "bun x --bun astro preview",
+    "astro": "bun x --bun astro",
     "alpha": "netlify build && netlify deploy",
     "prod": "netlify build && netlify deploy --prod",
     "content": "bun ./scripts/content.ts"

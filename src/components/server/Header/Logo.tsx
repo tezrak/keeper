@@ -34,7 +34,7 @@ export function NameLogo(props: {
             <clipPath id="_clip1">
               <rect x="0" y="0" width="4000" height="4000" />
             </clipPath>
-            <g clip-path="url(#_clip1)">
+            <g clipPath="url(#_clip1)">
               <g transform="matrix(42.5167,0,0,200.6,-332646,-639191)">
                 <g>
                   <path
