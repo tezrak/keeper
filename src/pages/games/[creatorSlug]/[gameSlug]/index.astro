@@ -5,6 +5,7 @@ import type {
   InferGetStaticPropsType,
 } from "astro";
 import { Image } from "astro:assets";
+import { render } from "astro:content";
 import {
   MDXWrapper,
   getMdxComponents,
@@ -25,7 +26,7 @@ const { creator } = await DLAstro.getCreator({ slug: props.creatorSlug });
 const { game } = await DLAstro.getGame({ slug: props.gameSlug });
 const { assets } = await DLAstro.getAssetsForGame({ slug: props.gameSlug });
 
-const { Content } = await game.render();
+const { Content } = await render(game);
 
 const theme = getTheme({
   theme: {

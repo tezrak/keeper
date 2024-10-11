@@ -1,4 +1,5 @@
 import { docsSchema } from "@astrojs/starlight/schema";
+import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 import { Colors } from "../domains/colors/colors";
 
@@ -12,14 +13,14 @@ const themeSchema = z
 
 export const collections = {
   creators: defineCollection({
-    type: "content",
+    loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/creators" }),
     schema: z.object({
       name: z.string(),
       description: z.string().default(""),
     }),
   }),
   games: defineCollection({
-    type: "content",
+    loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/games" }),
     schema: (ctx) =>
       z.object({
         name: z.string(),
@@ -31,7 +32,7 @@ export const collections = {
       }),
   }),
   assets: defineCollection({
-    type: "content",
+    loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/assets" }),
     schema: z.object({
       name: z.string(),
       description: z.string().default(""),
@@ -46,7 +47,7 @@ export const collections = {
     }),
   }),
   resources: defineCollection({
-    type: "content",
+    loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/resources" }),
     schema: (ctx) =>
       z.object({
         name: z.string(),

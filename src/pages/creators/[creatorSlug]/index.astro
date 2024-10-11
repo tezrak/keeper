@@ -6,6 +6,7 @@ import type {
   InferGetStaticPropsType,
 } from "astro";
 import { Image } from "astro:assets";
+import { render } from "astro:content";
 import { Card } from "../../../components/client/Card/Card";
 import {
   MDXH1,
@@ -42,7 +43,7 @@ const sortedResources = shuffledResources.sort((a, b) => {
   return b.data.weight - a.data.weight;
 });
 
-const { Content } = await creator.render();
+const { Content } = await render(creator);
 
 const theme = getTheme({
   theme: {},
