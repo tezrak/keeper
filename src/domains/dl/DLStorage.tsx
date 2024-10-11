@@ -3,7 +3,7 @@ import { getLogger } from "../utils/getLogger";
 import z from "zod";
 import { zodBuild } from "../utils/zodBuild";
 
-export const STORAGE_KEY = "storied";
+export const STORAGE_KEY = "keeper";
 
 const stateSchema = z.record(z.string(), z.any()).default({});
 

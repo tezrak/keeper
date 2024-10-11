@@ -1,5 +1,5 @@
 import type { CollectionEntry } from "astro:content";
-import type { SearchType } from "../../pages/search/_page";
+import type { SearchType } from "../../routes/SearchRoute/SearchRoute";
 
 export const AppUrl = {
   home() {
@@ -52,6 +52,6 @@ export const AppUrl = {
     slug: CollectionEntry<"resources">["slug"];
     page: string;
   }) {
-    return `https://github.com/farirpgs/storied/tree/main/src/content/resources/${props.slug}/index.mdx#${props.page}/`;
+    return `https://github.com/farirpgs/keeper/tree/main/src/content/resources/${props.slug}/index.mdx#${props.page}/`;
   },
 };

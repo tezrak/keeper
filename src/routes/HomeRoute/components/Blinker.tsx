@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { wait } from "../domains/utils/wait";
+import { wait } from "../../../domains/utils/wait";
 
 export function Blinker(props: { texts: Array<string> }) {
   const indexRef = useRef(0);

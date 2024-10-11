@@ -11,7 +11,7 @@ import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { DocParser } from "../../../../domains/document/DocParser";
 import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
-import { Page } from "./_page";
+import { ResourceRoute } from "../../../../routes/ResourceRoute/ResourceRoute";
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
@@ -66,7 +66,7 @@ export async function getStaticPaths() {
   theme={theme}
   withOgImage
 >
-  <Page
+  <ResourceRoute
     client:load
     creator={creator!}
     resource={resource}
@@ -97,5 +97,5 @@ export async function getStaticPaths() {
         />
       )
     }
-  </Page>
+  </ResourceRoute>
 </Layout>

@@ -13,7 +13,7 @@ import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../domains/utils/getTheme";
 import Layout from "../../../../layouts/Layout.astro";
-import { Page } from "./_page";
+import { GameRoute } from "../../../../routes/GameRoute/GameRoute";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
@@ -59,7 +59,13 @@ export async function getStaticPaths() {
   bodyFont={game.data.theme?.bodyFont}
 >
   {game.data.image && <Banner src={game.data.image} alt={game.data.name} />}
-  <Page client:load theme={theme} game={game} creator={creator} assets={assets}>
+  <GameRoute
+    client:load
+    theme={theme}
+    game={game}
+    creator={creator}
+    assets={assets}
+  >
     <div slot="gameCover">
       {
         game.data.image && (
@@ -79,5 +85,5 @@ export async function getStaticPaths() {
         }}
       />
     </MDXWrapper>
-  </Page>
+  </GameRoute>
 </Layout>

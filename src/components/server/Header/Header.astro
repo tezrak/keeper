@@ -18,7 +18,7 @@ import { AppUrl } from "../../../domains/app-url/AppUrl";
 import { DiceRollerButton } from "../../client/DiceRoller/DiceRoller";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 import Patreon from "./Patreon.astro";
-import { StoriedNameLogo } from "./Storied";
+import { NameLogo } from "./Logo";
 import type { ThemeType } from "../../../domains/utils/getTheme";
 
 export type Props = {
@@ -40,7 +40,7 @@ const fontFamily =
 >
   <Flex justify={"start"}>
     <Link href={AppUrl.home()} highContrast>
-      <StoriedNameLogo className="h-[1.25rem] fill-[currentColor]" />
+      <NameLogo className="h-[1.25rem] fill-[currentColor]" />
     </Link>
   </Flex>
   <Flex gap="4" justify="center">
@@ -88,7 +88,7 @@ const fontFamily =
           class="hidden lg:inline-block"
           style={{
             fontFamily,
-          }}>Subscribe</span
+          }}>Support</span
         >
       </Button>
     </a>

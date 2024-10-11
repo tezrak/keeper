@@ -1,8 +1,8 @@
 import { Button } from "@radix-ui/themes";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { DLStorage } from "../../../../../domains/dl/DLStorage";
-import { wait } from "../../../../../domains/utils/wait";
+import { DLStorage } from "../../../domains/dl/DLStorage";
+import { wait } from "../../../domains/utils/wait";
 
 export function CreateNewCampaignButton(props: { gameSlug: string }) {
   const [ready, setReady] = useState(true);

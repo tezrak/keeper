@@ -6,16 +6,16 @@ import {
   MDXH5,
   MDXWrapper,
   getMdxComponents,
-} from "../../../../../components/client/MDX/MDX";
-import { AppUrl } from "../../../../../domains/app-url/AppUrl";
+} from "../../components/client/MDX/MDX";
+import { AppUrl } from "../../domains/app-url/AppUrl";
 import {
   CampaignContext,
   useCampaign,
-} from "../../../../../domains/campaign/useCampaign";
-import { evaluateMdxSync } from "../../../../../domains/mdx/evaluateMdx";
-import type { ThemeType } from "../../../../../domains/utils/getTheme";
+} from "../../domains/campaign/useCampaign";
+import { evaluateMdxSync } from "../../domains/mdx/evaluateMdx";
+import type { ThemeType } from "../../domains/utils/getTheme";
 
-export function Page(props: {
+export function PreviewGameAssetRoute(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;

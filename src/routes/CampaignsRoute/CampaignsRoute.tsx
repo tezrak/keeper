@@ -16,11 +16,11 @@ import { DLClient } from "../../domains/dl/DLClient";
 import { DLStorage, type CampaignType } from "../../domains/dl/DLStorage";
 import { getLogger } from "../../domains/utils/getLogger";
 import type { ThemeType } from "../../domains/utils/getTheme";
-import type { GameImagesType } from "./index.astro";
+import type { GameImagesType } from "../../pages/campaigns/index.astro";
 
 const logger = getLogger("GamesPage");
 
-export function Page(props: {
+export function CampaignsRoute(props: {
   theme: ThemeType;
 
   gameImages: GameImagesType;

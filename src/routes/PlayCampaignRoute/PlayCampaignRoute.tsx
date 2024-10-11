@@ -16,7 +16,7 @@ import {
 } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { useEffect, useState } from "react";
-import { getLogger } from "../../../../domains/utils/getLogger";
+import { getLogger } from "../../domains/utils/getLogger";
 
 import {
   EyeClosedIcon,
@@ -24,19 +24,19 @@ import {
   HamburgerMenuIcon,
 } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { NothingToShowHere } from "../../../../components/client/NothingToShowHere/NothingToShowHere";
-import { getSurfaceStyle } from "../../../../components/client/Surface/getSurfaceStyle";
+import { NothingToShowHere } from "../../components/client/NothingToShowHere/NothingToShowHere";
+import { getSurfaceStyle } from "../../components/client/Surface/getSurfaceStyle";
 import {
   CampaignContext,
   useCampaign,
-} from "../../../../domains/campaign/useCampaign";
-import type { ThemeType } from "../../../../domains/utils/getTheme";
-import { wait } from "../../../../domains/utils/wait";
-import { GameAsset } from "./_components/_GameAsset";
+} from "../../domains/campaign/useCampaign";
+import type { ThemeType } from "../../domains/utils/getTheme";
+import { wait } from "../../domains/utils/wait";
+import { GameAsset } from "./components/GameAsset";
 
 const logger = getLogger("PlayCreatorGamePage");
 
-export function Page(props: {
+export function PlayCampaignRoute(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;

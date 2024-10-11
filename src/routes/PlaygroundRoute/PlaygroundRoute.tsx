@@ -15,7 +15,7 @@ import type { ThemeType } from "../../domains/utils/getTheme";
 
 const logger = getLogger("PlaygroundPage");
 
-export function Page(props: { theme: ThemeType }) {
+export function PlaygroundRoute(props: { theme: ThemeType }) {
   const [text, setText] = useState("");
   const campaignManager = useCampaign({
     id: "",

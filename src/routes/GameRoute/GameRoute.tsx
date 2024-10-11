@@ -1,22 +1,18 @@
 import { Box, Button, Card, Flex, Link, Text, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
-import {
-  MDXH1,
-  MDXH4,
-  MDXWrapper,
-} from "../../../../components/client/MDX/MDX";
+import { MDXH1, MDXH4, MDXWrapper } from "../../components/client/MDX/MDX";
 import {
   CampaignContext,
   useCampaign,
-} from "../../../../domains/campaign/useCampaign";
-import { CreateNewCampaignButton } from "./_components/CreateNewCampaignButton";
+} from "../../domains/campaign/useCampaign";
 
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import { AppUrl } from "../../../../domains/app-url/AppUrl";
-import type { ThemeType } from "../../../../domains/utils/getTheme";
+import { AppUrl } from "../../domains/app-url/AppUrl";
+import type { ThemeType } from "../../domains/utils/getTheme";
+import { CreateNewCampaignButton } from "./components/CreateNewCampaignButton";
 
-export function Page(props: {
+export function GameRoute(props: {
   game: CollectionEntry<"games">;
   creator: CollectionEntry<"creators">;
   assets: Array<CollectionEntry<"assets">>;

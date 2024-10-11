@@ -41,7 +41,7 @@ type Props = {
 
 const props = Astro.props;
 
-const titleArray = props.title ? [...props.title, "Storied"] : ["Storied"];
+const titleArray = props.title ? [...props.title, "Keeper"] : ["Keeper"];
 const title = titleArray.join(" • ");
 const description =
   "The best way to play your favorite TTRPGs. Hundreds of games you can play right here in your browser. Accessible, fast, and free.";
@@ -88,6 +88,7 @@ const ogImageUrl = props.withOgImage
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href={favicon.src} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <meta
       name="theme-color"

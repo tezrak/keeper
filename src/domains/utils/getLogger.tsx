@@ -1,5 +1,5 @@
 export const getLogger = makeGetLogger({
-  appName: "Storied",
+  appName: "Keeper",
   console,
 });
 

@@ -1,7 +1,7 @@
 ---
 import { getTheme } from "../../domains/utils/getTheme";
 import Layout from "../../layouts/Layout.astro";
-import { Page } from "./_page";
+import { PlaygroundRoute } from "../../routes/PlaygroundRoute/PlaygroundRoute";
 
 const theme = getTheme({});
 ---
@@ -12,5 +12,5 @@ const theme = getTheme({});
   theme={theme}
   withDefaultBanner
 >
-  <Page client:only="react" theme={theme} />
+  <PlaygroundRoute client:only="react" theme={theme} />
 </Layout>

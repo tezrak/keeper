@@ -13,17 +13,13 @@ import {
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
 import React from "react";
-import {
-  MDXH1,
-  MDXH4,
-  MDXWrapper,
-} from "../../../../components/client/MDX/MDX";
-import { AppUrl } from "../../../../domains/app-url/AppUrl";
-import { Colors } from "../../../../domains/colors/colors";
-import type { DocType } from "../../../../domains/document/DocParser";
-import type { ThemeType } from "../../../../domains/utils/getTheme";
+import { MDXH1, MDXH4, MDXWrapper } from "../../components/client/MDX/MDX";
+import { AppUrl } from "../../domains/app-url/AppUrl";
+import { Colors } from "../../domains/colors/colors";
+import type { DocType } from "../../domains/document/DocParser";
+import type { ThemeType } from "../../domains/utils/getTheme";
 
-export function Page(props: {
+export function ResourceRoute(props: {
   creator: CollectionEntry<"creators">;
   resource: CollectionEntry<"resources">;
   image?: React.ReactNode;

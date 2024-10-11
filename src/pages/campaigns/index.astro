@@ -3,7 +3,7 @@ import { getImage } from "astro:assets";
 import { DLAstro } from "../../domains/dl/DLAstro";
 import { getTheme } from "../../domains/utils/getTheme";
 import Layout from "../../layouts/Layout.astro";
-import { Page } from "./_page";
+import { CampaignsRoute } from "../../routes/CampaignsRoute/CampaignsRoute";
 
 const theme = getTheme({});
 
@@ -32,5 +32,5 @@ for (const game of games) {
   withDefaultBanner
   withOgImage
 >
-  <Page client:load theme={theme} gameImages={gameImages} />
+  <CampaignsRoute client:load theme={theme} gameImages={gameImages} />
 </Layout>

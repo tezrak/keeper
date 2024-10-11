@@ -1,6 +1,6 @@
 ---
-title: What is Storied
-description: Learn more about my project in this docs site built with Starlight.
+title: What is Keeper
+description: ...
 sidebar:
   order: 0
 ---

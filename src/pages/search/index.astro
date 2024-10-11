@@ -3,7 +3,10 @@ import { getImage } from "astro:assets";
 import { AppUrl } from "../../domains/app-url/AppUrl";
 import { DLAstro } from "../../domains/dl/DLAstro";
 import Layout from "../../layouts/Layout.astro";
-import { Page, type SearchIndexType } from "./_page";
+import {
+  SearchRoute,
+  type SearchIndexType,
+} from "../../routes/SearchRoute/SearchRoute";
 
 const { games } = await DLAstro.getAllGamesWithCreator({ includeAssets: true });
 const { resources } = await DLAstro.getAllResourcesWithCreator({});
@@ -68,5 +71,5 @@ await Promise.all(
   withDefaultBanner
   withOgImage
 >
-  <Page client:only="react" indexes={indexes} />
+  <SearchRoute client:only="react" indexes={indexes} />
 </Layout>

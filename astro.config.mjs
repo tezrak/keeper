@@ -1,5 +1,6 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
@@ -9,13 +10,14 @@ import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://keeper.farirpgs.com",
   output: "hybrid",
   site: constants.site({
     localhost: process.env.NODE_ENV === "development",
   }),
   integrations: [
     starlight({
-      title: "Storied Doc",
+      title: "Keeper Doc",
       disable404Route: true,
       sidebar: [
         {
@@ -33,6 +35,7 @@ export default defineConfig({
     react(),
     tailwind(),
     mdx(),
+    sitemap(),
   ],
   experimental: {
     contentCollectionCache: true,
@@ -40,4 +43,7 @@ export default defineConfig({
     contentLayer: true,
   },
   adapter: netlify(),
+  // build: {
+  //   concurrency: 10,
+  // },
 });

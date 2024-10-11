@@ -1,0 +1,222 @@
+import { Box, Button, Container, Flex, Grid, Text } from "@radix-ui/themes";
+import type { CollectionEntry } from "astro:content";
+import { Card } from "../../components/client/Card/Card";
+import { MDXH1, MDXH2 } from "../../components/client/MDX/MDX";
+import { AppUrl } from "../../domains/app-url/AppUrl";
+import { Colors, type ColorType } from "../../domains/colors/colors";
+import { getRandomElement } from "../../domains/utils/random";
+import { Blinker } from "./components/Blinker";
+
+export function HomeRoute(props: {
+  logo: string;
+  topGames: Array<{
+    game: CollectionEntry<"games">;
+    creator: CollectionEntry<"creators">;
+    assets: Array<CollectionEntry<"assets">>;
+  }>;
+  topResources: Array<{
+    resource: CollectionEntry<"resources">;
+    creator: CollectionEntry<"creators">;
+  }>;
+}) {
+  return (
+    <>
+      <Container size="4">
+        <Flex
+          direction={{
+            initial: "column",
+            md: "row",
+          }}
+          gap="3"
+          className="my-9"
+          align={"center"}
+        >
+          <Box
+            width={{
+              initial: "100%",
+              md: "70%",
+            }}
+          >
+            <Flex align="start" justify="center" gap="4" direction={"column"}>
+              <MDXH1 className="text-[4rem] leading-[normal]">
+                The best TTRPG
+                <br />
+                <Blinker
+                  texts={[
+                    "character keeper",
+                    "resource compendium",
+                    "dice roller",
+                  ]}
+                />
+              </MDXH1>
+              <Text
+                color="gray"
+                size={{
+                  initial: "3",
+                  md: "4",
+                }}
+                mb="5"
+              >
+                Hundreds of games you can play right here in your browser.{" "}
+                <br /> Accessible, fast, and free.
+              </Text>
+              <Flex direction="row" gap="4">
+                <a href="#get-started">
+                  <Button size="3" radius="full" className="">
+                    Get Started
+                  </Button>
+                </a>
+                <a href={AppUrl.search({})}>
+                  <Button size="3" radius="full" variant="outline" className="">
+                    Search for content
+                  </Button>
+                </a>
+              </Flex>
+            </Flex>
+          </Box>
+          <Flex
+            width={"40%"}
+            justify="center"
+            align={"center"}
+            className="relative initial:hidden md:flex"
+          >
+            <Box
+              className="absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] animate-blur rounded-lg opacity-60"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right top, var(--jade-10), var(--jade-7), var(--jade-8), var(--jade-9), var(--jade-11))",
+              }}
+            />
+            <img
+              loading={"eager"}
+              src={props.logo}
+              alt="Keeper"
+              width={1000}
+              className={"rounded-lg"}
+            />
+          </Flex>
+        </Flex>
+      </Container>
+
+      <Box pt="4" id="get-started">
+        <MDXH2> Games </MDXH2>
+      </Box>
+      <Grid
+        columns={{
+          sm: "2",
+          lg: "3",
+        }}
+        gap="6"
+        width="auto"
+      >
+        {props.topGames.map((item) => {
+          return (
+            <Card
+              key={item.game.slug}
+              href={AppUrl.game({
+                slug: item.game.slug,
+              })}
+              title={item.game.data.name}
+              subtitle={item.creator.data.name}
+              accentColor={
+                item.game.data.image === undefined
+                  ? getRandomElement<ColorType>(
+                      Colors.getAccentColors() as any,
+                      item.game.data.name,
+                    )
+                  : undefined
+              }
+            >
+              {item.game.data.image ? (
+                <img
+                  loading={"eager"}
+                  //   quality={"low"}
+                  src={item.game.data.image.src}
+                  alt={item.game.data.name}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    objectPosition: "left",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              ) : null}
+            </Card>
+          );
+        })}
+      </Grid>
+      <a
+        href={AppUrl.search({
+          type: "games",
+        })}
+        className="flex justify-center align-middle"
+      >
+        <Button size="4" color="gray" className="">
+          View all
+        </Button>
+      </a>
+
+      <Box pt="4" id="get-started">
+        <MDXH2> Resources </MDXH2>
+      </Box>
+      <Grid
+        columns={{
+          sm: "2",
+          lg: "3",
+        }}
+        gap="6"
+        width="auto"
+      >
+        {props.topResources.map((item) => {
+          return (
+            <Card
+              key={item.resource.slug}
+              href={AppUrl.resource({
+                slug: item.resource.slug,
+              })}
+              title={item.resource.data.name}
+              subtitle={item.creator.data.name}
+              accentColor={
+                item.resource.data.image === undefined
+                  ? getRandomElement<ColorType>(
+                      Colors.getAccentColors() as any,
+                      item.resource.data.name,
+                    )
+                  : undefined
+              }
+            >
+              {item.resource.data.image ? (
+                <img
+                  loading={"eager"}
+                  //   quality={"low"}
+                  src={item.resource.data.image.src}
+                  alt={item.resource.data.name}
+                  style={{
+                    position: "absolute",
+                    objectFit: "cover",
+                    objectPosition: "left",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              ) : null}
+            </Card>
+          );
+        })}
+      </Grid>
+
+      <a
+        href={AppUrl.search({
+          type: "resources",
+        })}
+        className="flex justify-center align-middle"
+      >
+        <Button size="4" color="gray" className="">
+          {" "}
+          View all{" "}
+        </Button>
+      </a>
+    </>
+  );
+}

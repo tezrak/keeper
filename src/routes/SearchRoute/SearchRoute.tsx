@@ -49,7 +49,7 @@ export type SearchIndexType = {
   href: string;
 };
 
-export function Page(props: { indexes: Array<SearchIndexType> }) {
+export function SearchRoute(props: { indexes: Array<SearchIndexType> }) {
   const queryString = new URLSearchParams(window.location.search);
   const queryParam = queryString?.get("query") as string;
   const typeParam = queryString?.get("type") as SearchType;

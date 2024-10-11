@@ -9,7 +9,7 @@ export const GET: APIRoute = async (ctx) => {
   const params = ctx.params as Params;
 
   return await renderOgImage({
-    title: "Storied",
+    title: "Keeper",
     description: "The best way to play your favorite TTRPGs",
   });
 };

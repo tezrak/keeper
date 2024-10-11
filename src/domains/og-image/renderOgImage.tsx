@@ -3,7 +3,7 @@ import { ImageResponse } from "@vercel/og";
 import truncate from "lodash/truncate";
 import { renderToString } from "react-dom/server";
 import { Graphic } from "../../components/client/Graphic/Graphic";
-import { StoriedNameLogo } from "../../components/server/Header/Storied";
+import { NameLogo } from "../../components/server/Header/Logo";
 import { Colors, type ColorType } from "../colors/colors";
 
 const debug = false;
@@ -25,7 +25,7 @@ export async function renderOgImage(props: {
     return new Response(
       renderToString(
         <OGImage
-          siteTitle={"Storied"}
+          siteTitle={"Keeper"}
           title={props.title}
           src={props.src}
           description={props.description}
@@ -44,7 +44,7 @@ export async function renderOgImage(props: {
   return new ImageResponse(
     (
       <OGImage
-        siteTitle={"Storied"}
+        siteTitle={"Keeper"}
         title={props.title}
         src={props.src}
         description={props.description}
@@ -402,13 +402,13 @@ function OGImage(props: {
           display: "flex",
         }}
       >
-        <StoriedNameLogo
+        <NameLogo
           color="#fff"
           style={{
             width: 4000 / 30,
             height: 796 / 30,
           }}
-        ></StoriedNameLogo>
+        ></NameLogo>
       </div>
     );
   }

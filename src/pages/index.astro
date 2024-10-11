@@ -1,15 +1,8 @@
 ---
-import { Box, Button, Container, Flex, Grid, Text } from "@radix-ui/themes";
-import { Image } from "astro:assets";
-import { Card } from "../components/client/Card/Card";
-import { MDXH1, MDXH2 } from "../components/client/MDX/MDX";
-import { StoriedLogoPngSrc } from "../components/server/Header/Storied";
-import { AppUrl } from "../domains/app-url/AppUrl";
-import { Colors, type ColorType } from "../domains/colors/colors";
+import { LogoSrc } from "../components/server/Header/Logo";
 import { DLAstro, shuffleWithSeed } from "../domains/dl/DLAstro";
-import { getRandomElement } from "../domains/utils/random";
 import Layout from "../layouts/Layout.astro";
-import { Blinker } from "./_Blinker";
+import { HomeRoute } from "../routes/HomeRoute/HomeRoute";
 
 const currentDateOfTheMonth = new Date().getDate();
 
@@ -19,6 +12,22 @@ const sortedGame = shuffledGames.sort((a, b) => {
   return b.game.data.weight - a.game.data.weight;
 });
 const topGames = sortedGame.slice(0, 9);
+// for (const game of topGames) {
+//   if (game.game.data.image) {
+//     console.log("ASDASASD", {
+//       imageSrc: game.game.data.image,
+//       importmetaurl: import.meta.url,
+//       url: new URL(game.game.data.image, import.meta.url).toString(),
+//     });
+
+//     game.game.data.image = (await getImage({
+//       src: new URL(game.game.data.image, import.meta.url).toString(),
+
+//       format: "webp",
+//     })) as any;
+//     console.log(game.game.data.image);
+//   }
+// }
 
 const { resources } = await DLAstro.getAllResourcesWithCreator({});
 const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
@@ -26,196 +35,26 @@ const sortedResources = shuffledResources.sort((a, b) => {
   return b.resource.data.weight - a.resource.data.weight;
 });
 const topResources = sortedResources.slice(0, 9);
+// for (const resource of topResources) {
+//   if (resource.resource.data.image) {
+//     resource.resource.data.image = (await getImage({
+//       src: new URL(
+//         resource.resource.data.image.src,
+//         import.meta.url
+//       ).toString(),
+//       format: "webp",
+//     })) as any;
+//   }
+// }
+
+const logoSrc = LogoSrc.src;
 ---
 
 <Layout withOgImage title={undefined} description={undefined} withDefaultBanner>
-  <Container size="4">
-    <Flex
-      direction={{
-        initial: "column",
-        md: "row",
-      }}
-      gap="3"
-      className="my-9"
-      align={"center"}
-    >
-      <Box
-        width={{
-          initial: "100%",
-          md: "70%",
-        }}
-      >
-        <Flex align="start" justify="center" gap="4" direction={"column"}>
-          <MDXH1 className="text-[4rem] leading-[normal]">
-            The best TTRPG<br />
-            <Blinker
-              client:load
-              texts={["character keeper", "resource compendium", "dice roller"]}
-            />
-          </MDXH1>
-          <Text
-            color="gray"
-            size={{
-              initial: "3",
-              md: "4",
-            }}
-            mb="5"
-          >
-            Hundreds of games you can play right here in your browser. <br /> Accessible,
-            fast, and free.
-          </Text>
-          <Flex direction="row" gap="4">
-            <a href="#get-started">
-              <Button size="3" radius="full" className=""> Get Started</Button>
-            </a>
-            <a href={AppUrl.search({})}>
-              <Button size="3" radius="full" variant="outline" className="">
-                Search for content
-              </Button>
-            </a>
-          </Flex>
-        </Flex></Box
-      >
-      <Flex
-        width={"40%"}
-        justify="center"
-        align={"center"}
-        className="relative initial:hidden md:flex"
-      >
-        <Box
-          className="absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] animate-blur rounded-lg opacity-60"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right top, var(--jade-10), var(--jade-7), var(--jade-8), var(--jade-9), var(--jade-11))",
-          }}
-        />
-        <Image
-          loading={"eager"}
-          src={StoriedLogoPngSrc}
-          alt="Storied"
-          width={1000}
-          class={"rounded-lg"}
-        />
-      </Flex>
-    </Flex>
-  </Container>
-
-  <Box pt="4" id="get-started">
-    <MDXH2> Games </MDXH2>
-  </Box>
-  <Grid
-    columns={{
-      sm: "2",
-      lg: "3",
-    }}
-    gap="6"
-    width="auto"
-  >
-    {
-      topGames.map((item) => {
-        return (
-          <Card
-            client:idle
-            href={AppUrl.game({
-              slug: item.game.slug,
-            })}
-            title={item.game.data.name}
-            subtitle={item.creator.data.name}
-            accentColor={
-              item.game.data.image === undefined
-                ? getRandomElement<ColorType>(
-                    Colors.getAccentColors() as any,
-                    item.game.data.name
-                  )
-                : undefined
-            }
-          >
-            {item.game.data.image ? (
-              <Image
-                loading={"eager"}
-                quality={"low"}
-                src={item.game.data.image}
-                alt={item.game.data.name}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  objectPosition: "left",
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            ) : null}
-          </Card>
-        );
-      })
-    }
-  </Grid>
-  <a
-    href={AppUrl.search({
-      type: "games",
-    })}
-    class="flex justify-center align-middle"
-  >
-    <Button size="4" color="gray" className=""> View all </Button>
-  </a>
-
-  <Box pt="4" id="get-started">
-    <MDXH2> Resources </MDXH2>
-  </Box>
-  <Grid
-    columns={{
-      sm: "2",
-      lg: "3",
-    }}
-    gap="6"
-    width="auto"
-  >
-    {
-      topResources.map((item) => {
-        return (
-          <Card
-            client:idle
-            href={AppUrl.resource({
-              slug: item.resource.slug,
-            })}
-            title={item.resource.data.name}
-            subtitle={item.creator.data.name}
-            accentColor={
-              item.resource.data.image === undefined
-                ? getRandomElement<ColorType>(
-                    Colors.getAccentColors() as any,
-                    item.resource.data.name
-                  )
-                : undefined
-            }
-          >
-            {item.resource.data.image ? (
-              <Image
-                loading={"eager"}
-                quality={"low"}
-                src={item.resource.data.image}
-                alt={item.resource.data.name}
-                style={{
-                  position: "absolute",
-                  objectFit: "cover",
-                  objectPosition: "left",
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            ) : null}
-          </Card>
-        );
-      })
-    }
-  </Grid>
-
-  <a
-    href={AppUrl.search({
-      type: "resources",
-    })}
-    class="flex justify-center align-middle"
-  >
-    <Button size="4" color="gray" className=""> View all </Button>
-  </a>
+  <HomeRoute
+    client:load
+    logo={logoSrc}
+    topGames={topGames}
+    topResources={topResources}
+  />
 </Layout>

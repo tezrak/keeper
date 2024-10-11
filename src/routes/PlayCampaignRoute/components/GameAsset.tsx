@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import {
   MDXWrapper,
   getMdxComponents,
-} from "../../../../../components/client/MDX/MDX";
-import { evaluateMdx } from "../../../../../domains/mdx/evaluateMdx";
-import { getLogger } from "../../../../../domains/utils/getLogger";
+} from "../../../components/client/MDX/MDX";
+import { evaluateMdx } from "../../../domains/mdx/evaluateMdx";
+import { getLogger } from "../../../domains/utils/getLogger";
 
 const logger = getLogger("Sheet");
 
