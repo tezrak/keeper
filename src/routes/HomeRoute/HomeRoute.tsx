@@ -28,7 +28,7 @@ export function HomeRoute(props: {
             md: "row",
           }}
           gap="3"
-          className="my-9"
+          className="my-3 lg:my-9"
           align={"center"}
         >
           <Box
@@ -38,13 +38,13 @@ export function HomeRoute(props: {
             }}
           >
             <Flex align="start" justify="center" gap="4" direction={"column"}>
-              <MDXH1 className="text-[4rem] leading-[normal]">
+              <MDXH1 className="text-[2rem] leading-[normal] xs:text-[3rem] md:text-[4rem]">
                 The best TTRPG
                 <br />
                 <Blinker
                   texts={[
                     "character keeper",
-                    "resource compendium",
+                    "resource collection",
                     "dice roller",
                   ]}
                 />
@@ -62,12 +62,12 @@ export function HomeRoute(props: {
               </Text>
               <Flex direction="row" gap="4">
                 <a href="#get-started">
-                  <Button size="3" radius="full" className="">
+                  <Button size="4" radius="full" className="">
                     Get Started
                   </Button>
                 </a>
                 <a href={AppUrl.search({})}>
-                  <Button size="3" radius="full" variant="outline" className="">
+                  <Button size="4" radius="full" variant="outline" className="">
                     Search for content
                   </Button>
                 </a>
@@ -152,7 +152,7 @@ export function HomeRoute(props: {
         })}
         className="flex justify-center align-middle"
       >
-        <Button size="4" color="gray" className="">
+        <Button size="4" className="">
           View all
         </Button>
       </a>
@@ -212,9 +212,8 @@ export function HomeRoute(props: {
         })}
         className="flex justify-center align-middle"
       >
-        <Button size="4" color="gray" className="">
-          {" "}
-          View all{" "}
+        <Button size="4" className="">
+          View all
         </Button>
       </a>
     </>

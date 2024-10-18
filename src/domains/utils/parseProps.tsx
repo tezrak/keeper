@@ -12,9 +12,12 @@ export function parseProps<TSchema extends z.ZodType>(arg: {
   if (props.success) {
     return props.data as z.infer<TSchema>;
   } else {
-    throw logger.error("Invalid props", {
-      format: props.error.format(),
-      error: props.error,
-    });
+    throw logger.error(
+      `Invalid props: ${JSON.stringify(props.error.flatten())}`,
+      {
+        format: props.error.format(),
+        error: props.error,
+      },
+    );
   }
 }

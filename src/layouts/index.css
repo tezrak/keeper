@@ -10,3 +10,16 @@
   top: calc(50% - 0.75rem);
   display: inline-block;
 }
+
+.sun {
+  display: block;
+}
+.moon {
+  display: none;
+}
+.dark .sun {
+  display: none;
+}
+.dark .moon {
+  display: block;
+}

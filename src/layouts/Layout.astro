@@ -17,7 +17,7 @@ import { MDXColumns } from "../components/client/MDX/mdx-components/ui/MDXColumn
 import { MDXDivider } from "../components/client/MDX/mdx-components/ui/MDXDivider";
 import Banner from "../components/server/Banner/Banner.astro";
 import Footer from "../components/server/Footer/Footer.astro";
-import Header from "../components/server/Header/Header.astro";
+import { Header } from "../components/server/Header/Header";
 import LogoSrc from "../components/server/Header/logo.png";
 import { Colors } from "../domains/colors/colors";
 import { getTheme, type ThemeType } from "../domains/utils/getTheme";
@@ -142,7 +142,7 @@ const ogImageUrl = props.withOgImage
           }}
         />
 
-        <Header theme={themeProps} />
+        <Header client:load theme={themeProps} />
         {
           props.withDefaultBanner && (
             <Banner src={songsAndSagas.data.image!} alt={"Background"} />

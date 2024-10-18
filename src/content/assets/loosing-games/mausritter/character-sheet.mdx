@@ -1,0 +1,91 @@
+---
+name: Character Sheet
+game: loosing-games/mausritter
+---
+
+<img
+  src="https://img.itch.zone/aW1nLzI2OTcwMDMucG5n/original/OHU8b7.png"
+  style={{
+    width: "100%",
+    height: "200px",
+    objectFit: "cover",
+  }}
+/>
+<Heading> Details </Heading>
+<Row align="start">
+  <Stack>
+    <TextField name="name">Name</TextField>
+    <TextField name="background">Background</TextField>
+  </Stack>
+  <Stack>
+    <TextField name="birthsign">Birthsign</TextField>
+    <TextField name="disposition">Disposition</TextField>
+    <TextField name="coat">Coat</TextField>
+    <TextField name="physical-detail">Physical Detail</TextField>
+  </Stack>
+</Row>
+
+<br />
+<Row align='start'>
+<Stack >
+
+<Stack>
+  <Heading>Stats</Heading>
+  <Label>STR</Label>
+  <Row>
+    <Detail>Max</Detail>
+    <NumberField name="max-str" />
+    <Detail>Current</Detail>
+    <NumberField name="current-str" />
+  </Row>
+</Stack>
+<Stack>
+  <Label>DEV</Label>
+  <Row>
+    <Detail>Max</Detail>
+    <NumberField name="max-dex" />
+    <Detail>Current</Detail>
+    <NumberField name="current-dex" />
+  </Row>
+</Stack>
+<Stack>
+  <Label>WIL</Label>
+  <Row>
+    <Detail>Max</Detail>
+    <NumberField name="max-wil" />
+    <Detail>Current</Detail>
+    <NumberField name="current-wil" />
+  </Row>
+</Stack>
+<br />
+<Stack>
+  <Label>HP</Label>
+  <Row>
+    <Detail>Max</Detail>
+    <NumberField name="max-hp" />
+    <Detail>Current</Detail>
+    <NumberField name="current-hp" />
+  </Row>
+</Stack>
+
+</Stack>
+<Stack>
+<Heading>Inventory</Heading>
+<Label>Pips</Label>
+<NumberField name="pips" placeholder="pips"/>
+<Label>Items</Label>
+
+<List name="items" min={1}>
+  <TextField name="name" placeholder="Name" />
+  <Row>
+    <Detail>Usage</Detail>
+    <Tracker name="usage" min={1} />
+  </Row>
+</List>
+<Label>Additionals Items</Label>
+<List name="additionals-items" min={1}>
+  <TextField name="name" placeholder="Name" />
+</List>
+</Stack>
+
+</Row>

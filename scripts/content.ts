@@ -153,7 +153,7 @@ async function createAsset() {
   const gameForm = await prompts({
     type: "autocomplete",
     name: "value",
-    message: "What is the game this asset is for?",
+    message: "What game is this asset for?",
     choices: gameSlugs.map((gameSlug) => {
       return {
         title: startCase(gameSlug),
@@ -187,7 +187,6 @@ async function createAsset() {
     `---
 name: ${nameForm.value}
 game: ${creatorForm.value}/${gameForm.value}
-
 ---
 
 `,
@@ -298,7 +297,10 @@ async function getAllGameSlugs(creatorSlug: string) {
 
     const isDirectory = fileExtension === "";
     if (!isDirectory) {
-      directories.push(file.split(".").slice(0, -1).join(""));
+      const sections = file.split("/");
+      sections.pop();
+      const name = sections.pop();
+      directories.push(name as string);
     }
   }
   return directories.map((directory) => {

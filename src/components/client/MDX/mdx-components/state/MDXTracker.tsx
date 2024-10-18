@@ -1,10 +1,13 @@
-import { CircleIcon } from "@radix-ui/react-icons";
+import { CircleIcon, MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { Box, Flex, IconButton, Text } from "@radix-ui/themes";
 import clsx from "clsx";
 import { CircleCheckBig } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { z } from "zod";
-import { CampaignContext } from "../../../../../domains/campaign/useCampaign";
+import {
+  CampaignContext,
+  CampaignState,
+} from "../../../../../domains/campaign/useCampaign";
 import { parseProps } from "../../../../../domains/utils/parseProps";
 import { useName } from "./MDXList";
 
@@ -30,6 +33,9 @@ export function MDXTracker(p: Props) {
     return campaignManager.getCurrentFormValue({ name: name }) || [];
   });
 
+  const canAddItem = props.max ? values.length < props.max : true;
+  const canRemoveItem = values.length > props.min;
+
   useEffect(() => {
     const numberOfMissingItems =
       values.length < props.min ? props.min - values.length : 0;
@@ -41,9 +47,34 @@ export function MDXTracker(p: Props) {
     }
   }, []);
 
+  function handleAddItem() {
+    if (canAddItem) {
+      setValues((prev) => {
+        return [...prev, false];
+      });
+    }
+  }
+
+  function handleRemoveItem() {
+    if (canRemoveItem) {
+      setValues((prev) => {
+        return prev.slice(0, prev.length - 1);
+      });
+    }
+  }
+
   return (
     <Text data-mdx-type="text-field" as="label" size="2">
-      <Flex gap="2">
+      <Flex gap="2" align={"center"}>
+        <IconButton
+          size="1"
+          variant="ghost"
+          color="gray"
+          disabled={!canRemoveItem || campaignManager.readonly}
+          onClick={handleRemoveItem}
+        >
+          <MinusIcon></MinusIcon>
+        </IconButton>
         {values.map((value, i) => {
           return (
             <Box key={i}>
@@ -73,7 +104,6 @@ export function MDXTracker(p: Props) {
                   });
                 }}
               >
-                <div></div>
                 {value ? (
                   <CircleCheckBig
                     width={"1.5rem"}
@@ -86,7 +116,18 @@ export function MDXTracker(p: Props) {
             </Box>
           );
         })}
+        <IconButton
+          size="1"
+          variant="ghost"
+          color="gray"
+          disabled={!canAddItem || campaignManager.readonly}
+          onClick={handleAddItem}
+        >
+          <PlusIcon></PlusIcon>
+        </IconButton>
       </Flex>
+
+      <CampaignState name={name} value={values}></CampaignState>
     </Text>
   );
 }

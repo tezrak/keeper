@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { z } from "zod";
 import { CampaignContext } from "../../../../../domains/campaign/useCampaign";
 import { parseProps } from "../../../../../domains/utils/parseProps";
+import { MDXStack } from "../ui/MDXStack";
 
 const propsSchema = z.object({
   name: z.string(),
@@ -113,7 +114,7 @@ export function MDXList(p: Props) {
   }
 
   return (
-    <Flex data-mdx-type="list" direction={"column"} gap="2">
+    <Flex data-mdx-type="list" direction={"column"} gap="2" className="w-full">
       {ids.map((id) => {
         const isFirst = id === ids[0];
         const isLast = id === ids[ids.length - 1];
@@ -125,7 +126,7 @@ export function MDXList(p: Props) {
             value={{
               name: props.name,
               id,
-            }} 
+            }}
             key={id}
           >
             <ContextMenu.Root>
@@ -133,9 +134,9 @@ export function MDXList(p: Props) {
                 content={"Right click the card's background for options..."}
               >
                 <ContextMenu.Trigger>
-                  <Card size="2" className={""}>
+                  <Card size="2" className={"w-full"}>
                     <Flex gap="4" align={"start"}>
-                      <Flex flexGrow={"1"}>{props.children}</Flex>
+                      <MDXStack>{props.children}</MDXStack>
                       <ContextMenu.Content color="gray">
                         <ContextMenu.Item onClick={() => handleAddBelow(id)}>
                           Add Below
