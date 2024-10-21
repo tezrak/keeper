@@ -1,6 +1,6 @@
 export const DiceCommands = {
   coin: {
-    label: "Coin toss",
+    label: "Coin",
     roll() {
       const coin = ["H", "T"];
       return coin[getRandomIndex(2)].toString();
