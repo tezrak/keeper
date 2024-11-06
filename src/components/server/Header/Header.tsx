@@ -14,6 +14,7 @@ import {
   Grid,
   Link,
   Theme,
+  Tooltip,
   VisuallyHidden,
 } from "@radix-ui/themes";
 import confetti from "canvas-confetti";
@@ -121,59 +122,66 @@ export function Header(props: { theme?: ThemeType }) {
           <Box className="hidden sm:inline-block">
             <DiceRoller theme={props.theme} />
           </Box>
-          <a href={AppUrl.docs()}>
-            <Button
-              radius="full"
-              size="3"
-              variant="ghost"
-              className="m-0 hidden md:inline-block"
-              style={{
-                fontFamily,
-              }}
-            >
-              <ReaderIcon className="h-[24px] w-[24px]" />
-            </Button>
-          </a>
-
-          <a
-            href={AppUrl.search({})}
-            aria-label="Search"
-            className="hidden lg:inline-flex"
-          >
-            <Button radius="full" size="3" variant="ghost" className="m-0">
-              <MagnifyingGlassIcon className="h-[24px] w-[24px]" />
-            </Button>
-          </a>
-
-          <Button
-            radius="full"
-            size="3"
-            id="themeToggle"
-            onClick={handleThemeButtonClick}
-            variant="ghost"
-            className="m-0"
-          >
-            <SunIcon className="sun h-[24px] w-[24px]" />
-            <MoonIcon className="moon h-[24px] w-[24px]" />
-          </Button>
-          <Box className="hidden sm:inline-block">{renderSupportButton()}</Box>
-
-          <Dialog.Root open={open}>
-            <Dialog.Trigger
-              onClick={() => {
-                return setOpen((prev) => !prev);
-              }}
-            >
+          <Tooltip content="Documentation">
+            <a href={AppUrl.docs()}>
               <Button
                 radius="full"
                 size="3"
-                id="themeToggle"
                 variant="ghost"
-                className="m-0 inline-flex lg:hidden"
+                className="m-0 hidden md:inline-block"
+                style={{
+                  fontFamily,
+                }}
               >
-                <HamburgerMenuIcon className="h-[24px] w-[24px]" />
+                <ReaderIcon className="h-[24px] w-[24px]" />
               </Button>
-            </Dialog.Trigger>
+            </a>
+          </Tooltip>
+          <Tooltip content="Search">
+            <a
+              href={AppUrl.search({})}
+              aria-label="Search"
+              className="hidden lg:inline-flex"
+            >
+              <Button radius="full" size="3" variant="ghost" className="m-0">
+                <MagnifyingGlassIcon className="h-[24px] w-[24px]" />
+              </Button>
+            </a>
+          </Tooltip>
+
+          <Tooltip content="Change Theme">
+            <Button
+              radius="full"
+              size="3"
+              id="themeToggle"
+              onClick={handleThemeButtonClick}
+              variant="ghost"
+              className="m-0"
+            >
+              <SunIcon className="sun h-[24px] w-[24px]" />
+              <MoonIcon className="moon h-[24px] w-[24px]" />
+            </Button>
+          </Tooltip>
+          <Box className="hidden sm:inline-block">{renderSupportButton()}</Box>
+
+          <Dialog.Root open={open}>
+            <Tooltip content="Menu">
+              <Dialog.Trigger
+                onClick={() => {
+                  return setOpen((prev) => !prev);
+                }}
+              >
+                <Button
+                  radius="full"
+                  size="3"
+                  id="themeToggle"
+                  variant="ghost"
+                  className="m-0 inline-flex lg:hidden"
+                >
+                  <HamburgerMenuIcon className="h-[24px] w-[24px]" />
+                </Button>
+              </Dialog.Trigger>
+            </Tooltip>
 
             <Dialog.Content size={"3"}>
               <Dialog.Content size={"4"}>
@@ -210,7 +218,12 @@ export function Header(props: { theme?: ThemeType }) {
                   <Link href="search" color="gray">
                     Search
                   </Link>
-                  {renderSupportButton()}
+                  <Link href={AppUrl.patreon()} color="gray">
+                    Support on Patreon
+                  </Link>
+                  <Link href={AppUrl.kofi()} color="gray">
+                    Buy a Coffee
+                  </Link>
                 </Flex>
               </Dialog.Content>
             </Dialog.Content>
@@ -225,17 +238,19 @@ export function Header(props: { theme?: ThemeType }) {
       <>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <Button
-              radius="full"
-              size="3"
-              variant="solid"
-              className={clsx([
-                "relative",
-                "before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]",
-              ])}
-            >
-              <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
-            </Button>
+            <Tooltip content="Oh?">
+              <Button
+                radius="full"
+                size="3"
+                variant="solid"
+                className={clsx([
+                  "relative",
+                  "before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]",
+                ])}
+              >
+                <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
+              </Button>
+            </Tooltip>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Item

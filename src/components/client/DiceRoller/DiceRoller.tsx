@@ -6,6 +6,7 @@ import {
   Flex,
   Text,
   Theme,
+  Tooltip,
 } from "@radix-ui/themes";
 import clsx from "clsx";
 import { CircleOff, Dices, XIcon } from "lucide-react";
@@ -145,15 +146,17 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
       {renderButton ? (
         <>
           <Dialog.Root open={open}>
-            <Dialog.Trigger
-              onClick={() => {
-                return setOpen(true);
-              }}
-            >
-              <Button radius="full" size="3" variant="ghost" className="m-0">
-                <Dices />
-              </Button>
-            </Dialog.Trigger>
+            <Tooltip content="Dice Roller">
+              <Dialog.Trigger
+                onClick={() => {
+                  return setOpen(true);
+                }}
+              >
+                <Button radius="full" size="3" variant="ghost" className="m-0">
+                  <Dices />
+                </Button>
+              </Dialog.Trigger>
+            </Tooltip>
 
             <Dialog.Content size={"4"}>
               <Dialog.Title className="relative">
