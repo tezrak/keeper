@@ -11,6 +11,9 @@ export const AppUrl = {
   docs() {
     return "/docs/";
   },
+  kofi() {
+    return "https://ko-fi.com/farirpgs";
+  },
   patreon() {
     return "https://www.patreon.com/bePatron?u=43408921";
   },

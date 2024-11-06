@@ -2,6 +2,7 @@ import { Box, Button, Container, Flex, Grid, Text } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
 import { Card } from "../../components/client/Card/Card";
 import { MDXH1, MDXH2 } from "../../components/client/MDX/MDX";
+import { GameWarningBanner } from "../../components/server/GameWarningBanner/GameWarningBanner";
 import { AppUrl } from "../../domains/app-url/AppUrl";
 import { Colors, type ColorType } from "../../domains/colors/colors";
 import { getRandomElement } from "../../domains/utils/random";
@@ -21,6 +22,15 @@ export function HomeRoute(props: {
 }) {
   return (
     <>
+      {renderHeader()}
+
+      {renderResources()}
+      {renderGames()}
+    </>
+  );
+
+  function renderHeader() {
+    return (
       <Container size="4">
         <Flex
           direction={{
@@ -43,9 +53,9 @@ export function HomeRoute(props: {
                 <br />
                 <Blinker
                   texts={[
-                    "character keeper",
                     "resource collection",
                     "dice roller",
+                    "character keeper",
                   ]}
                 />
               </MDXH1>
@@ -97,125 +107,139 @@ export function HomeRoute(props: {
           </Flex>
         </Flex>
       </Container>
+    );
+  }
 
-      <Box pt="4" id="get-started">
-        <MDXH2> Games </MDXH2>
-      </Box>
-      <Grid
-        columns={{
-          sm: "2",
-          lg: "3",
-        }}
-        gap="6"
-        width="auto"
-      >
-        {props.topGames.map((item) => {
-          return (
-            <Card
-              key={item.game.slug}
-              href={AppUrl.game({
-                slug: item.game.slug,
-              })}
-              title={item.game.data.name}
-              subtitle={item.creator.data.name}
-              accentColor={
-                item.game.data.image === undefined
-                  ? getRandomElement<ColorType>(
-                      Colors.getAccentColors() as any,
-                      item.game.data.name,
-                    )
-                  : undefined
-              }
-            >
-              {item.game.data.image ? (
-                <img
-                  loading={"eager"}
-                  //   quality={"low"}
-                  src={item.game.data.image.src}
-                  alt={item.game.data.name}
-                  style={{
-                    position: "absolute",
-                    objectFit: "cover",
-                    objectPosition: "left",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                />
-              ) : null}
-            </Card>
-          );
-        })}
-      </Grid>
-      <a
-        href={AppUrl.search({
-          type: "games",
-        })}
-        className="flex justify-center align-middle"
-      >
-        <Button size="4" className="">
-          View all
-        </Button>
-      </a>
+  function renderResources() {
+    return (
+      <>
+        <Box pt="4" id="get-started">
+          <MDXH2> Resources </MDXH2>
+        </Box>
+        <Grid
+          columns={{
+            sm: "2",
+            lg: "3",
+          }}
+          gap="6"
+          width="auto"
+        >
+          {props.topResources.map((item) => {
+            return (
+              <Card
+                key={item.resource.slug}
+                href={AppUrl.resource({
+                  slug: item.resource.slug,
+                })}
+                title={item.resource.data.name}
+                subtitle={item.creator.data.name}
+                accentColor={
+                  item.resource.data.image === undefined
+                    ? getRandomElement<ColorType>(
+                        Colors.getAccentColors() as any,
+                        item.resource.data.name,
+                      )
+                    : undefined
+                }
+              >
+                {item.resource.data.image ? (
+                  <img
+                    loading={"eager"}
+                    //   quality={"low"}
+                    src={item.resource.data.image.src}
+                    alt={item.resource.data.name}
+                    style={{
+                      position: "absolute",
+                      objectFit: "cover",
+                      objectPosition: "left",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                ) : null}
+              </Card>
+            );
+          })}
+        </Grid>
 
-      <Box pt="4" id="get-started">
-        <MDXH2> Resources </MDXH2>
-      </Box>
-      <Grid
-        columns={{
-          sm: "2",
-          lg: "3",
-        }}
-        gap="6"
-        width="auto"
-      >
-        {props.topResources.map((item) => {
-          return (
-            <Card
-              key={item.resource.slug}
-              href={AppUrl.resource({
-                slug: item.resource.slug,
-              })}
-              title={item.resource.data.name}
-              subtitle={item.creator.data.name}
-              accentColor={
-                item.resource.data.image === undefined
-                  ? getRandomElement<ColorType>(
-                      Colors.getAccentColors() as any,
-                      item.resource.data.name,
-                    )
-                  : undefined
-              }
-            >
-              {item.resource.data.image ? (
-                <img
-                  loading={"eager"}
-                  //   quality={"low"}
-                  src={item.resource.data.image.src}
-                  alt={item.resource.data.name}
-                  style={{
-                    position: "absolute",
-                    objectFit: "cover",
-                    objectPosition: "left",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                />
-              ) : null}
-            </Card>
-          );
-        })}
-      </Grid>
+        <a
+          href={AppUrl.search({
+            type: "resources",
+          })}
+          className="flex justify-center align-middle"
+        >
+          <Button size="4" className="">
+            View all
+          </Button>
+        </a>
+      </>
+    );
+  }
 
-      <a
-        href={AppUrl.search({
-          type: "resources",
-        })}
-        className="flex justify-center align-middle"
-      >
-        <Button size="4" className="">
-          View all
-        </Button>
-      </a>
-    </>
-  );
+  function renderGames() {
+    return (
+      <>
+        <Flex pt="4" id="get-started" gap="2" direction="column">
+          <MDXH2> Games </MDXH2>
+
+          <GameWarningBanner></GameWarningBanner>
+        </Flex>
+        <Grid
+          columns={{
+            sm: "2",
+            lg: "3",
+          }}
+          gap="6"
+          width="auto"
+        >
+          {props.topGames.map((item) => {
+            return (
+              <Card
+                key={item.game.slug}
+                href={AppUrl.game({
+                  slug: item.game.slug,
+                })}
+                title={item.game.data.name}
+                subtitle={item.creator.data.name}
+                accentColor={
+                  item.game.data.image === undefined
+                    ? getRandomElement<ColorType>(
+                        Colors.getAccentColors() as any,
+                        item.game.data.name,
+                      )
+                    : undefined
+                }
+              >
+                {item.game.data.image ? (
+                  <img
+                    loading={"eager"}
+                    //   quality={"low"}
+                    src={item.game.data.image.src}
+                    alt={item.game.data.name}
+                    style={{
+                      position: "absolute",
+                      objectFit: "cover",
+                      objectPosition: "left",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                ) : null}
+              </Card>
+            );
+          })}
+        </Grid>
+        <a
+          href={AppUrl.search({
+            type: "games",
+          })}
+          className="flex justify-center align-middle"
+        >
+          <Button size="4" className="">
+            View all
+          </Button>
+        </a>
+      </>
+    );
+  }
 }

@@ -9,19 +9,22 @@ import {
   Box,
   Button,
   Dialog,
+  DropdownMenu,
   Flex,
   Grid,
   Link,
+  Theme,
   VisuallyHidden,
 } from "@radix-ui/themes";
-import { SquareLibrary, XIcon } from "lucide-react";
+import confetti from "canvas-confetti";
+import { PartyPopperIcon, SquareLibrary, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppUrl } from "../../../domains/app-url/AppUrl";
 import type { ThemeType } from "../../../domains/utils/getTheme";
+import { wait } from "../../../domains/utils/wait";
 import { DiceRoller } from "../../client/DiceRoller/DiceRoller";
 import { getSurfaceStyle } from "../../client/Surface/getSurfaceStyle";
 import { NameLogo } from "./Logo";
-import { Patreon } from "./Patreon";
 
 const fontFamily =
   "-apple-system, BlinkMacSystemFont, 'Segoe UI (Custom)', Roboto, 'Helvetica Neue', 'Open Sans (Custom)', system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'";
@@ -77,7 +80,7 @@ export function Header(props: { theme?: ThemeType }) {
   }, []);
 
   return (
-    <>
+    <Theme {...props.theme} hasBackground={false} className="min-h-0">
       <Grid
         justify={"between"}
         align={"center"}
@@ -140,23 +143,8 @@ export function Header(props: { theme?: ThemeType }) {
               <MagnifyingGlassIcon className="h-[24px] w-[24px]" />
             </Button>
           </a>
-          <a href={AppUrl.patreon()} target="_blank">
-            <Button
-              radius="full"
-              size="3"
-              variant="ghost"
-              className="m-0 hidden lg:inline-flex"
-            >
-              <Patreon />
-              <span
-                style={{
-                  fontFamily,
-                }}
-              >
-                Support
-              </span>
-            </Button>
-          </a>
+          <Box className="hidden sm:inline-block">{renderSupportButton()}</Box>
+          {/* <Box className="inline-block">{renderSupportButton()}</Box> */}
 
           <Button
             radius="full"
@@ -221,15 +209,93 @@ export function Header(props: { theme?: ThemeType }) {
                   <Link href="search" color="gray">
                     Search
                   </Link>
-                  <Link href="https://farirpgs.com/patreon" color="gray">
-                    Support
-                  </Link>
+                  {renderSupportButton()}
                 </Flex>
               </Dialog.Content>
             </Dialog.Content>
           </Dialog.Root>
         </Flex>
       </Grid>
-    </>
+    </Theme>
   );
+
+  function renderSupportButton() {
+    return (
+      <>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <Button radius="full" size="3" variant="ghost" className="m-0">
+              <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Item
+              onClick={async () => {
+                await shootConfetti(3);
+                // await wait(1000);
+                window.open(AppUrl.kofi(), "_blank");
+              }}
+            >
+              Buy a Coffee
+            </DropdownMenu.Item>
+
+            <DropdownMenu.Item
+              onClick={async () => {
+                await shootConfetti(3);
+                // await wait(1000);
+                window.open(AppUrl.patreon(), "_blank");
+              }}
+            >
+              Support on Patreon
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </>
+    );
+  }
+}
+
+async function shootConfetti(numberOfTimes: number) {
+  var scalar = 5;
+
+  const unicorn = confetti.shapeFromText({ text: "☕", scalar });
+
+  const defaults = {
+    spread: 360,
+    ticks: 60,
+    gravity: 0,
+    decay: 0.96,
+    startVelocity: 20,
+    shapes: [unicorn],
+    scalar,
+  };
+
+  function shoot() {
+    confetti({
+      ...defaults,
+      particleCount: 30,
+    });
+
+    confetti({
+      ...defaults,
+      particleCount: 5,
+      flat: true,
+    });
+
+    confetti({
+      ...defaults,
+      particleCount: 15,
+      scalar: scalar / 2,
+      shapes: ["circle"],
+    });
+  }
+
+  for (let i = 0; i < numberOfTimes; i++) {
+    shoot();
+    await wait(100);
+    shoot();
+    await wait(200);
+    shoot();
+    await wait(500);
+  }
 }

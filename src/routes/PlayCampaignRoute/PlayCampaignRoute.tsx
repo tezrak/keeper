@@ -26,6 +26,7 @@ import {
 import clsx from "clsx";
 import { NothingToShowHere } from "../../components/client/NothingToShowHere/NothingToShowHere";
 import { getSurfaceStyle } from "../../components/client/Surface/getSurfaceStyle";
+import { GameWarningBanner } from "../../components/server/GameWarningBanner/GameWarningBanner";
 import {
   CampaignContext,
   useCampaign,
@@ -56,6 +57,7 @@ export function PlayCampaignRoute(props: {
 
   return (
     <Theme {...props.theme} hasBackground={false}>
+      <GameWarningBanner></GameWarningBanner>
       <Box className="hidden lg:block">
         {id && (
           <Game
