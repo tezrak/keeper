@@ -224,7 +224,7 @@ export function Header(props: { theme?: ThemeType }) {
       <>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <Button radius="full" size="3" variant="ghost" className="m-0">
+            <Button radius="full" size="3" variant="solid" className="m-0">
               <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
             </Button>
           </DropdownMenu.Trigger>
