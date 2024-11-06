@@ -31,6 +31,8 @@ const propsSchema = z
 
 export type Props = z.input<typeof propsSchema>;
 
+const MAX_HISTORY = 5;
+
 export function MDXRollingTable(p: Props) {
   const props = propsSchema.parse(p);
   const campaignManager = useContext(CampaignContext);
@@ -44,7 +46,7 @@ export function MDXRollingTable(p: Props) {
 
   async function handleRollOnTable() {
     setRolling(true);
-    await wait(150);
+    await wait(75);
 
     if (props.items) {
       const randomIndex = Math.floor(Math.random() * props.items.length);
@@ -70,16 +72,14 @@ export function MDXRollingTable(p: Props) {
   }
 
   useEffect(() => {
-    if (rollHistory.length > 3) {
-      setRollHistory((prev) => prev.slice(0, 3));
+    if (rollHistory.length > MAX_HISTORY) {
+      setRollHistory((prev) => prev.slice(0, MAX_HISTORY));
     }
   }, [rollHistory]);
 
-  // rollHistory, but add empty elements if dont match 3 elements
-
   const derp = [...rollHistory];
 
-  const numberOfMissingItems = 3 - derp.length;
+  const numberOfMissingItems = MAX_HISTORY - derp.length;
   if (numberOfMissingItems > 0) {
     for (let i = 0; i < numberOfMissingItems; i++) {
       derp.push("");
