@@ -117,6 +117,7 @@ export function ResourceRoute(props: {
       >
         {props.doc.previousPage && (
           <Link
+            className="w-[33%]"
             href={AppUrl.resourcePage({
               slug: props.resource.slug,
               page: props.doc.previousPage.id,
@@ -143,6 +144,7 @@ export function ResourceRoute(props: {
         )}
         {props.doc.nextPage && (
           <Link
+            className="w-[33%]"
             href={AppUrl.resourcePage({
               slug: props.resource.slug,
               page: props.doc.nextPage.id,
