@@ -42,8 +42,8 @@ export function PreviewGameAssetRoute(props: {
               <InfoCircledIcon />
             </Callout.Icon>
             <Callout.Text>
-              This sheet is currently in <b>read-only mode</b>. If you want to
-              make changes, you can create a new campaign.
+              This sheet is <b>read-only</b>. If you want to make changes, you
+              can create a new campaign.
             </Callout.Text>
           </Callout.Root>
           <MDXH1>{props.currentAsset?.data.name}</MDXH1>
