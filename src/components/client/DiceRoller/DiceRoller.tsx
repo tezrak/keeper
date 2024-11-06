@@ -27,6 +27,9 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
       command: DiceCommandsType;
     }>
   >([]);
+  const [animatedResultIndexes, setAnimatedResultIndexes] = useState<
+    Array<number>
+  >([]);
 
   const [selectedResultIndexes, setSelectedResultIndexes] = useState<
     Array<number>
@@ -64,6 +67,7 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
 
     return Math.min(acc, parseInt(result.value));
   }, Infinity);
+  const isAnimating = animatedResultIndexes.length > 0;
 
   function handleDiceClick(diceCommand: DiceCommandsType) {
     const result = DiceCommands[diceCommand].roll();
@@ -122,6 +126,18 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
     setResults([]);
     setSelectedResultIndexes([]);
     setOpen(false);
+  }
+
+  function addAnimatedResultIndex(index: number) {
+    setAnimatedResultIndexes((prev) => {
+      return [...prev, index];
+    });
+  }
+
+  function removeAnimatedResultIndex(index: number) {
+    setAnimatedResultIndexes((prev) => {
+      return prev.filter((i) => i !== index);
+    });
   }
 
   return (
@@ -217,6 +233,13 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
                   watch={result}
                   result={result.value}
                   animate={true}
+                  onAnimatingChange={(animating) => {
+                    if (animating) {
+                      addAnimatedResultIndex(index);
+                    } else {
+                      removeAnimatedResultIndex(index);
+                    }
+                  }}
                 ></AnimatedResult>
               </Text>
               <div>
@@ -250,7 +273,7 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
           color={selectedResultIndexes.length > 0 ? undefined : "gray"}
           variant={selectedResultIndexes.length > 0 ? "surface" : "outline"}
         >
-          Total: {totalResult === 0 ? "-" : totalResult}
+          Total: {isAnimating || totalResult === 0 ? "-" : totalResult}
         </Badge>
         <Badge
           size="2"
@@ -260,7 +283,8 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
           color={selectedResultIndexes.length > 0 ? undefined : "gray"}
           variant={selectedResultIndexes.length > 0 ? "surface" : "outline"}
         >
-          Highest: {highestResult === -Infinity ? "-" : highestResult}
+          Highest:{" "}
+          {isAnimating || highestResult === -Infinity ? "-" : highestResult}
         </Badge>
         <Badge
           size="2"
@@ -270,7 +294,8 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
           color={selectedResultIndexes.length > 0 ? undefined : "gray"}
           variant={selectedResultIndexes.length > 0 ? "surface" : "outline"}
         >
-          Lowest: {lowestResult === Infinity ? "-" : lowestResult}
+          Lowest:{" "}
+          {isAnimating || lowestResult === Infinity ? "-" : lowestResult}
         </Badge>
       </Flex>
     );
@@ -357,6 +382,7 @@ export function AnimatedResult(props: {
   result: string;
   animate: boolean;
   possibleResults?: Array<string>;
+  onAnimatingChange?: (animating: boolean) => void;
 }) {
   const possibleResults = props.possibleResults || [
     "▁",
@@ -374,10 +400,14 @@ export function AnimatedResult(props: {
     "▃",
     "▁",
   ];
-  const [, setAnimating] = useState(false);
+  const [animating, setAnimating] = useState(false);
   const defaultResult = props.animate ? possibleResults[0] : props.result;
   const [visibleResult, setVisibleResult] = useState(defaultResult);
   const loadingIndexRef = useRef(0);
+
+  useEffect(() => {
+    props.onAnimatingChange?.(animating);
+  }, [animating]);
 
   useEffect(() => {
     let timeout: any;
@@ -387,8 +417,8 @@ export function AnimatedResult(props: {
       setAnimating(true);
       timeout = setTimeout(() => {
         if (count >= 15) {
-          setAnimating(false);
           setVisibleResult(props.result);
+          setAnimating(false);
           return;
         } else {
           count++;
