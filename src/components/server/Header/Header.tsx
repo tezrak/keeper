@@ -17,6 +17,7 @@ import {
   VisuallyHidden,
 } from "@radix-ui/themes";
 import confetti from "canvas-confetti";
+import clsx from "clsx";
 import { PartyPopperIcon, SquareLibrary, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppUrl } from "../../../domains/app-url/AppUrl";
@@ -143,8 +144,6 @@ export function Header(props: { theme?: ThemeType }) {
               <MagnifyingGlassIcon className="h-[24px] w-[24px]" />
             </Button>
           </a>
-          <Box className="hidden sm:inline-block">{renderSupportButton()}</Box>
-          {/* <Box className="inline-block">{renderSupportButton()}</Box> */}
 
           <Button
             radius="full"
@@ -157,6 +156,8 @@ export function Header(props: { theme?: ThemeType }) {
             <SunIcon className="sun h-[24px] w-[24px]" />
             <MoonIcon className="moon h-[24px] w-[24px]" />
           </Button>
+          <Box className="hidden sm:inline-block">{renderSupportButton()}</Box>
+
           <Dialog.Root open={open}>
             <Dialog.Trigger
               onClick={() => {
@@ -224,7 +225,15 @@ export function Header(props: { theme?: ThemeType }) {
       <>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <Button radius="full" size="3" variant="solid" className="m-0">
+            <Button
+              radius="full"
+              size="3"
+              variant="solid"
+              className={clsx([
+                "relative",
+                "before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]",
+              ])}
+            >
               <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
             </Button>
           </DropdownMenu.Trigger>
@@ -232,7 +241,6 @@ export function Header(props: { theme?: ThemeType }) {
             <DropdownMenu.Item
               onClick={async () => {
                 await shootConfetti(3);
-                // await wait(1000);
                 window.open(AppUrl.kofi(), "_blank");
               }}
             >
@@ -242,7 +250,6 @@ export function Header(props: { theme?: ThemeType }) {
             <DropdownMenu.Item
               onClick={async () => {
                 await shootConfetti(3);
-                // await wait(1000);
                 window.open(AppUrl.patreon(), "_blank");
               }}
             >
