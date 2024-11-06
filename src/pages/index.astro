@@ -13,22 +13,6 @@ const sortedGame = shuffledGames.sort((a, b) => {
   return b.game.data.weight - a.game.data.weight;
 });
 const topGames = sortedGame.slice(0, 9);
-// for (const game of topGames) {
-//   if (game.game.data.image) {
-//     console.log("ASDASASD", {
-//       imageSrc: game.game.data.image,
-//       importmetaurl: import.meta.url,
-//       url: new URL(game.game.data.image, import.meta.url).toString(),
-//     });
-
-//     game.game.data.image = (await getImage({
-//       src: new URL(game.game.data.image, import.meta.url).toString(),
-
-//       format: "webp",
-//     })) as any;
-//     console.log(game.game.data.image);
-//   }
-// }
 
 const { resources } = await DLAstro.getAllResourcesWithCreator({});
 const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
@@ -36,17 +20,6 @@ const sortedResources = shuffledResources.sort((a, b) => {
   return b.resource.data.weight - a.resource.data.weight;
 });
 const topResources = sortedResources.slice(0, 9);
-// for (const resource of topResources) {
-//   if (resource.resource.data.image) {
-//     resource.resource.data.image = (await getImage({
-//       src: new URL(
-//         resource.resource.data.image.src,
-//         import.meta.url
-//       ).toString(),
-//       format: "webp",
-//     })) as any;
-//   }
-// }
 
 const logoSrc = LogoSrc.src;
 ---

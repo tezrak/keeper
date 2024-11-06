@@ -1,0 +1,14 @@
+---
+import { getTheme } from "../domains/utils/getTheme";
+import Layout from "../layouts/Layout.astro";
+import { NotFoundRoute } from "../routes/NotFoundRoute/NotFoundRoute";
+---
+
+<Layout withOgImage title={undefined} description={undefined} withDefaultBanner>
+  <NotFoundRoute
+    client:load
+    theme={getTheme({
+      theme: {},
+    })}
+  />
+</Layout>
