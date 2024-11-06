@@ -279,7 +279,6 @@ async function shootConfetti(numberOfTimes: number) {
     confetti({
       ...defaults,
       particleCount: 5,
-      flat: true,
     });
 
     confetti({
