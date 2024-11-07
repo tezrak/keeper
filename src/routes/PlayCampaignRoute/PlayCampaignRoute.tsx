@@ -57,29 +57,31 @@ export function PlayCampaignRoute(props: {
 
   return (
     <Theme {...props.theme} hasBackground={false}>
-      <GameWarningBanner></GameWarningBanner>
-      <Box className="hidden lg:block">
-        {id && (
-          <Game
-            id={id}
-            game={props.game}
-            creator={props.creator}
-            assets={props.assets}
-          ></Game>
-        )}
-      </Box>
-      <Box className="lg:hidden">
-        <NothingToShowHere
-          icon={Smartphone}
-          title={"Open on Desktop"}
-          description={
-            <>
-              This page is not meant to be viewed on mobile. Please make your
-              window bigger or open it in a desktop browser.
-            </>
-          }
-        ></NothingToShowHere>
-      </Box>
+      <Flex gap="5" direction="column">
+        <GameWarningBanner></GameWarningBanner>
+        <Box className="hidden lg:block">
+          {id && (
+            <Game
+              id={id}
+              game={props.game}
+              creator={props.creator}
+              assets={props.assets}
+            ></Game>
+          )}
+        </Box>
+        <Box className="lg:hidden">
+          <NothingToShowHere
+            icon={Smartphone}
+            title={"Open on Desktop"}
+            description={
+              <>
+                This page is not meant to be viewed on mobile. Please make your
+                window bigger or open it in a desktop browser.
+              </>
+            }
+          ></NothingToShowHere>
+        </Box>
+      </Flex>
     </Theme>
   );
 }
