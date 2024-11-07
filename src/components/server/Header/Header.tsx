@@ -237,8 +237,8 @@ export function Header(props: { theme?: ThemeType }) {
     return (
       <>
         <DropdownMenu.Root>
-          <DropdownMenu.Trigger>
-            <Tooltip content="Oh?">
+          <Tooltip content="Oh?">
+            <DropdownMenu.Trigger>
               <Button
                 radius="full"
                 size="3"
@@ -250,8 +250,8 @@ export function Header(props: { theme?: ThemeType }) {
               >
                 <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
               </Button>
-            </Tooltip>
-          </DropdownMenu.Trigger>
+            </DropdownMenu.Trigger>
+          </Tooltip>
           <DropdownMenu.Content>
             <DropdownMenu.Item
               onClick={async () => {
