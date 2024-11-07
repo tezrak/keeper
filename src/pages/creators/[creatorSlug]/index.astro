@@ -1,31 +1,20 @@
 ---
-import { Flex, Grid } from "@radix-ui/themes";
 import type {
   GetStaticPathsItem,
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
-import { Image } from "astro:assets";
-import { Card } from "../../../components/client/Card/Card";
-import {
-  MDXH1,
-  MDXH2,
-  MDXWrapper,
-  getMdxComponents,
-} from "../../../components/client/MDX/MDX";
-import { AppUrl } from "../../../domains/app-url/AppUrl";
-import { Colors, type ColorType } from "../../../domains/colors/colors";
+import { getImage } from "astro:assets";
 import { DLAstro } from "../../../domains/dl/DLAstro";
 import { shuffleWithSeed } from "../../../domains/dl/shuffleWithSeed";
 import { getTheme } from "../../../domains/utils/getTheme";
-import { getRandomElement } from "../../../domains/utils/random";
 import Layout from "../../../layouts/Layout.astro";
+import { CreatorRoute } from "../../../routes/CreatorRoute/CreatorRoute";
 
 export type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const props = Astro.props as Props;
-const params = Astro.params as Params;
 
 const { creator, games, resources } = await DLAstro.getCreator({
   slug: props.creatorSlug,
@@ -35,32 +24,44 @@ const { creator, games, resources } = await DLAstro.getCreator({
 
 const currentDateOfTheMonth = new Date().getDate();
 const shuffledGames = shuffleWithSeed(games, currentDateOfTheMonth);
-const sortedGame = shuffledGames.sort((a, b) => {
-  return b.data.weight - a.data.weight;
-});
+const sortedGames = shuffledGames.sort((a, b) => b.data.weight - a.data.weight);
+for (const game of sortedGames) {
+  if (game.data.image) {
+    const optimizedImage = await getImage({
+      src: game.data.image,
+      format: "webp",
+      quality: "low",
+    });
+    game.data._optimizedImageSrc = optimizedImage.src;
+  }
+}
+
 const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
-const sortedResources = shuffledResources.sort((a, b) => {
-  return b.data.weight - a.data.weight;
-});
+const sortedResources = shuffledResources.sort(
+  (a, b) => b.data.weight - a.data.weight
+);
+for (const resource of sortedResources) {
+  if (resource.data.image) {
+    const optimizedImage = await getImage({
+      src: resource.data.image,
+      format: "webp",
+      quality: "low",
+    });
+    resource.data._optimizedImageSrc = optimizedImage.src;
+  }
+}
 
-const { Content } = await creator.render();
-
-const theme = getTheme({
-  theme: {},
-});
+const theme = getTheme({ theme: {} });
 
 export async function getStaticPaths() {
   const { creators } = await DLAstro.getAllCreators();
-  return creators.map((creator) => {
-    return {
-      params: {
-        creatorSlug: creator.slug,
-      },
-      props: {
-        creatorSlug: creator.slug,
-      },
-    } satisfies GetStaticPathsItem;
-  });
+  return creators.map(
+    (creator) =>
+      ({
+        params: { creatorSlug: creator.slug },
+        props: { creatorSlug: creator.slug },
+      }) satisfies GetStaticPathsItem
+  );
 }
 ---
 
@@ -70,117 +71,10 @@ export async function getStaticPaths() {
   description={creator.data.description}
   theme={theme}
 >
-  <Flex direction="column" gap="5">
-    <MDXH1>{creator.data.name}</MDXH1>
-
-    <MDXWrapper>
-      <Content
-        components={{
-          ...getMdxComponents({}),
-        }}
-      />
-    </MDXWrapper>
-    {
-      sortedGame.length && (
-        <>
-          <MDXH2>Games</MDXH2>
-
-          <Grid
-            columns={{
-              sm: "2",
-              lg: "3",
-            }}
-            gap="6"
-            width="auto"
-          >
-            {sortedGame.map((game) => {
-              return (
-                <Card
-                  client:idle
-                  href={AppUrl.game({ slug: game.slug })}
-                  title={game.data.name}
-                  subtitle={creator.data.name}
-                  accentColor={
-                    game.data.image === undefined
-                      ? getRandomElement<ColorType>(
-                          Colors.getAccentColors() as any,
-                          game.data.name
-                        )
-                      : undefined
-                  }
-                >
-                  {game.data.image && (
-                    <Image
-                      quality={"low"}
-                      loading={"eager"}
-                      src={game.data.image}
-                      alt={game.data.name}
-                      style={{
-                        position: "absolute",
-                        objectFit: "cover",
-                        objectPosition: "left",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  )}
-                </Card>
-              );
-            })}
-          </Grid>
-        </>
-      )
-    }
-    {
-      sortedResources.length > 0 && (
-        <>
-          <MDXH2>Resources</MDXH2>
-
-          <Grid
-            columns={{
-              sm: "2",
-              lg: "3",
-            }}
-            gap="6"
-            width="auto"
-          >
-            {sortedResources.map((resource) => {
-              return (
-                <Card
-                  client:idle
-                  href={AppUrl.resource({ slug: resource.slug })}
-                  title={resource.data.name}
-                  subtitle={creator.data.name}
-                  accentColor={
-                    resource.data.image === undefined
-                      ? getRandomElement<ColorType>(
-                          Colors.getAccentColors() as any,
-                          resource.data.name
-                        )
-                      : undefined
-                  }
-                >
-                  {resource.data.image && (
-                    <Image
-                      quality={"low"}
-                      loading={"eager"}
-                      src={resource.data.image}
-                      alt={resource.data.name}
-                      style={{
-                        position: "absolute",
-                        objectFit: "cover",
-                        objectPosition: "left",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  )}
-                </Card>
-              );
-            })}
-          </Grid>
-        </>
-      )
-    }
-  </Flex>
+  <CreatorRoute
+    client:load
+    creator={creator}
+    games={sortedGames}
+    resources={sortedResources}
+  />
 </Layout>
