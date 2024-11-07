@@ -152,7 +152,13 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
                   return setOpen(true);
                 }}
               >
-                <Button radius="full" size="3" variant="ghost" className="m-0">
+                <Button
+                  radius="full"
+                  size="3"
+                  variant="ghost"
+                  className="m-0"
+                  aria-label="Dice Roller"
+                >
                   <Dices />
                 </Button>
               </Dialog.Trigger>

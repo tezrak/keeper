@@ -9,7 +9,6 @@ import { getRandomElement } from "../../domains/utils/random";
 import { Blinker } from "./components/Blinker";
 
 export function HomeRoute(props: {
-  logo: string;
   topGames: Array<{
     game: CollectionEntry<"games">;
     creator: CollectionEntry<"creators">;
@@ -70,7 +69,7 @@ export function HomeRoute(props: {
                 Hundreds of games you can play right here in your browser.{" "}
                 <br /> Accessible, fast, and free.
               </Text>
-              <Flex direction="row" gap="4">
+              <Flex gap="4" className="flex-col md:flex-row">
                 <a href="#get-started">
                   <Button size="4" radius="full" className="">
                     Get Started
@@ -94,15 +93,15 @@ export function HomeRoute(props: {
               className="absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] animate-blur rounded-lg opacity-60"
               style={{
                 backgroundImage:
-                  "linear-gradient(to right top, var(--jade-10), var(--jade-7), var(--jade-8), var(--jade-9), var(--jade-11))",
+                  "linear-gradient(to right top, var(--accent-10), var(--accent-7), var(--accent-8), var(--accent-9), var(--accent-11))",
               }}
             />
             <img
               loading={"eager"}
-              src={props.logo}
+              src={"/keeper/logo (bg-black).svg"}
               alt="Keeper"
               width={1000}
-              className={"rounded-lg"}
+              className={"rounded-2xl"}
             />
           </Flex>
         </Flex>

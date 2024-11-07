@@ -1,11 +1,9 @@
 ---
 import { getImage } from "astro:assets";
-import { LogoSrc } from "../components/server/Header/Logo";
 import { DLAstro } from "../domains/dl/DLAstro";
 import { shuffleWithSeed } from "../domains/dl/shuffleWithSeed";
 import Layout from "../layouts/Layout.astro";
 import { HomeRoute } from "../routes/HomeRoute/HomeRoute";
-
 const currentDateOfTheMonth = new Date().getDate();
 
 const { resources } = await DLAstro.getAllResourcesWithCreator({});
@@ -43,15 +41,8 @@ for (const game of topGames) {
     game.game.data._optimizedImageSrc = optimizedImage.src;
   }
 }
-
-const logoSrc = LogoSrc.src;
 ---
 
 <Layout withOgImage title={undefined} description={undefined} withDefaultBanner>
-  <HomeRoute
-    client:load
-    logo={logoSrc}
-    topGames={topGames}
-    topResources={topResources}
-  />
+  <HomeRoute client:load topGames={topGames} topResources={topResources} />
 </Layout>

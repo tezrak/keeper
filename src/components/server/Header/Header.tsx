@@ -109,30 +109,37 @@ export function Header(props: { theme?: ThemeType }) {
             <DiceRoller theme={props.theme} />
           </Box>
           <Tooltip content="Documentation">
-            <a href={AppUrl.docs()} aria-label="Documentation">
-              <Button
-                radius="full"
-                size="3"
-                variant="ghost"
-                className="m-0 hidden md:inline-block"
-                style={{
-                  fontFamily,
-                }}
-              >
+            <Button
+              radius="full"
+              size="3"
+              variant="ghost"
+              className="m-0 hidden md:inline-block"
+              style={{
+                fontFamily,
+              }}
+              asChild
+            >
+              <a href={AppUrl.docs()} aria-label="Documentation">
                 <ReaderIcon className="h-[24px] w-[24px]" />
-              </Button>
-            </a>
+              </a>
+            </Button>
           </Tooltip>
           <Tooltip content="Search">
-            <a
-              href={AppUrl.search({})}
-              aria-label="Search"
-              className="hidden lg:inline-flex"
+            <Button
+              radius="full"
+              size="3"
+              variant="ghost"
+              className="m-0"
+              asChild
             >
-              <Button radius="full" size="3" variant="ghost" className="m-0">
+              <a
+                href={AppUrl.search({})}
+                aria-label="Search"
+                className="hidden lg:inline-flex"
+              >
                 <MagnifyingGlassIcon className="h-[24px] w-[24px]" />
-              </Button>
-            </a>
+              </a>
+            </Button>
           </Tooltip>
 
           <Tooltip content="Change Theme">
@@ -235,6 +242,7 @@ export function Header(props: { theme?: ThemeType }) {
                   "relative",
                   "before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]",
                 ])}
+                aria-label="Oh?"
               >
                 <PartyPopperIcon className="h-[24px] w-[24px]"></PartyPopperIcon>
               </Button>

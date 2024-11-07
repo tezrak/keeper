@@ -2,7 +2,7 @@ import type { ThemeProps } from "@radix-ui/themes";
 
 export function getTheme(props: { theme?: ThemeProps }) {
   const themeProps = {
-    accentColor: props.theme?.accentColor || "gold",
+    accentColor: props.theme?.accentColor || "iris",
     panelBackground: "translucent" as ThemeProps["panelBackground"],
     scaling: "110%" as ThemeProps["scaling"],
   };
