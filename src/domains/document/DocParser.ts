@@ -7,7 +7,7 @@ export class DocParser {
   #content: string;
   #pages: Array<IPageElement>;
   #indexes: Array<ISearchIndex>;
-  #currentPage: IPageElement;
+  #currentPage: IPageElement | undefined;
   #nextPage: IPageElement | undefined;
   #previousPage: IPageElement | undefined;
   #sidebar: ISidebar;
@@ -23,7 +23,7 @@ export class DocParser {
     this.#indexes = indexes;
     this.#sidebar = sidebar;
 
-    const currentPageId = this.options.currentChapterId ?? this.#pages[0].id;
+    const currentPageId = this.options.currentChapterId ?? this.#pages[0]?.id;
     const currentPageIndex = this.#pages.findIndex(
       (page) => page.id === currentPageId,
     );
@@ -31,7 +31,7 @@ export class DocParser {
     this.#previousPage = this.#pages[currentPageIndex - 1];
     this.#nextPage = this.#pages[currentPageIndex + 1];
 
-    this.#content = this.#currentPage.content;
+    this.#content = this.#currentPage?.content || "";
   }
 
   getDoc() {
@@ -49,7 +49,7 @@ export class DocParser {
 
   async getMDXContent() {
     const result = await evaluateMdx({
-      mdx: this.#currentPage.content,
+      mdx: this.#currentPage?.content || "",
     });
 
     return result;

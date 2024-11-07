@@ -71,7 +71,14 @@ export function Header(props: { theme?: ThemeType }) {
         }}
       >
         <Flex justify={"start"}>
-          <Link href={AppUrl.home()} highContrast>
+          <Link
+            href={AppUrl.home()}
+            highContrast
+            onContextMenu={(e) => {
+              e.preventDefault();
+              window.open("/keeper-logo.svg", "_blank");
+            }}
+          >
             <NameLogo className="h-[1.25rem] fill-[currentColor]" />
           </Link>
         </Flex>
@@ -233,7 +240,7 @@ export function Header(props: { theme?: ThemeType }) {
           <DropdownMenu.Content>
             <DropdownMenu.Item
               onClick={async () => {
-                await shootConfetti(3);
+                await shootConfetti(2);
                 window.open(AppUrl.kofi(), "_blank");
               }}
             >
@@ -242,7 +249,7 @@ export function Header(props: { theme?: ThemeType }) {
 
             <DropdownMenu.Item
               onClick={async () => {
-                await shootConfetti(3);
+                await shootConfetti(2);
                 window.open(AppUrl.patreon(), "_blank");
               }}
             >

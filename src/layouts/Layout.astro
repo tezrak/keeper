@@ -59,9 +59,6 @@ const themeProps = getTheme({
   theme: props.theme,
 });
 
-const favicon = await getImage({
-  src: LogoSrc,
-});
 const googleFontUrl =
   fontsAsString &&
   encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
@@ -86,7 +83,7 @@ const ogImageUrl = props.withOgImage
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href={favicon.src} />
+    <link rel="icon" type="image/svg+xml" href={"/keeper/favicon.svg"} />
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 

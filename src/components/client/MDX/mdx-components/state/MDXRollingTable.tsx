@@ -46,7 +46,7 @@ export function MDXRollingTable(p: Props) {
 
   async function handleRollOnTable() {
     setRolling(true);
-    await wait(75);
+    await wait(50);
 
     if (props.items) {
       const randomIndex = Math.floor(Math.random() * props.items.length);
@@ -77,12 +77,12 @@ export function MDXRollingTable(p: Props) {
     }
   }, [rollHistory]);
 
-  const derp = [...rollHistory];
+  const maxRollHistory = [...rollHistory];
 
-  const numberOfMissingItems = MAX_HISTORY - derp.length;
+  const numberOfMissingItems = MAX_HISTORY - maxRollHistory.length;
   if (numberOfMissingItems > 0) {
     for (let i = 0; i < numberOfMissingItems; i++) {
-      derp.push("");
+      maxRollHistory.push("");
     }
   }
 
@@ -100,11 +100,11 @@ export function MDXRollingTable(p: Props) {
             >
               <Dices></Dices>
             </IconButton>
-            <MDXLabel>{props.name}</MDXLabel>
+            <MDXLabel>{props.name}</MDXLabel>{" "}
           </Flex>
           {rollHistory.length > 0 && (
             <Box>
-              {derp.map((item, index) => {
+              {maxRollHistory.map((item, index) => {
                 const isLatest = index === 0;
                 return (
                   <Text
@@ -113,7 +113,7 @@ export function MDXRollingTable(p: Props) {
                     key={index}
                     className={clsx(
                       isLatest && "font-bold text-[--accent-11]",
-                      !isLatest && "text-[--gray-11]",
+                      !isLatest && "text-[--gray-9]",
                     )}
                   >
                     {index + 1}
@@ -123,6 +123,9 @@ export function MDXRollingTable(p: Props) {
                 );
               })}
             </Box>
+          )}
+          {rollHistory.length === 0 && (
+            <Text size="1">Click on the dice to roll on the table</Text>
           )}
         </Flex>
       </Card>

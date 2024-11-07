@@ -5,7 +5,6 @@ import type {
   InferGetStaticPropsType,
 } from "astro";
 import { Image } from "astro:assets";
-import { getMdxComponents } from "../../../../../components/client/MDX/MDX";
 import Banner from "../../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../../domains/dl/DLAstro";
 import { DocParser } from "../../../../../domains/document/DocParser";
@@ -36,8 +35,6 @@ const parser = new DocParser({
 });
 
 const doc = parser.getDoc();
-
-const MDXContent = await parser.getMDXContent();
 
 export async function getStaticPaths() {
   const { resources } = await DLAstro.getAllResourcesWithCreator({});
@@ -73,8 +70,8 @@ export async function getStaticPaths() {
 ---
 
 <Layout
-  title={[doc.currentPage.title, resource.data.name]}
-  description={doc.currentPage.content}
+  title={[doc.currentPage?.title || "", resource.data.name]}
+  description={doc.currentPage?.content}
   theme={theme}
   withOgImage
 >
@@ -85,6 +82,7 @@ export async function getStaticPaths() {
     theme={theme}
     doc={doc}
     pathname={Astro.url.pathname}
+    content={doc.currentPage?.content}
   >
     {
       resource.data.image && (
@@ -97,15 +95,6 @@ export async function getStaticPaths() {
           src={resource.data.image}
           alt={resource.data.name}
           slot="image"
-        />
-      )
-    }
-    {
-      MDXContent && (
-        <MDXContent
-          components={{
-            ...getMdxComponents({}),
-          }}
         />
       )
     }

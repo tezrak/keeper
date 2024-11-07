@@ -61,8 +61,8 @@ export async function getStaticPaths() {
 ---
 
 <Layout
-  title={[doc.currentPage.title, resource.data.name]}
-  description={doc.currentPage.content}
+  title={[doc.currentPage?.title || "", resource.data.name]}
+  description={doc.currentPage?.content}
   theme={theme}
   withOgImage
 >
@@ -73,6 +73,7 @@ export async function getStaticPaths() {
     theme={theme}
     doc={doc}
     pathname={Astro.url.pathname}
+    content={doc.currentPage?.content}
   >
     {
       resource.data.image && (

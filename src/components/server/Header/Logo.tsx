@@ -1,4 +1,4 @@
-import logoSrc from "./logo.png";
+import logoSrc from "../../../../public/keeper/logo.svg";
 export const LogoSrc = logoSrc;
 
 export function NameLogo(props: {

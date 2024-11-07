@@ -20,7 +20,7 @@ export default defineConfig({
       title: "Keeper Documentation",
       disable404Route: true,
       logo: {
-        src: "./src/assets/keeper-logo.svg",
+        src: "./public/keeper/name.svg",
         replacesTitle: true,
       },
       sidebar: [

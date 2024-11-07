@@ -13,10 +13,20 @@ import {
 import type { CollectionEntry } from "astro:content";
 import clsx from "clsx";
 import React from "react";
-import { MDXH1, MDXH4, MDXWrapper } from "../../components/client/MDX/MDX";
+import {
+  getMdxComponents,
+  MDXH1,
+  MDXH4,
+  MDXWrapper,
+} from "../../components/client/MDX/MDX";
 import { AppUrl } from "../../domains/app-url/AppUrl";
+import {
+  CampaignContext,
+  useCampaign,
+} from "../../domains/campaign/useCampaign";
 import { Colors } from "../../domains/colors/colors";
 import type { DocType } from "../../domains/document/DocParser";
+import { evaluateMdxSync } from "../../domains/mdx/evaluateMdx";
 import type { ThemeType } from "../../domains/utils/getTheme";
 
 export function ResourceRoute(props: {
@@ -26,78 +36,96 @@ export function ResourceRoute(props: {
   doc: DocType;
   theme: ThemeType;
   pathname: string;
+  content: string | undefined;
   children: any;
 }) {
   const [open, setOpen] = React.useState(false);
+  const campaignManager = useCampaign({
+    id: "",
+  });
+
+  const MDXContent = evaluateMdxSync({
+    mdx: props.content,
+  });
 
   return (
     <Theme {...props.theme} hasBackground={false}>
-      <div className="flex gap-9">
-        <div className="hidden flex-shrink-0 flex-grow basis-[300px] lg:flex">
-          <Box
-            className="sticky top-6 overflow-y-auto"
-            style={{
-              maxHeight: "calc(100vh - 32px)",
-            }}
-          >
-            {renderSidebar({
-              withImage: true,
-            })}
-          </Box>
-        </div>
-        <div className="block w-full">
-          <MDXWrapper>
-            <MDXH1 mb="1">{props.doc.currentPage.title}</MDXH1>
-            <MDXH4 color="gray" className="mt-[-.5rem]" size="6" mb="4">
-              {props.resource.data.name}
-            </MDXH4>
-            {props.children}
-
-            {renderPreviousAndNextButtons()}
-            {renderEditButton()}
-          </MDXWrapper>
-        </div>
-      </div>
-      <Dialog.Root open={open}>
-        <Box className="fixed bottom-0 left-0 right-0 w-full bg-black lg:hidden">
-          <Dialog.Trigger
-            onClick={() => {
-              return setOpen((prev) => !prev);
-            }}
-          >
-            <Button
-              variant="solid"
-              size="4"
-              radius="none"
-              className="fixed bottom-0 left-0 right-0 w-full lg:hidden"
+      <CampaignContext.Provider value={campaignManager}>
+        <div className="flex gap-9">
+          <div className="hidden flex-shrink-0 flex-grow basis-[300px] lg:flex">
+            <Box
+              className="sticky top-6 overflow-y-auto"
+              style={{
+                maxHeight: "calc(100vh - 32px)",
+              }}
             >
-              <HamburgerMenuIcon
-                width={"1.5rem"}
-                height={"1.5rem"}
-              ></HamburgerMenuIcon>
-            </Button>
-          </Dialog.Trigger>
-        </Box>
-
-        <Dialog.Content size={"3"}>
-          {renderSidebar({
-            withImage: false,
-          })}
-          <Flex gap="3" justify="end">
-            <Dialog.Close>
+              {renderSidebar({
+                withImage: true,
+              })}
+            </Box>
+          </div>
+          <div className="block w-full">
+            <MDXWrapper>
+              <MDXH1 mb="1">{props.doc.currentPage?.title || ""}</MDXH1>
+              <MDXH4 color="gray" className="mt-[-.5rem]" size="6" mb="4">
+                {props.resource.data.name}
+              </MDXH4>
+              {props.children}
+              {MDXContent && (
+                <MDXWrapper>
+                  <MDXContent
+                    components={{
+                      ...getMdxComponents({}),
+                    }}
+                  ></MDXContent>
+                </MDXWrapper>
+              )}
+              {renderPreviousAndNextButtons()}
+              {renderEditButton()}
+            </MDXWrapper>
+          </div>
+        </div>
+        <Dialog.Root open={open}>
+          <Box className="fixed bottom-0 left-0 right-0 w-full bg-black lg:hidden">
+            <Dialog.Trigger
+              onClick={() => {
+                return setOpen((prev) => !prev);
+              }}
+            >
               <Button
-                variant="soft"
-                color="gray"
-                onClick={() => {
-                  return setOpen((prev) => !prev);
-                }}
+                variant="solid"
+                size="4"
+                radius="none"
+                className="fixed bottom-0 left-0 right-0 w-full lg:hidden"
               >
-                Close
+                <HamburgerMenuIcon
+                  width={"1.5rem"}
+                  height={"1.5rem"}
+                ></HamburgerMenuIcon>
               </Button>
-            </Dialog.Close>
-          </Flex>
-        </Dialog.Content>
-      </Dialog.Root>
+            </Dialog.Trigger>
+          </Box>
+
+          <Dialog.Content size={"3"}>
+            {renderSidebar({
+              withImage: false,
+            })}
+            <Flex gap="3" justify="end">
+              <Dialog.Close>
+                <Button
+                  variant="soft"
+                  color="gray"
+                  onClick={() => {
+                    return setOpen((prev) => !prev);
+                  }}
+                >
+                  Close
+                </Button>
+              </Dialog.Close>
+            </Flex>
+          </Dialog.Content>
+        </Dialog.Root>
+      </CampaignContext.Provider>
     </Theme>
   );
 
@@ -180,7 +208,7 @@ export function ResourceRoute(props: {
           <Link
             href={AppUrl.githubResource({
               slug: props.resource.slug,
-              page: props.doc.currentPage.gitHubId,
+              page: props.doc.currentPage?.gitHubId || "",
             })}
           >
             <Button variant="ghost" color="gray" size="4" className="m-0">
@@ -225,7 +253,7 @@ export function ResourceRoute(props: {
                 });
                 const isFirstPage =
                   !props.doc.previousPage &&
-                  props.doc.currentPage.id === item.id;
+                  props.doc.currentPage?.id === item.id;
                 const isCurrent = itemPatname === props.pathname || isFirstPage;
 
                 return (
@@ -248,7 +276,7 @@ export function ResourceRoute(props: {
             page: item.id,
           });
           const isFirstPage =
-            !props.doc.previousPage && props.doc.currentPage.id === item.id;
+            !props.doc.previousPage && props.doc.currentPage?.id === item.id;
           const isCurrent = itemPatname === props.pathname || isFirstPage;
 
           return (
@@ -269,7 +297,7 @@ export function ResourceRoute(props: {
   function renderToc() {
     return (
       <>
-        {props.doc.currentPage.toc.map((toc) => {
+        {props.doc.currentPage?.toc.map((toc) => {
           return (
             <React.Fragment key={toc.id}>
               {renderLink({
