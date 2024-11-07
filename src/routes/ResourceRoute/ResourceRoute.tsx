@@ -45,7 +45,7 @@ export function ResourceRoute(props: {
   });
 
   const MDXContent = evaluateMdxSync({
-    mdx: props.content,
+    mdx: props.content || "",
   });
 
   return (
