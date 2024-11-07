@@ -90,7 +90,7 @@ export function HomeRoute(props: {
             className="relative initial:hidden md:flex"
           >
             <Box
-              className="absolute z-[-1] h-[calc(100%+2rem)] w-[calc(100%+2rem)] animate-blur rounded-lg opacity-60"
+              className="absolute z-[-1] hidden h-[calc(100%+2rem)] w-[calc(100%+2rem)] animate-blur rounded-lg opacity-60 dark:block"
               style={{
                 backgroundImage:
                   "linear-gradient(to right top, var(--accent-10), var(--accent-7), var(--accent-8), var(--accent-9), var(--accent-11))",
