@@ -29,3 +29,44 @@
   --sl-color-gray-7: #f4f7f3;
   --sl-color-black: #ffffff;
 }
+
+/* Logo Style */
+
+.title-wrapper img {
+  filter: invert(1);
+  height: 1.5rem;
+}
+
+:root[data-theme="light"] .title-wrapper img {
+  filter: invert(0);
+}
+
+[data-theme="light"]
+/* List styles*/
+main ol {
+  list-style-type: decimal;
+  margin-left: 1.5em;
+  line-height: 1.6;
+}
+
+main ol li {
+  margin-bottom: 0.5em;
+}
+
+main ol li::marker {
+  color: var(--sl-color-accent);
+}
+
+main ul {
+  list-style-type: disc;
+  margin-left: 1.5em;
+  line-height: 1.6;
+}
+
+main ul li {
+  margin-bottom: 0.5em;
+}
+
+main ul li::marker {
+  color: var(--sl-color-accent);
+}

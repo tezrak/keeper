@@ -17,8 +17,12 @@ export default defineConfig({
   }),
   integrations: [
     starlight({
-      title: "Keeper Doc",
+      title: "Keeper Documentation",
       disable404Route: true,
+      logo: {
+        src: "./src/assets/keeper-logo.svg",
+        replacesTitle: true,
+      },
       sidebar: [
         {
           label: "Documentation",
@@ -27,10 +31,11 @@ export default defineConfig({
           },
         },
       ],
-      customCss: [
-        // Relative path to your custom CSS file
-        "./src/styles/docs.css",
-      ],
+      customCss: ["./src/styles/docs.css"],
+      social: {
+        discord: "https://farirpgs.com/discord",
+        github: "https://github.com/farirpgs/keeper",
+      },
     }),
     react(),
     tailwind(),
