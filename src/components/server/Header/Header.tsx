@@ -74,6 +74,7 @@ export function Header(props: { theme?: ThemeType }) {
           <Link
             href={AppUrl.home()}
             highContrast
+            aria-label="Home"
             onContextMenu={(e) => {
               e.preventDefault();
               window.open("/keeper-logo.svg", "_blank");
@@ -108,7 +109,7 @@ export function Header(props: { theme?: ThemeType }) {
             <DiceRoller theme={props.theme} />
           </Box>
           <Tooltip content="Documentation">
-            <a href={AppUrl.docs()}>
+            <a href={AppUrl.docs()} aria-label="Documentation">
               <Button
                 radius="full"
                 size="3"
@@ -142,6 +143,7 @@ export function Header(props: { theme?: ThemeType }) {
               onClick={handleThemeButtonClick}
               variant="ghost"
               className="m-0"
+              aria-label="Change Theme"
             >
               <SunIcon className="sun h-[24px] w-[24px]" />
               <MoonIcon className="moon h-[24px] w-[24px]" />
@@ -162,6 +164,7 @@ export function Header(props: { theme?: ThemeType }) {
                   id="themeToggle"
                   variant="ghost"
                   className="m-0 inline-flex lg:hidden"
+                  aria-label="Menu"
                 >
                   <HamburgerMenuIcon className="h-[24px] w-[24px]" />
                 </Button>
