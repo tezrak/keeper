@@ -45,28 +45,6 @@ export function Header(props: { theme?: ThemeType }) {
   }
 
   useEffect(() => {
-    // get theme
-    let theme = undefined;
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      theme = localStorage.getItem("theme");
-    } else {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        theme = "dark";
-      } else {
-        theme = "light";
-      }
-    }
-    // update html + localStorage
-    if (theme === "light") {
-      document.documentElement.classList.add("light");
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    }
-
-    window.localStorage.setItem("theme", theme as any);
-
     document.addEventListener("astro:after-swap", handleAstroNavigation);
 
     return () => {
