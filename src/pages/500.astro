@@ -1,0 +1,18 @@
+---
+import { getTheme } from "../domains/utils/getTheme";
+import Layout from "../layouts/Layout.astro";
+import { ServerErrorRoute } from "../routes/ServerErrorRoute/ServerErrorRoute";
+interface Props {
+  error: unknown;
+}
+---
+
+<Layout title={["500: Server Error"]} description={undefined} withDefaultBanner>
+  <ServerErrorRoute
+    client:load
+    theme={getTheme({
+      theme: {},
+    })}
+    error={Astro.props.error}
+  />
+</Layout>
