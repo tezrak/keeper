@@ -28,6 +28,7 @@ export const collections = {
         image: ctx.image().optional(),
         theme: themeSchema,
         weight: z.number().optional().default(0),
+        _optimizedImageSrc: z.string().optional(),
       }),
   }),
   assets: defineCollection({
@@ -57,6 +58,7 @@ export const collections = {
         theme: themeSchema,
         weight: z.number().optional().default(0),
         license: z.string().optional(),
+        _optimizedImageSrc: z.string().optional(),
       }),
   }),
   docs: defineCollection({ schema: docsSchema() }),

@@ -145,8 +145,7 @@ export function HomeRoute(props: {
                 {item.resource.data.image ? (
                   <img
                     loading={"eager"}
-                    //   quality={"low"}
-                    src={item.resource.data.image.src}
+                    src={item.resource.data._optimizedImageSrc}
                     alt={item.resource.data.name}
                     style={{
                       position: "absolute",
@@ -213,8 +212,7 @@ export function HomeRoute(props: {
                 {item.game.data.image ? (
                   <img
                     loading={"eager"}
-                    //   quality={"low"}
-                    src={item.game.data.image.src}
+                    src={item.game.data._optimizedImageSrc}
                     alt={item.game.data.name}
                     style={{
                       position: "absolute",

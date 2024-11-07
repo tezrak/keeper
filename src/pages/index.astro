@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import { LogoSrc } from "../components/server/Header/Logo";
 import { DLAstro } from "../domains/dl/DLAstro";
 import { shuffleWithSeed } from "../domains/dl/shuffleWithSeed";
@@ -7,6 +8,24 @@ import { HomeRoute } from "../routes/HomeRoute/HomeRoute";
 
 const currentDateOfTheMonth = new Date().getDate();
 
+const { resources } = await DLAstro.getAllResourcesWithCreator({});
+const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
+const sortedResources = shuffledResources.sort((a, b) => {
+  return b.resource.data.weight - a.resource.data.weight;
+});
+
+const topResources = sortedResources.slice(0, 9);
+for (const resource of topResources) {
+  if (resource.resource.data.image) {
+    const optimizedImage = await getImage({
+      src: resource.resource.data.image,
+      format: "webp",
+      quality: "low",
+    });
+    resource.resource.data._optimizedImageSrc = optimizedImage.src;
+  }
+}
+
 const { games } = await DLAstro.getAllGamesWithCreator({});
 const shuffledGames = shuffleWithSeed(games, currentDateOfTheMonth);
 const sortedGame = shuffledGames.sort((a, b) => {
@@ -14,12 +33,16 @@ const sortedGame = shuffledGames.sort((a, b) => {
 });
 const topGames = sortedGame.slice(0, 9);
 
-const { resources } = await DLAstro.getAllResourcesWithCreator({});
-const shuffledResources = shuffleWithSeed(resources, currentDateOfTheMonth);
-const sortedResources = shuffledResources.sort((a, b) => {
-  return b.resource.data.weight - a.resource.data.weight;
-});
-const topResources = sortedResources.slice(0, 9);
+for (const game of topGames) {
+  if (game.game.data.image) {
+    const optimizedImage = await getImage({
+      src: game.game.data.image,
+      format: "webp",
+      quality: "low",
+    });
+    game.game.data._optimizedImageSrc = optimizedImage.src;
+  }
+}
 
 const logoSrc = LogoSrc.src;
 ---
