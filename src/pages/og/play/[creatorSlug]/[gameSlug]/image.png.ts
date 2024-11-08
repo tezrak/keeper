@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getImage } from "astro:assets";
 import { DLAstro } from "../../../../../domains/dl/DLAstro";
 import { renderOgImage } from "../../../../../domains/og-image/renderOgImage";
 
@@ -17,10 +18,19 @@ export const GET: APIRoute = async (ctx) => {
     includeCreator: true,
   });
 
+  const backgroundImage = await getImage({
+    src: game.data.image as any,
+    format: "png",
+    quality: "low",
+  });
+
   return await renderOgImage({
-    title: "Playing " + game.data.name,
-    description: game.body,
+    title: game.data.name,
+    description: "",
     footerItems: [`By ${creator!.data.name}`],
     ctx: ctx,
+    src: backgroundImage.src,
+
+    accentColor: game.data.theme?.accentColor,
   });
 };

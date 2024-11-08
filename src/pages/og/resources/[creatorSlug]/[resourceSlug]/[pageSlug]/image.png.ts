@@ -35,8 +35,8 @@ export const GET: APIRoute = async (ctx) => {
 
   return await renderOgImage({
     ctx: ctx,
-    title: resource.data.name,
-    description: doc.currentPage?.title || "",
+    title: doc.currentPage?.title || "",
+    description: resource.data.name,
     footerItems: [`By ${creator!.data.name}`],
     src: backgroundImage.src,
     accentColor: resource.data.theme?.accentColor,

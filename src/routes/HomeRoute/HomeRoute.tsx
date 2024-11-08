@@ -66,7 +66,7 @@ export function HomeRoute(props: {
                 }}
                 mb="5"
               >
-                Hundreds of games you can play right here in your browser.{" "}
+                Roll dice, store characters, and design your own worlds.
                 <br /> Accessible, fast, and free.
               </Text>
               <Flex gap="4" className="flex-col md:flex-row">

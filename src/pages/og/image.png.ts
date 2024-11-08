@@ -10,7 +10,8 @@ export const GET: APIRoute = async (ctx) => {
 
   return await renderOgImage({
     title: "Keeper",
-    description: "The best way to play your favorite TTRPGs",
+    description:
+      "The ultimate TTRPG toolbox. Roll dice, store characters, and design your own worlds.",
     ctx: ctx,
   });
 };
