@@ -33,10 +33,11 @@ export const AppUrl = {
     const [creatorSegment, resourceSegment, languageSegment] =
       props.slug.split("/");
 
+    const pageSegment = props.page ? `${props.page}/` : "";
     if (languageSegment) {
-      return `/resources/${creatorSegment}/${resourceSegment}.${languageSegment}/${props.page}/`;
+      return `/resources/${creatorSegment}/${resourceSegment}.${languageSegment}${pageSegment}`;
     }
-    return `/resources/${props.slug}/${props.page}/`;
+    return `/resources/${props.slug}${pageSegment}`;
   },
   asset(props: { slug: CollectionEntry<"assets">["slug"] }) {
     return `/games/${props.slug}/`;

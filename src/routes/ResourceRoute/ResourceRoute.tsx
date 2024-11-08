@@ -8,6 +8,7 @@ import {
   IconButton,
   Inset,
   Link,
+  Select,
   Text,
   Theme,
 } from "@radix-ui/themes";
@@ -34,6 +35,7 @@ import type { ThemeType } from "../../domains/utils/getTheme";
 export function ResourceRoute(props: {
   creator: CollectionEntry<"creators">;
   resource: CollectionEntry<"resources">;
+  locales: Array<string>;
   image?: React.ReactNode;
   doc: DocType;
   theme: ThemeType;
@@ -56,7 +58,7 @@ export function ResourceRoute(props: {
         <div className="flex gap-9">
           <div className="hidden flex-shrink-0 flex-grow basis-[300px] lg:flex">
             <Box
-              className="sticky top-6 overflow-y-auto"
+              className="sticky top-6 overflow-y-auto pb-9"
               style={{
                 maxHeight: "calc(100vh - 32px)",
               }}
@@ -318,6 +320,38 @@ export function ResourceRoute(props: {
               </Flex>
             );
           })}
+        </Box>
+        <Box>
+          <Select.Root
+            defaultValue={props.resource.data._locale}
+            size={"1"}
+            onValueChange={(newLocale) => {
+              location.href = AppUrl.resourcePage({
+                slug: [
+                  props.resource.data._slugWithoutLocale,
+                  newLocale === "en" ? "" : newLocale,
+                ].join("/") as CollectionEntry<"resources">["slug"],
+                page: "",
+              });
+            }}
+          >
+            <Select.Trigger />
+            <Select.Content>
+              {props.locales.map((locale) => {
+                const codeToWord: Record<string, string> = {
+                  en: "English",
+                  es: "Español",
+                  fr: "Français",
+                  it: "Italiano",
+                };
+                return (
+                  <Select.Item key={locale} value={locale}>
+                    {codeToWord[locale]}
+                  </Select.Item>
+                );
+              })}
+            </Select.Content>
+          </Select.Root>
         </Box>
       </Flex>
     );

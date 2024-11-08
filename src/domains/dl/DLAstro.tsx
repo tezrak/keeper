@@ -102,14 +102,41 @@ export const DLAstro = {
     slug: CollectionEntry<"resources">["slug"];
     includeCreator?: boolean;
   }) {
+    const [creatorSlug, resourceSlug, locale] = props.slug.split("/");
+    const slugWithoutLocale = [creatorSlug, resourceSlug].join("/");
+    const currentLocale = locale || "en";
     const resource = await getEntry("resources", props.slug);
+    const translations = await getCollection("resources", (element) => {
+      return element.slug.startsWith(slugWithoutLocale);
+    });
+
+    const locales = translations
+      .map((element) => {
+        const language = element.slug
+          .replace(slugWithoutLocale, "")
+          .replace("/", "");
+        return language || "en";
+      })
+      .sort((a, b) => {
+        if (a === "en") {
+          return -1;
+        }
+        if (b === "en") {
+          return 1;
+        }
+
+        return a.localeCompare(b);
+      });
+
+    resource.data._locale = currentLocale;
+    resource.data._slugWithoutLocale = slugWithoutLocale;
 
     if (props.includeCreator) {
       const creator = await getEntry("creators", resource.data.creator.slug);
-      return { resource, creator };
+      return { resource, creator, locales };
     }
 
-    return { resource };
+    return { resource, locales };
   },
   async getAllResourcesWithCreator(props: { includeTranslations?: boolean }) {
     const resources = await getCollection("resources", (resource) => {

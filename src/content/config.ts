@@ -59,6 +59,8 @@ export const collections = {
         weight: z.number().optional().default(0),
         license: z.string().optional(),
         _optimizedImageSrc: z.string().optional(),
+        _slugWithoutLocale: z.string().optional(),
+        _locale: z.string().optional(),
       }),
   }),
   docs: defineCollection({ schema: docsSchema() }),

@@ -18,10 +18,13 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const { creator, resource } = await DLAstro.getResource({
-  slug: (params.creatorSlug +
-    "/" +
-    params.resourceSlug) as CollectionEntry<"resources">["slug"],
+const resourceSlug = [
+  params.creatorSlug,
+  ...params.resourceSlug.split("."),
+].join("/") as CollectionEntry<"resources">["slug"];
+
+const { creator, resource, locales } = await DLAstro.getResource({
+  slug: resourceSlug,
   includeCreator: true,
 });
 
@@ -36,10 +39,10 @@ const parser = new DocParser({
 });
 const doc = parser.getDoc();
 
-const MDXContent = await parser.getMDXContent();
-
 export async function getStaticPaths() {
-  const { resources } = await DLAstro.getAllResourcesWithCreator({});
+  const { resources } = await DLAstro.getAllResourcesWithCreator({
+    includeTranslations: true,
+  });
   return resources.map((item) => {
     const [creatorSegment, resourceSegment, languageSegment] =
       item.resource.slug.split("/");
@@ -70,6 +73,7 @@ export async function getStaticPaths() {
     resource={resource}
     theme={theme}
     doc={doc}
+    locales={locales}
     pathname={Astro.url.pathname}
     content={doc.currentPage?.content}
   >
