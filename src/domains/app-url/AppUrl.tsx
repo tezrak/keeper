@@ -35,9 +35,9 @@ export const AppUrl = {
 
     const pageSegment = props.page ? `${props.page}/` : "";
     if (languageSegment) {
-      return `/resources/${creatorSegment}/${resourceSegment}.${languageSegment}${pageSegment}`;
+      return `/resources/${creatorSegment}/${resourceSegment}.${languageSegment}/${pageSegment}`;
     }
-    return `/resources/${props.slug}${pageSegment}`;
+    return `/resources/${props.slug}/${pageSegment}`;
   },
   asset(props: { slug: CollectionEntry<"assets">["slug"] }) {
     return `/games/${props.slug}/`;
