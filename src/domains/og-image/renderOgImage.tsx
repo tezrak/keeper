@@ -74,9 +74,17 @@ export async function renderOgImage(props: {
         },
       ],
       debug: false,
+      headers: {
+        "Cache-Control": "public, max-age=0, must-revalidate",
+        "Netlify-CDN-Cache-Control": `public, durable, s-maxage=${oneDay}, stale-while-revalidate=${oneWeek}`,
+      },
     },
   );
 }
+const oneMinute = 60;
+const oneHour = oneMinute * 60;
+const oneDay = oneHour * 24;
+const oneWeek = oneDay * 7;
 
 function OGImage(props: {
   ctx: APIContext | undefined;
