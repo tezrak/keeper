@@ -117,11 +117,6 @@ export function ResourceRoute(props: {
           <Dialog.Content size={"3"}>
             <Flex gap={"3"} direction={"column"}>
               <Box>
-                <MDXH3>{props.resource.data.name}</MDXH3>
-                <Text size={"4"}>By {props.creator.data.name}</Text>
-              </Box>
-
-              <Box>
                 {renderSidebar({
                   withImage: false,
                 })}
@@ -243,70 +238,87 @@ export function ResourceRoute(props: {
 
   function renderSidebar(p: { withImage?: boolean }) {
     return (
-      <Flex direction="column" mb="5">
-        {props.image && p.withImage && (
-          <Box className="pb-5">
-            <Inset clip="padding-box" side="top" pb="current">
-              {props.image}
-            </Inset>
+      <Flex direction="column" gap="3">
+        <Flex direction={"column"} gap="2">
+          {props.image && p.withImage && (
+            <Box className="">
+              <Inset clip="padding-box" side="top" pb="current">
+                {props.image}
+              </Inset>
+            </Box>
+          )}
+          <Box>
+            <MDXH3>{props.resource.data.name}</MDXH3>
+            <Link
+              href={AppUrl.creator({
+                slug: props.creator.slug,
+              })}
+              color="gray"
+              className="hover:text-[--accent-12]"
+            >
+              <Text size={"4"}>By {props.creator.data.name}</Text>
+            </Link>
           </Box>
-        )}
-        {Object.keys(props.doc.sidebar.categories).map((category) => {
-          return (
-            <React.Fragment key={category}>
-              <Heading
-                size="1"
-                mt="3"
-                mb="1"
-                className="uppercase"
-                color="gray"
-              >
-                {category}
-              </Heading>
-              {props.doc.sidebar.categories[category].map((item) => {
-                const itemPatname = AppUrl.resourcePage({
-                  slug: props.resource.slug,
-                  page: item.id,
-                });
-                const isFirstPage =
-                  !props.doc.previousPage &&
-                  props.doc.currentPage?.id === item.id;
-                const isCurrent = itemPatname === props.pathname || isFirstPage;
+        </Flex>
+        <Box>
+          {Object.keys(props.doc.sidebar.categories).map((category) => {
+            return (
+              <React.Fragment key={category}>
+                <Heading
+                  size="1"
+                  mt="3"
+                  mb="1"
+                  className="uppercase"
+                  color="gray"
+                >
+                  {category}
+                </Heading>
+                {props.doc.sidebar.categories[category].map((item) => {
+                  const itemPatname = AppUrl.resourcePage({
+                    slug: props.resource.slug,
+                    page: item.id,
+                  });
+                  const isFirstPage =
+                    !props.doc.previousPage &&
+                    props.doc.currentPage?.id === item.id;
+                  const isCurrent =
+                    itemPatname === props.pathname || isFirstPage;
 
-                return (
-                  <React.Fragment key={item.id}>
-                    {renderLink({
-                      isCurrent,
-                      href: itemPatname,
-                      title: item.title,
-                    })}
-                    {isCurrent && renderToc()}
-                  </React.Fragment>
-                );
-              })}
-            </React.Fragment>
-          );
-        })}
-        {props.doc.sidebar.root.map((item) => {
-          const itemPatname = AppUrl.resourcePage({
-            slug: props.resource.slug,
-            page: item.id,
-          });
-          const isFirstPage =
-            !props.doc.previousPage && props.doc.currentPage?.id === item.id;
-          const isCurrent = itemPatname === props.pathname || isFirstPage;
+                  return (
+                    <React.Fragment key={item.id}>
+                      {renderLink({
+                        isCurrent,
+                        href: itemPatname,
+                        title: item.title,
+                      })}
+                      {isCurrent && renderToc()}
+                    </React.Fragment>
+                  );
+                })}
+              </React.Fragment>
+            );
+          })}
+          {props.doc.sidebar.root.map((item) => {
+            const itemPatname = AppUrl.resourcePage({
+              slug: props.resource.slug,
+              page: item.id,
+            });
+            const isFirstPage =
+              !props.doc.previousPage && props.doc.currentPage?.id === item.id;
+            const isCurrent = itemPatname === props.pathname || isFirstPage;
 
-          return (
-            <Flex key={item.id} direction="column">
-              {renderLink({
-                isCurrent: isCurrent,
-                href: itemPatname,
-                title: item.title,
-              })}
-              {isCurrent && renderToc()}
-            </Flex>
-          );
-        })}
+            return (
+              <Flex key={item.id} direction="column">
+                {renderLink({
+                  isCurrent: isCurrent,
+                  href: itemPatname,
+                  title: item.title,
+                })}
+                {isCurrent && renderToc()}
+              </Flex>
+            );
+          })}
+        </Box>
       </Flex>
     );
   }
