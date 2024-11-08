@@ -158,7 +158,12 @@ export function Header(props: { theme?: ThemeType }) {
           </Tooltip>
           <Box className="hidden sm:inline-block">{renderSupportButton()}</Box>
 
-          <Dialog.Root open={open}>
+          <Dialog.Root
+            open={open}
+            onOpenChange={(open) => {
+              setOpen(open);
+            }}
+          >
             <Tooltip content="Menu">
               <Dialog.Trigger
                 onClick={() => {

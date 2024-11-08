@@ -145,7 +145,14 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
     <Theme {...props.theme} hasBackground={false} asChild>
       {renderButton ? (
         <>
-          <Dialog.Root open={open}>
+          <Dialog.Root
+            open={open}
+            onOpenChange={(isOpen) => {
+              if (!isOpen) {
+                handleCloseModal();
+              }
+            }}
+          >
             <Tooltip content="Dice Roller">
               <Dialog.Trigger
                 onClick={() => {
