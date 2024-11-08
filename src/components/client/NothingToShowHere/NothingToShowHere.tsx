@@ -10,8 +10,7 @@ export function NothingToShowHere(props: {
   let Icon: React.ComponentType<any> | undefined;
   if (props.icon === true) {
     Icon = CircleOff;
-  }
-  if (typeof props.icon === "function") {
+  } else {
     Icon = props.icon;
   }
 
