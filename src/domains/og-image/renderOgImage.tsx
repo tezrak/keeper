@@ -1,5 +1,6 @@
 import { grayDark } from "@radix-ui/colors";
 import { ImageResponse } from "@vercel/og";
+import type { APIContext } from "astro";
 import truncate from "lodash/truncate";
 import { renderToString } from "react-dom/server";
 import { Graphic } from "../../components/client/Graphic/Graphic";
@@ -8,6 +9,7 @@ import { Colors, type ColorType } from "../colors/colors";
 
 const debug = false;
 export async function renderOgImage(props: {
+  ctx: APIContext | undefined;
   title: string;
   description: string;
   src?: string;
@@ -25,6 +27,7 @@ export async function renderOgImage(props: {
     return new Response(
       renderToString(
         <OGImage
+          ctx={props.ctx}
           siteTitle={"Keeper"}
           title={props.title}
           src={props.src}
@@ -44,6 +47,7 @@ export async function renderOgImage(props: {
   return new ImageResponse(
     (
       <OGImage
+        ctx={props.ctx}
         siteTitle={"Keeper"}
         title={props.title}
         src={props.src}
@@ -75,6 +79,7 @@ export async function renderOgImage(props: {
 }
 
 function OGImage(props: {
+  ctx: APIContext | undefined;
   siteTitle: string | null | undefined;
   title: string;
   description: string;
@@ -84,7 +89,7 @@ function OGImage(props: {
   readingTime?: number;
   lastUpdatedDate?: string;
 }) {
-  const accentColor = props.accentColor || "gold";
+  const accentColor = props.accentColor || "iris";
   const hasFooter = props.footerItems && props.footerItems.length > 0;
   const bodySize = "20px";
 
@@ -106,6 +111,9 @@ function OGImage(props: {
     regular: 500,
     bold: 700,
   };
+  const siteWithoutLastSlash = props.ctx?.site?.href.replace(/\/$/, "") || "";
+  const imageSrc = props.src ? siteWithoutLastSlash + props.src : "";
+
   return (
     <div
       style={{
@@ -134,6 +142,25 @@ function OGImage(props: {
         }}
       >
         {renderBackground()}
+        {imageSrc && (
+          <img
+            src={imageSrc}
+            alt={props.title}
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "right",
+              filter: "blur(8px)",
+              opacity: 0.4,
+            }}
+          />
+        )}
         {renderLeftBorder()}
         {renderHeader()}
         {renderContent()}
@@ -326,7 +353,7 @@ function OGImage(props: {
         <div
           style={{
             display: "flex",
-            gap: "1rem",
+            // gap: ".5rem",
             flexDirection: "column",
           }}
         >
@@ -340,24 +367,25 @@ function OGImage(props: {
           >
             {truncate(props.title, { length: 25 })}
           </div>
-          <div
-            style={{
-              fontSize: "2em",
-              display: "flex",
-              fontWeight: fontWeight.regular,
-              color: colors.text.muted,
-              width: "100%",
-            }}
-          >
-            {truncate(props.description, { length: 100 })}
-          </div>
+          {props.description && (
+            <div
+              style={{
+                fontSize: "2em",
+                display: "flex",
+                fontWeight: fontWeight.regular,
+                color: colors.text.muted,
+                width: "100%",
+              }}
+            >
+              {truncate(props.description, { length: 100 })}
+            </div>
+          )}
         </div>
         {/* footer */}
         {hasFooter && (
           <div
             style={{
               display: "flex",
-              marginTop: "1rem",
             }}
           >
             <div

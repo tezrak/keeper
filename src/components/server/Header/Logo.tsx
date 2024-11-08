@@ -1,6 +1,3 @@
-import logoSrc from "../../../../public/keeper/logo.svg";
-export const LogoSrc = logoSrc;
-
 export function NameLogo(props: {
   className?: string;
   style?: React.CSSProperties;

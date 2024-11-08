@@ -21,5 +21,6 @@ export const GET: APIRoute = async (ctx) => {
     title: "Playing " + game.data.name,
     description: game.body,
     footerItems: [`By ${creator!.data.name}`],
+    ctx: ctx,
   });
 };

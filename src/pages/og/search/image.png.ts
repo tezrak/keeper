@@ -11,5 +11,6 @@ export const GET: APIRoute = async (ctx) => {
   return await renderOgImage({
     title: "Search",
     description: "Games, resources, and more...",
+    ctx: ctx,
   });
 };

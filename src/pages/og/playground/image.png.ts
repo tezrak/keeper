@@ -11,5 +11,6 @@ export const GET: APIRoute = async (ctx) => {
   return await renderOgImage({
     title: "Asset Creation Playground",
     description: "Create your own assets and contribute to the community!",
+    ctx: ctx,
   });
 };

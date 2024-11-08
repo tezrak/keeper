@@ -10,5 +10,6 @@ export const GET: APIRoute = async (ctx) => {
   return await renderOgImage({
     title: "My Campaigns",
     description: "",
+    ctx: ctx,
   });
 };
