@@ -4,6 +4,7 @@ import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
 } from "astro";
+import type { CollectionEntry } from "astro:content";
 import Banner from "../../../../components/server/Banner/Banner.astro";
 import { DLAstro } from "../../../../domains/dl/DLAstro";
 import { getTheme } from "../../../../domains/utils/getTheme";
@@ -16,9 +17,17 @@ export type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const props = Astro.props as Props;
 const params = Astro.params as Params;
 
-const { creator } = await DLAstro.getCreator({ slug: props.creatorSlug });
-const { game } = await DLAstro.getGame({ slug: props.gameSlug });
-const { assets } = await DLAstro.getAssetsForGame({ slug: props.gameSlug });
+const { creator } = await DLAstro.getCreator({ slug: params.creatorSlug });
+const { game } = await DLAstro.getGame({
+  slug: (params.creatorSlug +
+    "/" +
+    params.gameSlug) as CollectionEntry<"games">["slug"],
+});
+const { assets } = await DLAstro.getAssetsForGame({
+  slug: (params.creatorSlug +
+    "/" +
+    params.gameSlug) as CollectionEntry<"games">["slug"],
+});
 
 const theme = getTheme({
   theme: {
@@ -36,10 +45,6 @@ export async function getStaticPaths() {
       params: {
         creatorSlug: item.creator.slug,
         gameSlug: item.game.slug.split("/").pop(),
-      },
-      props: {
-        creatorSlug: item.creator.slug,
-        gameSlug: item.game.slug,
       },
     } satisfies GetStaticPathsItem;
   });

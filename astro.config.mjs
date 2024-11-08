@@ -12,6 +12,9 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   site: "https://keeper.farirpgs.com",
   output: "hybrid",
+  prefetch: {
+    prefetchAll: true,
+  },
   site: constants.site({
     localhost: process.env.NODE_ENV === "development",
   }),
@@ -48,7 +51,4 @@ export default defineConfig({
     contentLayer: true,
   },
   adapter: netlify(),
-  // build: {
-  //   concurrency: 10,
-  // },
 });
