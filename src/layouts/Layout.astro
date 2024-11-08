@@ -63,8 +63,9 @@ const googleFontUrl =
   fontsAsString &&
   encodeURI(`https://fonts.googleapis.com/css2?${fontsAsString}&display=swap`);
 
+console.log("asdasd", Astro.url);
 const ogImageUrl = props.withOgImage
-  ? "/" +
+  ? `${Astro.url.origin}/` +
     ["og", Astro.url.pathname, "image.png"]
       // remove all extra slashes
       .join("/")
