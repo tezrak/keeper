@@ -1,12 +1,14 @@
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { Callout, Container, Flex, Link, Theme } from "@radix-ui/themes";
+import { Box, Callout, Container, Flex, Link, Theme } from "@radix-ui/themes";
 import type { CollectionEntry } from "astro:content";
+import { Smartphone } from "lucide-react";
 import {
   MDXH1,
   MDXH5,
   MDXWrapper,
   getMdxComponents,
 } from "../../components/client/MDX/MDX";
+import { NothingToShowHere } from "../../components/client/NothingToShowHere/NothingToShowHere";
 import { AppUrl } from "../../domains/app-url/AppUrl";
 import {
   CampaignContext,
@@ -36,41 +38,59 @@ export function PreviewGameAssetRoute(props: {
   return (
     <Theme {...props.theme} hasBackground={false}>
       <CampaignContext.Provider value={campaignManager}>
-        <Flex direction="column" gap="4">
-          <Callout.Root color="blue">
-            <Callout.Icon>
-              <InfoCircledIcon />
-            </Callout.Icon>
-            <Callout.Text>
-              This sheet is <b>read-only</b>. If you want to make changes, you
-              can create a new campaign.
-            </Callout.Text>
-          </Callout.Root>
-          <MDXH1>{props.currentAsset?.data.name}</MDXH1>
-          <MDXH5 className="mt-[-0.5rem]">
-            <Link
-              href={AppUrl.game({
-                slug: props.game.slug,
-              })}
-              color="gray"
-              className="hover:text-[--accent-12]"
-            >
-              For {props.game.data.name}
-            </Link>
-          </MDXH5>
-          <Container size={"1"}>
-            {MDXContent && (
-              <MDXWrapper>
-                <MDXContent
-                  components={{
-                    ...getMdxComponents({}),
-                  }}
-                ></MDXContent>
-              </MDXWrapper>
-            )}
-          </Container>
-        </Flex>
+        <Box className="hidden lg:block">{renderContent()}</Box>
+        <Box className="lg:hidden">
+          <NothingToShowHere
+            icon={Smartphone}
+            title={"Open on Desktop"}
+            description={
+              <>
+                This page is not meant to be viewed on mobile. Please make your
+                window bigger or open it in a desktop browser.
+              </>
+            }
+          ></NothingToShowHere>
+        </Box>
       </CampaignContext.Provider>
     </Theme>
   );
+
+  function renderContent() {
+    return (
+      <Flex direction="column" gap="4">
+        <Callout.Root color="blue">
+          <Callout.Icon>
+            <InfoCircledIcon />
+          </Callout.Icon>
+          <Callout.Text>
+            This sheet is <b>read-only</b>. If you want to make changes, you can
+            create a new campaign.
+          </Callout.Text>
+        </Callout.Root>
+        <MDXH1>{props.currentAsset?.data.name}</MDXH1>
+        <MDXH5 className="mt-[-0.5rem]">
+          <Link
+            href={AppUrl.game({
+              slug: props.game.slug,
+            })}
+            color="gray"
+            className="hover:text-[--accent-12]"
+          >
+            For {props.game.data.name}
+          </Link>
+        </MDXH5>
+        <Container size={"1"}>
+          {MDXContent && (
+            <MDXWrapper>
+              <MDXContent
+                components={{
+                  ...getMdxComponents({}),
+                }}
+              ></MDXContent>
+            </MDXWrapper>
+          )}
+        </Container>
+      </Flex>
+    );
+  }
 }
