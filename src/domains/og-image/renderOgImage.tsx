@@ -118,7 +118,6 @@ function OGImage(props: {
     <div
       style={{
         display: "flex",
-        padding: "1rem",
         background: "transparent",
         width: "100%",
         height: "100%",
@@ -135,7 +134,6 @@ function OGImage(props: {
           width: "100%",
           height: "100%",
           gap: "1rem",
-          borderRadius: "16px",
           alignItems: "flex-start",
           flexDirection: "column",
           position: "relative",
@@ -174,7 +172,6 @@ function OGImage(props: {
         style={{
           display: "flex",
           position: "absolute",
-          borderRadius: "16px",
           left: 0,
           top: 0,
           width: "100%",
@@ -296,8 +293,6 @@ function OGImage(props: {
         style={{
           background: colors.background.leftBorder,
           position: "absolute",
-          borderTopLeftRadius: "16px",
-          borderBottomLeftRadius: "16px",
           top: 0,
           left: 0,
           width: "1.5rem",
