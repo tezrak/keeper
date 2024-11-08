@@ -5,6 +5,7 @@ import {
   Dialog,
   Flex,
   Heading,
+  IconButton,
   Inset,
   Link,
   Text,
@@ -16,6 +17,7 @@ import React from "react";
 import {
   getMdxComponents,
   MDXH1,
+  MDXH3,
   MDXH4,
   MDXWrapper,
 } from "../../components/client/MDX/MDX";
@@ -39,7 +41,7 @@ export function ResourceRoute(props: {
   content: string | undefined;
   children: any;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const campaignManager = useCampaign({
     id: "",
   });
@@ -85,43 +87,58 @@ export function ResourceRoute(props: {
             </MDXWrapper>
           </div>
         </div>
-        <Dialog.Root open={open}>
+        <Dialog.Root
+          open={mobileMenuOpen}
+          onOpenChange={(open) => {
+            return setMobileMenuOpen(open);
+          }}
+        >
           <Box className="fixed bottom-0 left-0 right-0 w-full bg-black lg:hidden">
             <Dialog.Trigger
               onClick={() => {
-                return setOpen((prev) => !prev);
+                return setMobileMenuOpen((prev) => !prev);
               }}
             >
-              <Button
+              <IconButton
                 variant="solid"
+                // color="gray"
                 size="4"
-                radius="none"
-                className="fixed bottom-0 left-0 right-0 w-full lg:hidden"
+                radius="full"
+                className="fixed bottom-4 right-4 h-[4rem] w-[4rem] lg:hidden"
               >
                 <HamburgerMenuIcon
-                  width={"1.5rem"}
-                  height={"1.5rem"}
+                  width={"2rem"}
+                  height={"2rem"}
                 ></HamburgerMenuIcon>
-              </Button>
+              </IconButton>
             </Dialog.Trigger>
           </Box>
 
           <Dialog.Content size={"3"}>
-            {renderSidebar({
-              withImage: false,
-            })}
-            <Flex gap="3" justify="end">
-              <Dialog.Close>
-                <Button
-                  variant="soft"
-                  color="gray"
-                  onClick={() => {
-                    return setOpen((prev) => !prev);
-                  }}
-                >
-                  Close
-                </Button>
-              </Dialog.Close>
+            <Flex gap={"3"} direction={"column"}>
+              <Box>
+                <MDXH3>{props.resource.data.name}</MDXH3>
+                <Text size={"4"}>By {props.creator.data.name}</Text>
+              </Box>
+
+              <Box>
+                {renderSidebar({
+                  withImage: false,
+                })}
+              </Box>
+              <Flex justify="end">
+                <Dialog.Close>
+                  <Button
+                    variant="soft"
+                    color="gray"
+                    onClick={() => {
+                      return setMobileMenuOpen((prev) => !prev);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Dialog.Close>
+              </Flex>
             </Flex>
           </Dialog.Content>
         </Dialog.Root>
@@ -336,6 +353,9 @@ export function ResourceRoute(props: {
               color: linkColor,
             } as React.CSSProperties
           }
+          onClick={() => {
+            setMobileMenuOpen(false);
+          }}
         >
           <Box
             pl={p.level ? (p.level + 2).toString() : "2"}
