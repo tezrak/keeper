@@ -1,4 +1,4 @@
-import { Container, Flex, Link, Theme } from "@radix-ui/themes";
+import { Button, Container, Flex, Link, Theme } from "@radix-ui/themes";
 import { MDXH1, MDXP } from "../../components/client/MDX/MDX";
 import type { ThemeType } from "../../domains/utils/getTheme";
 
@@ -30,9 +30,9 @@ export const ServerErrorRoute = (props: Props) => {
 
           <Flex align="center" justify={"center"}>
             <Link href="/">
-              <button className="inline-flex items-center justify-center rounded-full bg-[--accent-9] px-4 py-2 text-base text-[--accent-9-contrast] hover:bg-[--accent-10]">
+              <Button radius="full" size="4">
                 Go back home
-              </button>
+              </Button>
             </Link>
           </Flex>
         </Flex>
