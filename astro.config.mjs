@@ -8,6 +8,8 @@ import { constants } from "./src/domains/utils/constants";
 
 import netlify from "@astrojs/netlify";
 
+import partytown from "@astrojs/partytown";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://keeper.farirpgs.com",
@@ -44,6 +46,11 @@ export default defineConfig({
     tailwind(),
     mdx(),
     sitemap(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
   experimental: {
     contentCollectionCache: true,

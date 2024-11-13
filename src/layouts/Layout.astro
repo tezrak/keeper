@@ -215,6 +215,23 @@ const ogImageUrl = props.withOgImage
           )
         }
       </Container>
+      <!-- Google tag (gtag.js) -->
+      <script
+        async
+        type="text/partytown"
+        src="https://www.googletagmanager.com/gtag/js?id=G-W0DMEETPF3"></script>
+      <script type="text/partytown">
+        // @ts-ignore
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          // @ts-ignore
+          dataLayer.push(arguments);
+        }
+        // @ts-ignore
+        gtag("js", new Date());
+        // @ts-ignore
+        gtag("config", "G-W0DMEETPF3");
+      </script>
     </body>
 
     <style is:global>
