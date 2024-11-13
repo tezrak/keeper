@@ -75,11 +75,7 @@ const ogImageUrl = props.withOgImage
 ---
 
 <!doctype html>
-<html
-  lang="en"
-  transition:animate={fade({ duration: ".150s" })}
-  class="mb-[10rem]"
->
+<html lang="en" transition:animate={fade({ duration: ".150s" })}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -150,7 +146,7 @@ const ogImageUrl = props.withOgImage
     <!-- Animation -->
     <ViewTransitions />
   </head>
-  <Theme {...themeProps}>
+  <Theme {...themeProps} className="pb-[10rem]">
     <body>
       <Container
         px={{
