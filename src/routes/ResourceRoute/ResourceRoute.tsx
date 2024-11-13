@@ -159,7 +159,7 @@ export function ResourceRoute(props: {
       >
         {props.doc.previousPage && (
           <Link
-            className="w-[33%]"
+            className="w-full sm:w-[33%]"
             href={AppUrl.resourcePage({
               slug: props.resource.slug,
               page: props.doc.previousPage.id,
@@ -186,7 +186,7 @@ export function ResourceRoute(props: {
         )}
         {props.doc.nextPage && (
           <Link
-            className="w-[33%]"
+            className="w-full sm:w-[33%]"
             href={AppUrl.resourcePage({
               slug: props.resource.slug,
               page: props.doc.nextPage.id,
@@ -196,14 +196,14 @@ export function ResourceRoute(props: {
             <Flex
               gap="2"
               direction="column"
-              className="rounded-md border border-[--border] p-4"
+              className="rounded-md border border-[--border] p-4 text-right"
               style={
                 {
                   "--border": Colors.getDarkColor(props.theme.accentColor, 7),
                 } as React.CSSProperties
               }
             >
-              <Text size="2" color="gray">
+              <Text size="2" color="gray" className="">
                 Next
               </Text>
 
