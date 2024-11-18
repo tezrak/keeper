@@ -206,16 +206,16 @@ export function Header(props: { theme?: ThemeType }) {
                   </Flex>
                 </Dialog.Title>
                 <Flex direction="column">
-                  <Link href="campaigns" color="gray">
+                  <Link href={AppUrl.campaigns()} color="gray">
                     My Campaigns
                   </Link>
-                  <Link href="dice" color="gray">
+                  <Link href={AppUrl.dice()} color="gray">
                     Dice Roller
                   </Link>
-                  <Link href="docs" color="gray">
+                  <Link href={AppUrl.docs()} color="gray">
                     Documentation
                   </Link>
-                  <Link href="search" color="gray">
+                  <Link href={AppUrl.search({})} color="gray">
                     Search
                   </Link>
                   <Link href={AppUrl.patreon()} color="gray">

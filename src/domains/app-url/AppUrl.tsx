@@ -8,6 +8,9 @@ export const AppUrl = {
   campaigns() {
     return "/campaigns/";
   },
+  dice() {
+    return "/dice/";
+  },
   docs() {
     return "/docs/";
   },
