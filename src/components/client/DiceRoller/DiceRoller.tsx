@@ -393,7 +393,7 @@ export function DiceRoller(props: { theme?: ThemeType; button?: boolean }) {
   }
 }
 
-export function AnimatedResult(props: {
+function AnimatedResult(props: {
   watch: any;
   result: string;
   animate: boolean;

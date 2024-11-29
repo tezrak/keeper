@@ -4,7 +4,7 @@ import { parseProps } from "../../../../../domains/utils/parseProps";
 
 const propsSchema = z.object({});
 
-export type Props = z.input<typeof propsSchema>;
+type Props = z.input<typeof propsSchema>;
 
 export function MDXDivider(p: Props) {
   const props = parseProps({

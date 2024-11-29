@@ -200,7 +200,7 @@ export function MDXH5(props: HeadingProps) {
   );
 }
 
-export function MDXH6(props: HeadingProps) {
+function MDXH6(props: HeadingProps) {
   return (
     <Heading
       data-mdx-type="h6"
@@ -223,7 +223,7 @@ export function MDXH6(props: HeadingProps) {
   );
 }
 
-export function MDXA(props: any) {
+function MDXA(props: any) {
   return (
     <Link
       data-mdx-type="a"
@@ -235,7 +235,7 @@ export function MDXA(props: any) {
   );
 }
 
-export function MDXBlockquote(props: any) {
+function MDXBlockquote(props: any) {
   return (
     <Blockquote
       data-mdx-type="blockquote"
@@ -250,7 +250,7 @@ export function MDXBlockquote(props: any) {
   );
 }
 
-export function MDXEm(props: any) {
+function MDXEm(props: any) {
   return (
     <Em
       data-mdx-type="em"
@@ -260,7 +260,7 @@ export function MDXEm(props: any) {
   );
 }
 
-export function MDXStrong(props: any) {
+function MDXStrong(props: any) {
   return (
     <Strong
       data-mdx-type="strong"
@@ -270,7 +270,7 @@ export function MDXStrong(props: any) {
   );
 }
 
-export function MDXPre(props: any) {
+function MDXPre(props: any) {
   return (
     <Card>
       <pre
@@ -287,7 +287,7 @@ export function MDXPre(props: any) {
   );
 }
 
-export function MDXUl(props: any) {
+function MDXUl(props: any) {
   return (
     <ul
       data-mdx-type="ul"
@@ -297,7 +297,7 @@ export function MDXUl(props: any) {
   );
 }
 
-export function MDXOl(props: any) {
+function MDXOl(props: any) {
   return (
     <ol
       data-mdx-type="ol"
@@ -307,7 +307,7 @@ export function MDXOl(props: any) {
   );
 }
 
-export function MDXLi(props: any) {
+function MDXLi(props: any) {
   return (
     <li
       data-mdx-type="li"
@@ -317,7 +317,7 @@ export function MDXLi(props: any) {
   );
 }
 
-export function MDXCode(props: any) {
+function MDXCode(props: any) {
   return (
     <code
       data-mdx-type="code"
@@ -339,26 +339,26 @@ export function MDXP(props: any) {
   );
 }
 
-export function MDXTable(props: any) {
+function MDXTable(props: any) {
   return <Table.Root data-mdx-type="table" variant="surface" {...props} />;
 }
 
-export function MDXTHead(props: any) {
+function MDXTHead(props: any) {
   return <Table.Header data-mdx-type="thead" {...props} />;
 }
 
-export function MDXTBody(props: any) {
+function MDXTBody(props: any) {
   return <Table.Body data-mdx-type="tbody" {...props} />;
 }
 
-export function MDXTr(props: any) {
+function MDXTr(props: any) {
   return <Table.Row data-mdx-type="tr" {...props} />;
 }
 
-export function MDXTh(props: any) {
+function MDXTh(props: any) {
   return <Table.ColumnHeaderCell data-mdx-type="th" {...props} />;
 }
 
-export function MDXTd(props: any) {
+function MDXTd(props: any) {
   return <Table.Cell data-mdx-type="td" {...props} />;
 }

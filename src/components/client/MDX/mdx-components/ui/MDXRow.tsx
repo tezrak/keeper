@@ -10,7 +10,7 @@ const propsSchema = z.object({
     .default("center"),
 });
 
-export type Props = z.input<typeof propsSchema>;
+type Props = z.input<typeof propsSchema>;
 
 export function MDXRow(p: Props) {
   const props = parseProps({

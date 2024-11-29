@@ -172,7 +172,7 @@ export class DocParser {
   }
 }
 
-export type ISidebar = {
+type ISidebar = {
   root: Array<ISidebarItem>;
   categories: Record<
     string, // category label
@@ -187,7 +187,7 @@ type ISearchIndex = {
   sectionTitle: string | undefined;
 };
 
-export type IPageElement = {
+type IPageElement = {
   id: string;
   gitHubId: string;
   title: string;
@@ -195,14 +195,14 @@ export type IPageElement = {
   toc: Array<ITocElement>;
   indexes: Array<ISearchIndex>;
 };
-export type ITocElement = {
+type ITocElement = {
   id: string;
   gitHubId: string;
   title: string;
   level: number;
 };
 
-export type ISidebarItem = {
+type ISidebarItem = {
   id: string;
   title: string;
 };

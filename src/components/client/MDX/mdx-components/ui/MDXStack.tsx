@@ -15,7 +15,7 @@ const propsSchema = z.object({
   children: z.any().optional(),
 });
 
-export type Props = z.input<typeof propsSchema>;
+type Props = z.input<typeof propsSchema>;
 
 export function MDXStack(p: Props) {
   const props = parseProps({

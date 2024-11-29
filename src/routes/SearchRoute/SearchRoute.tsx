@@ -12,7 +12,7 @@ import { Card } from "../../components/client/Card/Card";
 import { MDXH1, MDXH2 } from "../../components/client/MDX/MDX";
 import { shuffleWithSeed } from "../../domains/dl/shuffleWithSeed";
 
-export const searchTypes = {
+const searchTypes = {
   all: "All",
   games: "Games",
   resources: "Resources",

@@ -29,7 +29,7 @@ const propsSchema = z
     return true;
   });
 
-export type Props = z.input<typeof propsSchema>;
+type Props = z.input<typeof propsSchema>;
 
 const MAX_HISTORY = 5;
 

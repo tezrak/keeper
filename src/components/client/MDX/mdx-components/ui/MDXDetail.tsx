@@ -9,7 +9,7 @@ const propsSchema = z.object({
   fullWidth: z.boolean().optional(),
 });
 
-export type Props = z.input<typeof propsSchema>;
+type Props = z.input<typeof propsSchema>;
 
 export function MDXDetail(p: Props) {
   const props = parseProps({

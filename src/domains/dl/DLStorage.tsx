@@ -3,7 +3,7 @@ import { getLogger } from "../utils/getLogger";
 import z from "zod";
 import { zodBuild } from "../utils/zodBuild";
 
-export const STORAGE_KEY = "keeper";
+const STORAGE_KEY = "keeper";
 
 const stateSchema = z.record(z.string(), z.any()).default({});
 
@@ -48,12 +48,12 @@ export const schemas = {
   state: stateSchema,
 };
 
-export type StorageType = z.infer<typeof storageSchema>;
-export type StorageInputType = z.input<typeof storageSchema>;
+type StorageType = z.infer<typeof storageSchema>;
+type StorageInputType = z.input<typeof storageSchema>;
 export type CampaignType = z.infer<typeof campaignSchema>;
-export type CampaignInputType = z.input<typeof campaignSchema>;
-export type CampaignStateType = z.infer<typeof stateSchema>;
-export type CampaignStateInputType = z.input<typeof stateSchema>;
+type CampaignInputType = z.input<typeof campaignSchema>;
+type CampaignStateType = z.infer<typeof stateSchema>;
+type CampaignStateInputType = z.input<typeof stateSchema>;
 
 const logger = getLogger("DLStorage");
 

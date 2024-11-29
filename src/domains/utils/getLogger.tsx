@@ -3,7 +3,7 @@ export const getLogger = makeGetLogger({
   console,
 });
 
-export function makeGetLogger(deps: { appName?: string; console: Console }) {
+function makeGetLogger(deps: { appName?: string; console: Console }) {
   return function getLogger(serviceName?: string) {
     const appNamePrefix = deps.appName ? deps.appName : "";
     const serviceNamePrefix = serviceName ? serviceName : "";
