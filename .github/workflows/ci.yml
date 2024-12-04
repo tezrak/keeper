@@ -13,10 +13,10 @@ jobs:
     steps:
       # Checkout
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       # Use Bun
       - name: Use Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         # with:
         #   bun-version: 1.1.38
       # Install
