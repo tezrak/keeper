@@ -1,4 +1,3 @@
-import { docsSchema } from "@astrojs/starlight/schema";
 import { glob } from "astro/loaders";
 import { defineCollection, reference, z } from "astro:content";
 
@@ -77,5 +76,5 @@ export const collections = {
         _locale: z.string().optional(),
       }),
   }),
-  docs: defineCollection({ schema: docsSchema() }),
+  // docs: defineCollection({ schema: docsSchema() }),
 };
